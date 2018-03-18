@@ -1,0 +1,12 @@
+CC1101 Arduino Nano/Uno wiring
+
+
+Arduino		/	CC1101
+------------------------------------
+3.3V		/	VCC
+GND		/	GND
+D13		/	SCK
+D12		/	MISO
+D11		/	MOSI
+D10		/	CSN
+D2		/	GDO0
