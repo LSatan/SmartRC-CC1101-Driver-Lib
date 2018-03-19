@@ -23,4 +23,5 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.0
 18.03.2018:
 
 cc1101 Compatibility for RC-Switch.
+
 cc1101 RC-Switch Compatible examples.
