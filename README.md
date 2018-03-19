@@ -11,7 +11,9 @@ Driver Library		:cc1101 reset command added (allows switching between send and r
 
 New Demo Example	:Recive_Send_Decimal_Demo_Simple.ino (Sends last received decimal code)
 			 To illustrate the change between RX and TX (press button = send / do not press button = receive)
+
 Add Wiring JPG		:Wiring for Recive_Send_Decimal_Demo_Simple.ino
+
 Add Wiring JPG		:Wiring for Nano / Uno
 
 
