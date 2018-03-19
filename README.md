@@ -5,7 +5,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.1
 ---------------------------------------------
 19.03.2018:
 
-Driver Library		:Fix Calibrated Frequency 433.92 - 433.93 Mhz.
+Driver Library Fix	:Calibrated Frequency from 433.86 to 433.92 - 433.93 Mhz.
 
 Driver Library		:cc1101 reset command added (allows switching between send and receive.)
 
