@@ -287,12 +287,12 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
 	  	break;
 	}
 	
-    SpiWriteReg(CC1101_MDMCFG4,  0x7F);
+    SpiWriteReg(CC1101_MDMCFG4,  0xF7);
     SpiWriteReg(CC1101_MDMCFG3,  0x93);
     SpiWriteReg(CC1101_MDMCFG2,  0x30);
     SpiWriteReg(CC1101_MDMCFG1,  0x01);
-    SpiWriteReg(CC1101_MDMCFG0,  0x7A);
-    SpiWriteReg(CC1101_CHANNR,   0xBA);
+    SpiWriteReg(CC1101_MDMCFG0,  0x93);
+    SpiWriteReg(CC1101_CHANNR,   0xAF);
     SpiWriteReg(CC1101_DEVIATN,  0x15);
     SpiWriteReg(CC1101_FREND1,   0x56);
     SpiWriteReg(CC1101_FREND0,   0x11);
@@ -320,7 +320,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
 }
 
 /****************************************************************
-*FUNCTION NAME:SendData
+*FUNCTION NAME:SetTx
 *FUNCTION     :set CC1101 send data
 *INPUT        :none
 *OUTPUT       :none
@@ -328,11 +328,10 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
 void ELECHOUSE_CC1101::SetTx(void)
 {
 	SpiStrobe(CC1101_STX);									//start send	
-  SpiStrobe(CC1101_SFTX);                 //flush TXfifo
 }
 
 /****************************************************************
-*FUNCTION NAME:SetReceive
+*FUNCTION NAME:SetRx
 *FUNCTION     :set CC1101 to receive state
 *INPUT        :none
 *OUTPUT       :none
@@ -340,6 +339,17 @@ void ELECHOUSE_CC1101::SetTx(void)
 void ELECHOUSE_CC1101::SetRx(void)
 {
 	SpiStrobe(CC1101_SRX);                  //start recive
+}
+
+/****************************************************************
+*FUNCTION NAME:SetSres
+*FUNCTION     :Reset CC1101
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::SetSres(void)
+{
+  SpiStrobe(CC1101_SRES);                  //reset cc1101  
 }
 
 /****************************************************************

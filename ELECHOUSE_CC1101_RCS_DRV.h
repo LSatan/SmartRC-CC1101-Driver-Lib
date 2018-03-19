@@ -162,6 +162,7 @@ class ELECHOUSE_CC1101
     void SetTx(void);
 		void SendData(byte *txBuffer, byte size);
 		void SetRx(void);
+    void SetSres(void);
 		byte CheckReceiveFlag(void);
 		byte ReceiveData(byte *rxBuffer);
 };
