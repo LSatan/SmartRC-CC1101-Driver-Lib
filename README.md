@@ -7,7 +7,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.2
 
 Driver Library 		:Add 315Mhz Support.
 
-Driver Library 		:Add Channel command for finetune (80khz stepps) from 420mhz - 440mhz / 302mhz - 322mhz.
+Driver Library 		:Add Channel command for finetune (80khz steps) from 420mhz - 440mhz / 302mhz - 322mhz.
 
 Examples		:Add set channel command in examples.
 
