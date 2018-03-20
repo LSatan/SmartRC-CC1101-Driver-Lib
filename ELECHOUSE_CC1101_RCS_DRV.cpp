@@ -21,7 +21,7 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define 	READ_SINGLE     	0x80						//read single
 #define 	READ_BURST      	0xC0						//read burst
 #define 	BYTES_IN_RXFIFO     0x47  						//byte number in RXfifo
-
+int chan;
 /****************************************************************/
 byte PaTabel[8] = {0x00 ,0xC0 ,0x60 ,0x60 ,0x60 ,0x60 ,0x60 ,0x60};
 
@@ -254,6 +254,16 @@ byte ELECHOUSE_CC1101::SpiReadStatus(byte addr)
 
 	return value;
 }
+/****************************************************************
+*FUNCTION NAME:Set Channel
+*FUNCTION     :Recive channel from sketch 
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setChannel(byte chnl) 
+{
+  chan = chnl;
+}
 
 /****************************************************************
 *FUNCTION NAME:RegConfigSettings
@@ -263,9 +273,10 @@ byte ELECHOUSE_CC1101::SpiReadStatus(byte addr)
 ****************************************************************/
 void ELECHOUSE_CC1101::RegConfigSettings(byte f) 
 {
+
     SpiWriteReg(CC1101_FSCTRL1,  0x06);
     SpiWriteReg(CC1101_FSCTRL0,  0x00);
-	
+	    
     switch(f)
     {
       case F_868:
@@ -283,6 +294,11 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
         SpiWriteReg(CC1101_FREQ1,    F1_433);
         SpiWriteReg(CC1101_FREQ0,    F0_433);
         break;
+    case F_315:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        break;
 	  default: // F must be set
 	  	break;
 	}
@@ -292,7 +308,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
     SpiWriteReg(CC1101_MDMCFG2,  0x30);
     SpiWriteReg(CC1101_MDMCFG1,  0x01);
     SpiWriteReg(CC1101_MDMCFG0,  0x93);
-    SpiWriteReg(CC1101_CHANNR,   0xAF);
+    SpiWriteReg(CC1101_CHANNR,   chan);
     SpiWriteReg(CC1101_DEVIATN,  0x15);
     SpiWriteReg(CC1101_FREND1,   0x56);
     SpiWriteReg(CC1101_FREND0,   0x11);

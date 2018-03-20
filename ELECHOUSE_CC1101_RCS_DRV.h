@@ -22,6 +22,7 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define F_915       0x00
 #define F_433       0x01
 #define F_868       0x02
+#define F_315       0x03
 
 // Register values for different frequencies
 // Carrier frequency = 868 MHz
@@ -36,7 +37,10 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define F2_433  0x10       
 #define F1_433  0x27        
 #define F0_433  0x62        
-
+// Carrier frequency = 315 MHz
+#define F2_315  0x0B       
+#define F1_315  0x94        
+#define F0_315  0x2F 
 
 
 
@@ -163,6 +167,7 @@ class ELECHOUSE_CC1101
 		void SendData(byte *txBuffer, byte size);
 		void SetRx(void);
     void SetSres(void);
+    void setChannel(byte chnl);
 		byte CheckReceiveFlag(void);
 		byte ReceiveData(byte *rxBuffer);
 };

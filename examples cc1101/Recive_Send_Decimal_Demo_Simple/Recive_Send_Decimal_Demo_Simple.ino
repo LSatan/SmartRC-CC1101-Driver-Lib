@@ -11,7 +11,8 @@
 
 RCSwitch mySwitch = RCSwitch();
 
-
+char mhz = F_433;                // set frequency - F315, F_433, F_868, F_965 MHz
+char ch = 0xAF;                 // set channel in hex 80khz steps. channel number is 175 = 0xAF = 433,92Mhz / 315Mhz 
 const int buttonPin = 4;       // set button on pin D4
 int buttonState = 0;          // button state
 int ccReset = 0;             // reset state for Receive
@@ -21,8 +22,8 @@ int prot = 1;             // int to save Protocol number
 
 void setup() {
   Serial.begin(9600);
-  
- ELECHOUSE_cc1101.Init(F_433);  // set frequency - F_433, F_868, F_965 MHz
+ ELECHOUSE_cc1101.setChannel(ch); // set channel
+ ELECHOUSE_cc1101.Init(mhz);     // set frequency
  pinMode(buttonPin, INPUT);     // set pin4 as input
 
   
@@ -56,13 +57,14 @@ void loop() {
    
    if (buttonState == LOW && ccReset == 0) {  //the button is not pressed reset cc1101 for Recive
 
-  ELECHOUSE_cc1101.SetSres();     // Reset the cc1101
-  ELECHOUSE_cc1101.Init(F_433);  // set frequency - F_433, F_868, F_965 MHz
-  delay(100);                   // wait for reinit
-  mySwitch.disableTransmit();  // set Transmit off
-  mySwitch.enableReceive(0);  // Receiver on
-  ELECHOUSE_cc1101.SetRx();  // set Recive on
-  ccReset = 1;              // after reinit jump to recive part
+  ELECHOUSE_cc1101.SetSres();       // Reset the cc1101
+  ELECHOUSE_cc1101.setChannel(ch); // set channel
+  ELECHOUSE_cc1101.Init(mhz);     // set frequency
+  delay(100);                    // wait for reinit
+  mySwitch.disableTransmit();   // set Transmit off
+  mySwitch.enableReceive(0);   // Receiver on
+  ELECHOUSE_cc1101.SetRx();   // set Recive on
+  ccReset = 1;               // after reinit jump to recive part
 }
 
 
