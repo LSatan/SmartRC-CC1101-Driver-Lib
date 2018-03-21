@@ -11,7 +11,7 @@
 
 RCSwitch mySwitch = RCSwitch();
 
-char mhz = F_433;                // set frequency - F315, F_433, F_868, F_965 MHz
+char mhz = F_433;                // set frequency - F_315, F_433, F_868, F_965 MHz
 char ch = 0xAF;                 // set channel in hex 80khz steps. channel number is 175 = 0xAF = 433,92Mhz / 315Mhz 
 const int buttonPin = 4;       // set button on pin D4
 int buttonState = 0;          // button state
