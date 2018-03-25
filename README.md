@@ -1,4 +1,21 @@
-# RCSwitch-CC1101-Driver-Lib_V1.2
+# RCSwitch-CC1101-Driver-Lib_V1.3
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.3
+---------------------------------------------
+25.03.2018:
+
+Driver Library		:Add Channel List.Now you can set channel numbers 0-255.
+
+Driver Library		:Add bandwidth can be adjusted
+
+Driver Library		:transmission power can be adjusted
+
+Driver Library		:can set your own frequency settings (freq2, freq1, freq0)
+
+Driver Library		:Channel spacing can be set.
+
+Examples		:Add set new commands
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.2 
@@ -23,7 +40,7 @@ Driver Library		:cc1101 reset command added (allows switching between send and r
 New Demo Example	:Receive_Send_Decimal_Demo_Simple.ino (Sends last received decimal code)
 			 To illustrate the change between RX and TX (press button = send / do not press button = receive)
 
-Add Wiring JPG		:Wiring for Recive_Send_Decimal_Demo_Simple.ino
+Add Wiring JPG		:Wiring for Receive_Send_Decimal_Demo_Simple.ino
 
 Add Wiring JPG		:Wiring for Nano / Uno
 
