@@ -7,7 +7,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.3
 
 Driver Library		:Add Channel List. Now you can set channel numbers 0-255.
 
-Driver Library		:Add bandwidth can be adjusted
+Driver Library		:Receive bandwidth can be adjusted
 
 Driver Library		:transmission power can be adjusted
 
