@@ -1,4 +1,17 @@
-# RCSwitch-CC1101-Driver-Lib_V1.3
+# RCSwitch-CC1101-Driver-Lib_V1.31
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.31
+---------------------------------------------
+30.03.2018:
+
+Driver Library Fix	:no effect set by transmission power.
+
+Driver Library		:Transmitting power can be adjusted via frequency(example in the sketches).
+
+Examples		:Command Tx Power cleared.
+
+Examples Fix		:set Receive filter bandwidth (command incomplete) Fixed.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.3
@@ -7,7 +20,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.3
 
 Driver Library		:Add Channel List. Now you can set channel numbers 0-255.
 
-Driver Library		:Receive bandwidth can be adjusted
+Driver Library		:Add bandwidth can be adjusted
 
 Driver Library		:transmission power can be adjusted
 

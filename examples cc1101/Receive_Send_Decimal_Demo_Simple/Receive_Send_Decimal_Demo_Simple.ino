@@ -12,10 +12,9 @@
 RCSwitch mySwitch = RCSwitch();
 
 //CC1101 Settings:  
-char mhz = F_433;                  // Must set! set frequency - F_315, F_433, F_868, F_965 MHz. custom = F_xxx.
-char ch = 175;                    // set channel 80khz steps.0 - 255 default channel number is 175 = 433,92Mhz / 315Mhz 
-char dbm = 10;                   // set Transmit Power (default = 10 dbm) 10 dbm, 7 dbm, 5 dbm, 0 dbm, -10 dbm, -15 dbm, -20 dbm, -30 dbm.
-char RxBW = 1;                  // set Recive filter bandwidth (default = 58khz) 1 = 58khz, 2 = 67khz, 3 = 81khz, 4 = 101khz, 5 = 116khz, 6 = 135khz, 7 = 162khz, 8 = 203khz, 9 = 232khz, 10 = 270khz, 11 = 325khz, 12 = 406khz, 13 = 464khz, 14 = 541khz, 15 = 650khz, 16 = 812khz.
+char mhz = F_433;                 //Must set! set frequency - F_315, F_433, F_868, F_965 MHz. custom = F_xxx. set TxPower  PA10, PA7, PA5, PA0, PA_10, PA_15, PA_20, PA_30. example: F_433_PA10. (default = PA0)
+char ch = 175;                   // set channel 80khz steps.0 - 255 default channel number is 175 = 433,92Mhz / 315Mhz 
+char RxBW = 1;                  // set Receive filter bandwidth (default = 58khz) 1 = 58khz, 2 = 67khz, 3 = 81khz, 4 = 101khz, 5 = 116khz, 6 = 135khz, 7 = 162khz, 8 = 203khz, 9 = 232khz, 10 = 270khz, 11 = 325khz, 12 = 406khz, 13 = 464khz, 14 = 541khz, 15 = 650khz, 16 = 812khz.
 char Chsp = 80;                // set Channle spacing (default = 80khz) you can set 25,50,80,100,150,200,250,300,350,405.
 char freq2 = 0x10;            // set your own frequency Parameters Freq2. From Smart RF Studio. Must set Frequency settings F_xxx.
 char freq1 = 0x27;           // set your own frequency Parameters Freq1. From Smart RF Studio. Must set Frequency settings F_xxx.
@@ -31,8 +30,7 @@ int prot = 1;             // int to save Protocol number
 void setup() {
   Serial.begin(9600);
 
-//ELECHOUSE_cc1101.RxBW(RxBW);           // set Recive filter bandwidth
-//ELECHOUSE_cc1101.setdbm(dbm);         // set Transmit Power
+//ELECHOUSE_cc1101.setRxBW(RxBW);       // set Receive filter bandwidth
 //ELECHOUSE_cc1101.setChsp(Chsp);      // set Channle spacing
 //ELECHOUSE_cc1101.freq2(freq2);      // set your own frequency Parameters Freq2
 //ELECHOUSE_cc1101.freq1(freq1);     // set your own frequency Parameters Freq1
@@ -56,8 +54,8 @@ void loop() {
   mySwitch.enableTransmit(2);  // Transmit on
   ELECHOUSE_cc1101.SetTx();   // set Transmit on
 
-  mySwitch.setProtocol(prot); // send Recived Protocol
-  mySwitch.send(value, bits); // send Recived value/bits
+  mySwitch.setProtocol(prot); // send Received Protocol
+  mySwitch.send(value, bits); // send Received value/bits
 
     Serial.print("Transmit ");
     Serial.print( value );
@@ -71,11 +69,10 @@ void loop() {
     }
 
    
-   if (buttonState == LOW && ccReset == 0) {  //the button is not pressed reset cc1101 for Recive
+   if (buttonState == LOW && ccReset == 0) {  //the button is not pressed reset cc1101 for Receive
 
-  ELECHOUSE_cc1101.SetSres();             // Reset the cc1101
-//ELECHOUSE_cc1101.RxBW(RxBW);           // set Recive filter bandwidth
-//ELECHOUSE_cc1101.setdbm(dbm);         // set Transmit Power
+  ELECHOUSE_cc1101.SetSres();            // Reset the cc1101
+//ELECHOUSE_cc1101.setRxBW(RxBW);       // set Receive filter bandwidth
 //ELECHOUSE_cc1101.setChsp(Chsp);      // set Channle spacing
 //ELECHOUSE_cc1101.freq2(freq2);      // set your own frequency Parameters Freq2
 //ELECHOUSE_cc1101.freq1(freq1);     // set your own frequency Parameters Freq1
@@ -90,7 +87,7 @@ void loop() {
 }
 
 
-   if (buttonState == LOW && ccReset == 1) {   //the button is not pressed and reset is finish, recive values. 
+   if (buttonState == LOW && ccReset == 1) {   //the button is not pressed and reset is finish, receive values. 
 
   if (mySwitch.available()){
     
@@ -102,9 +99,9 @@ void loop() {
     Serial.print("Protocol: ");
     Serial.println( mySwitch.getReceivedProtocol() );
 
-    value =  mySwitch.getReceivedValue();        // save recived Value
-    bits = mySwitch.getReceivedBitlength();     // save recived Bitlength
-    prot = mySwitch.getReceivedProtocol();     // save recived Protocol
+    value =  mySwitch.getReceivedValue();        // save received Value
+    bits = mySwitch.getReceivedBitlength();     // save received Bitlength
+    prot = mySwitch.getReceivedProtocol();     // save received Protocol
 
     mySwitch.resetAvailable();
 

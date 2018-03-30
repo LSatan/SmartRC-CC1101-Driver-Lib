@@ -26,12 +26,18 @@ int mdcf1 = 0x01;
 int mdcf0 = 0x93;
 int chan = 0xAF;
 int rbw = 0xF7;
-int db = 0xC0;
 int F2;
 int F1;
 int F0;
 /****************************************************************/
-byte PaTabel[8] = {0x00 ,db ,0x60 ,0x60 ,0x60 ,0x60 ,0x60 ,0x60};
+uint8_t PA_TABLE10[8] {0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,};
+uint8_t PA_TABLE7[8] {0x00,0xC8,0x00,0x00,0x00,0x00,0x00,0x00,};
+uint8_t PA_TABLE5[8] {0x00,0x84,0x00,0x00,0x00,0x00,0x00,0x00,};
+uint8_t PA_TABLE0[8] {0x00,0x60,0x00,0x00,0x00,0x00,0x00,0x00,};
+uint8_t PA_TABLE_10[8] {0x00,0x34,0x00,0x00,0x00,0x00,0x00,0x00,};
+uint8_t PA_TABLE_15[8] {0x00,0x1D,0x00,0x00,0x00,0x00,0x00,0x00,};
+uint8_t PA_TABLE_20[8] {0x00,0x0E,0x00,0x00,0x00,0x00,0x00,0x00,};
+uint8_t PA_TABLE_30[8] {0x00,0x12,0x00,0x00,0x00,0x00,0x00,0x00,};
 
 /****************************************************************
 *FUNCTION NAME:SpiInit
@@ -130,7 +136,7 @@ void ELECHOUSE_CC1101::Init(void)
 	digitalWrite(MOSI_PIN, LOW);
 	Reset();										//CC1101 reset
 	RegConfigSettings(F_433);						//CC1101 register config
-	SpiWriteBurstReg(CC1101_PATABLE,PaTabel,8);		//CC1101 PATABLE config
+	//SpiWriteBurstReg(CC1101_PATABLE,PaTabel,8);		//CC1101 PATABLE config
 }
 
 /****************************************************************
@@ -148,9 +154,8 @@ void ELECHOUSE_CC1101::Init(byte f)
 	digitalWrite(MOSI_PIN, LOW);
 	Reset();										//CC1101 reset
 	RegConfigSettings(f);							//CC1101 register config
-	SpiWriteBurstReg(CC1101_PATABLE,PaTabel,8);		//CC1101 PATABLE config
+	//SpiWriteBurstReg(CC1101_PATABLE,PaTabel,8);		//CC1101 PATABLE config
 }
-
 
 /****************************************************************
 *FUNCTION NAME:SpiWriteReg
@@ -292,20 +297,6 @@ case 200: mdcf1=0x02; mdcf0=0xF8; break; case 250: mdcf1=0x03; mdcf0=0x3B; break
 }
 }
 /****************************************************************
-*FUNCTION NAME:Set Tx Power
-*FUNCTION     :Tx Power dbm
-*INPUT        :none
-*OUTPUT       :none
-****************************************************************/
-void ELECHOUSE_CC1101::setdbm(byte dbm){
-
-switch (dbm)
-{
-case 10: db=0xC0; break; case 7: db=0xC8; break; case 5: db=0x84; break; case 0: db=0x60; break;
-case -10: db=0x34; break; case -15: db=0x1D; break; case -20: db=0x0E; break; case -30: db=0x12; break; 
-}
-}
-/****************************************************************
 *FUNCTION NAME:Set RX bandwidth
 *FUNCTION     :Recive bandwidth
 *INPUT        :none
@@ -379,27 +370,277 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
       	SpiWriteReg(CC1101_FREQ2,    F2_868);
       	SpiWriteReg(CC1101_FREQ1,    F1_868);
       	SpiWriteReg(CC1101_FREQ0,    F0_868);
+      	SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
         break;
+      case F_868_PA10:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
+        break;
+      case F_868_PA7:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE7,8);
+        break;
+      case F_868_PA5:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE5,8);
+        break;
+      case F_868_PA0:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        break;
+      case F_868_PA_10:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_10,8);
+        break;
+      case F_868_PA_15:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_15,8);
+        break;
+      case F_868_PA_20:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_20,8);
+        break;   
+      case F_868_PA_30:
+        SpiWriteReg(CC1101_FREQ2,    F2_868);
+        SpiWriteReg(CC1101_FREQ1,    F1_868);
+        SpiWriteReg(CC1101_FREQ0,    F0_868);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_30,8);
+        break;          
+
       case F_915:
         SpiWriteReg(CC1101_FREQ2,    F2_915);
         SpiWriteReg(CC1101_FREQ1,    F1_915);
         SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
         break;
+      case F_915_PA10:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
+        break;
+      case F_915_PA7:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE7,8);
+        break;
+      case F_915_PA5:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE5,8);
+        break;
+      case F_915_PA0:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        break;
+      case F_915_PA_10:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_10,8);
+        break;
+      case F_915_PA_15:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_15,8);
+        break;
+      case F_915_PA_20:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_20,8);
+        break;        
+      case F_915_PA_30:
+        SpiWriteReg(CC1101_FREQ2,    F2_915);
+        SpiWriteReg(CC1101_FREQ1,    F1_915);
+        SpiWriteReg(CC1101_FREQ0,    F0_915);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_30,8);
+        break;
+        
 	  case F_433:
         SpiWriteReg(CC1101_FREQ2,    F2_433);
         SpiWriteReg(CC1101_FREQ1,    F1_433);
         SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
         break;
+    case F_433_PA10:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
+        break;
+    case F_433_PA7:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE7,8);
+        break;
+    case F_433_PA5:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE5,8);
+        break;
+    case F_433_PA0:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        break;
+    case F_433_PA_10:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_10,8);
+        break;  
+    case F_433_PA_15:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_15,8);
+        break;
+    case F_433_PA_20:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_20,8);
+        break;                      
+    case F_433_PA_30:
+        SpiWriteReg(CC1101_FREQ2,    F2_433);
+        SpiWriteReg(CC1101_FREQ1,    F1_433);
+        SpiWriteReg(CC1101_FREQ0,    F0_433);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_30,8);
+        break;
+        
     case F_315:
         SpiWriteReg(CC1101_FREQ2,    F2_315);
         SpiWriteReg(CC1101_FREQ1,    F1_315);
         SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
         break;
+    case F_315_PA10:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
+        break;
+    case F_315_PA7:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE7,8);
+        break;
+    case F_315_PA5:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE5,8);
+        break;
+    case F_315_PA0:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        break;
+    case F_315_PA_10:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_10,8);
+        break;
+    case F_315_PA_15:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_15,8);
+        break;
+    case F_315_PA_20:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_20,8);
+        break;
+    case F_315_PA_30:
+        SpiWriteReg(CC1101_FREQ2,    F2_315);
+        SpiWriteReg(CC1101_FREQ1,    F1_315);
+        SpiWriteReg(CC1101_FREQ0,    F0_315);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_30,8);
+        break;
+
     case F_xxx:
         SpiWriteReg(CC1101_FREQ2,    F2);
         SpiWriteReg(CC1101_FREQ1,    F1);
         SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
         break;
+    case F_xxx_PA10:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
+        break;
+    case F_xxx_PA7:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE7,8);
+        break;
+    case F_xxx_PA5:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE5,8);
+        break;        
+    case F_xxx_PA0:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        break;
+    case F_xxx_PA_10:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_10,8);
+        break;
+    case F_xxx_PA_15:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_15,8);
+        break;
+    case F_xxx_PA_20:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_20,8);
+        break;
+    case F_xxx_PA_30:
+        SpiWriteReg(CC1101_FREQ2,    F2);
+        SpiWriteReg(CC1101_FREQ1,    F1);
+        SpiWriteReg(CC1101_FREQ0,    F0);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE_30,8);
+        break;
+
 	  default: // F must be set
 	  	break;
 	}

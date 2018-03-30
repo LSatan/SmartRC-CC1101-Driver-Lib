@@ -20,10 +20,56 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 
 // Init constants
 #define F_915       0x00
-#define F_433       0x01
-#define F_868       0x02
-#define F_315       0x03
-#define F_xxx       0x04
+#define F_915_PA10  0x01
+#define F_915_PA7   0x02
+#define F_915_PA5   0x03
+#define F_915_PA0   0x04
+#define F_915_PA_10 0x05
+#define F_915_PA_15 0x06
+#define F_915_PA_20 0x07
+#define F_915_PA_30 0x08
+
+#define F_433       0x09
+#define F_433_PA10  0x10
+#define F_433_PA7   0x11
+#define F_433_PA5   0x12
+#define F_433_PA0   0x13
+#define F_433_PA_10 0x14
+#define F_433_PA_15 0x15
+#define F_433_PA_20 0x16
+#define F_433_PA_30 0x17
+
+#define F_868       0x18
+#define F_868_PA10  0x19 
+#define F_868_PA7   0x20
+#define F_868_PA5   0x21
+#define F_868_PA0   0x22
+#define F_868_PA_10 0x23
+#define F_868_PA_15 0x24
+#define F_868_PA_20 0x25
+#define F_868_PA_30 0x26
+
+#define F_315       0x27
+#define F_315_PA10  0x28
+#define F_315_PA7   0x29
+#define F_315_PA5   0x30
+#define F_315_PA0   0x31
+#define F_315_PA_10 0x32
+#define F_315_PA_15 0x33
+#define F_315_PA_20 0x34
+#define F_315_PA_30 0x35
+
+#define F_xxx       0x36
+#define F_xxx_PA10  0x37
+#define F_xxx_PA7   0x38
+#define F_xxx_PA5   0x40
+#define F_xxx_PA0   0x41
+#define F_xxx_PA_10 0x42
+#define F_xxx_PA_15 0x43
+#define F_xxx_PA_20 0x44
+#define F_xxx_PA_30 0x45
+
+
 
 // Register values for different frequencies
 // Carrier frequency = 868 MHz
@@ -41,7 +87,7 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 // Carrier frequency = 315 MHz
 #define F2_315  0x0B       
 #define F1_315  0x94        
-#define F0_315  0x2F 
+#define F0_315  0x2F
 
 
 
