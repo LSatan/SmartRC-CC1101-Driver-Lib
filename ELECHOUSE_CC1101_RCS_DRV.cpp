@@ -13,6 +13,7 @@
 cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and publish Wilson Shen (ELECHOUSE).
 ----------------------------------------------------------------------------------------------------------------
 */
+#include <SPI.h>
 #include <ELECHOUSE_CC1101_RCS_DRV.h>
 #include <Arduino.h>
 
@@ -25,10 +26,16 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 int mdcf1 = 0x01;
 int mdcf0 = 0x93;
 int chan = 0xAF;
-int rbw = 0xF7;
+int rbw = 0x07;
 int F2;
 int F1;
 int F0;
+
+int SCK_PIN = 13;
+int MISO_PIN = 12;
+int MOSI_PIN = 11;
+int SS_PIN = 10;
+
 /****************************************************************/
 uint8_t PA_TABLE10[8] {0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,};
 uint8_t PA_TABLE7[8] {0x00,0xC8,0x00,0x00,0x00,0x00,0x00,0x00,};
@@ -53,41 +60,8 @@ void ELECHOUSE_CC1101::SpiInit(void)
   pinMode(MISO_PIN, INPUT);
   pinMode(SS_PIN, OUTPUT);
 
-  // enable SPI Master, MSB, SPI mode 0, FOSC/4
-  SpiMode(0);
-}
-/****************************************************************
-*FUNCTION NAME:SpiMode
-*FUNCTION     :set spi mode
-*INPUT        :        config               mode
-			   (0<<CPOL) | (0 << CPHA)		 0
-			   (0<<CPOL) | (1 << CPHA)		 1
-			   (1<<CPOL) | (0 << CPHA)		 2
-			   (1<<CPOL) | (1 << CPHA)		 3
-*OUTPUT       :none
-****************************************************************/
-void ELECHOUSE_CC1101::SpiMode(byte config)
-{
-  byte tmp;
-
-  // enable SPI master with configuration byte specified
-  SPCR = 0;
-  SPCR = (config & 0x7F) | (1<<SPE) | (1<<MSTR);
-  tmp = SPSR;
-  tmp = SPDR;
-}
-
-/****************************************************************
-*FUNCTION NAME:SpiTransfer
-*FUNCTION     :spi transfer
-*INPUT        :value: data to send
-*OUTPUT       :data to receive
-****************************************************************/
-byte ELECHOUSE_CC1101::SpiTransfer(byte value)
-{
-  SPDR = value;
-  while (!(SPSR & (1<<SPIF))) ;
-  return SPDR;
+  // enable SPI 
+  SPI.begin();
 }
 
 /****************************************************************
@@ -99,7 +73,6 @@ byte ELECHOUSE_CC1101::SpiTransfer(byte value)
 void ELECHOUSE_CC1101::GDO_Set (void)
 {
 	pinMode(GDO0, INPUT);
-	pinMode(GDO2, INPUT);
 }
 
 /****************************************************************
@@ -116,7 +89,7 @@ void ELECHOUSE_CC1101::Reset (void)
 	delay(1);
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SpiTransfer(CC1101_SRES);
+	SPI.transfer(CC1101_SRES);
 	while(digitalRead(MISO_PIN));
 	digitalWrite(SS_PIN, HIGH);
 }
@@ -167,8 +140,8 @@ void ELECHOUSE_CC1101::SpiWriteReg(byte addr, byte value)
 {
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SpiTransfer(addr);
-	SpiTransfer(value);
+	SPI.transfer(addr);
+	SPI.transfer(value);
 	digitalWrite(SS_PIN, HIGH);
 }
 
@@ -185,10 +158,10 @@ void ELECHOUSE_CC1101::SpiWriteBurstReg(byte addr, byte *buffer, byte num)
 	temp = addr | WRITE_BURST;
     digitalWrite(SS_PIN, LOW);
     while(digitalRead(MISO_PIN));
-    SpiTransfer(temp);
+    SPI.transfer(temp);
     for (i = 0; i < num; i++)
  	{
-        SpiTransfer(buffer[i]);
+        SPI.transfer(buffer[i]);
     }
     digitalWrite(SS_PIN, HIGH);
 }
@@ -203,7 +176,7 @@ void ELECHOUSE_CC1101::SpiStrobe(byte strobe)
 {
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SpiTransfer(strobe);
+	SPI.transfer(strobe);
 	digitalWrite(SS_PIN, HIGH);
 }
 
@@ -220,8 +193,8 @@ byte ELECHOUSE_CC1101::SpiReadReg(byte addr)
     temp = addr|READ_SINGLE;
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SpiTransfer(temp);
-	value=SpiTransfer(0);
+	SPI.transfer(temp);
+	value=SPI.transfer(0);
 	digitalWrite(SS_PIN, HIGH);
 
 	return value;
@@ -240,10 +213,10 @@ void ELECHOUSE_CC1101::SpiReadBurstReg(byte addr, byte *buffer, byte num)
 	temp = addr | READ_BURST;
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SpiTransfer(temp);
+	SPI.transfer(temp);
 	for(i=0;i<num;i++)
 	{
-		buffer[i]=SpiTransfer(0);
+		buffer[i]=SPI.transfer(0);
 	}
 	digitalWrite(SS_PIN, HIGH);
 }
@@ -261,8 +234,8 @@ byte ELECHOUSE_CC1101::SpiReadStatus(byte addr)
 	temp = addr | READ_BURST;
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SpiTransfer(temp);
-	value=SpiTransfer(0);
+	SPI.transfer(temp);
+	value=SPI.transfer(0);
 	digitalWrite(SS_PIN, HIGH);
 
 	return value;
@@ -281,6 +254,21 @@ F1 = F1_xxx;
 }
 void ELECHOUSE_CC1101::freq0(byte F0_xxx){
 F0 = F0_xxx;
+}
+
+/****************************************************************
+*FUNCTION NAME:ESP 8266 pin settings
+*FUNCTION     :set esp or arduino
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setESP8266(byte esp){
+
+switch (esp)
+{
+case 1: SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15; break;
+case 0: SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10; break; 
+}
 }
 /****************************************************************
 *FUNCTION NAME:Channel spacing
@@ -370,7 +358,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
       	SpiWriteReg(CC1101_FREQ2,    F2_868);
       	SpiWriteReg(CC1101_FREQ1,    F1_868);
       	SpiWriteReg(CC1101_FREQ0,    F0_868);
-      	SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+      	SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
         break;
       case F_868_PA10:
         SpiWriteReg(CC1101_FREQ2,    F2_868);
@@ -425,7 +413,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
         SpiWriteReg(CC1101_FREQ2,    F2_915);
         SpiWriteReg(CC1101_FREQ1,    F1_915);
         SpiWriteReg(CC1101_FREQ0,    F0_915);
-        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
         break;
       case F_915_PA10:
         SpiWriteReg(CC1101_FREQ2,    F2_915);
@@ -480,7 +468,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
         SpiWriteReg(CC1101_FREQ2,    F2_433);
         SpiWriteReg(CC1101_FREQ1,    F1_433);
         SpiWriteReg(CC1101_FREQ0,    F0_433);
-        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
         break;
     case F_433_PA10:
         SpiWriteReg(CC1101_FREQ2,    F2_433);
@@ -535,7 +523,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
         SpiWriteReg(CC1101_FREQ2,    F2_315);
         SpiWriteReg(CC1101_FREQ1,    F1_315);
         SpiWriteReg(CC1101_FREQ0,    F0_315);
-        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
         break;
     case F_315_PA10:
         SpiWriteReg(CC1101_FREQ2,    F2_315);
@@ -590,7 +578,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
         SpiWriteReg(CC1101_FREQ2,    F2);
         SpiWriteReg(CC1101_FREQ1,    F1);
         SpiWriteReg(CC1101_FREQ0,    F0);
-        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE0,8);
+        SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE10,8);
         break;
     case F_xxx_PA10:
         SpiWriteReg(CC1101_FREQ2,    F2);

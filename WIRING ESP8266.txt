@@ -1,0 +1,12 @@
+CC1101 ESP8266 wiring
+
+
+ESP8266		/	CC1101
+------------------------------------
+3V3	(3,3V)	/	VCC
+G	(GND)	/	GND
+D5	(SCK)	/	SCK
+D6	(MISO)	/	MISO
+D7	(MOSI)	/	MOSI
+D8	(SS)	/	CSN
+D2	(PWM)	/	GDO0

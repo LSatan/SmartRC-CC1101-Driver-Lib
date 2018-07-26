@@ -26,6 +26,7 @@ int ccReset = 0;             // reset state for Receive
 int long value = 5393;      // int to save value
 int bits = 24;             // int to save bit number
 int prot = 1;             // int to save Protocol number
+int puls = 320;          // int to save pulse length
 
 void setup() {
   Serial.begin(9600);
@@ -63,8 +64,9 @@ void loop() {
     Serial.print( bits );
     Serial.print("bit ");
     Serial.print("Protocol: ");
-    Serial.println( prot );
-    
+    Serial.print( prot );
+    Serial.print(" Delay: ");    
+    Serial.println( puls );      
     
     }
 
@@ -97,12 +99,15 @@ void loop() {
     Serial.print( mySwitch.getReceivedBitlength() );
     Serial.print("bit ");
     Serial.print("Protocol: ");
-    Serial.println( mySwitch.getReceivedProtocol() );
+    Serial.print( mySwitch.getReceivedProtocol() );
+    Serial.print(" Delay: ");    
+    Serial.println( mySwitch.getReceivedDelay() );
 
     value =  mySwitch.getReceivedValue();        // save received Value
     bits = mySwitch.getReceivedBitlength();     // save received Bitlength
     prot = mySwitch.getReceivedProtocol();     // save received Protocol
-
+    puls =  mySwitch.getReceivedDelay();      // save received pulse length
+    
     mySwitch.resetAvailable();
 
    }

@@ -1,4 +1,29 @@
-# RCSwitch-CC1101-Driver-Lib_V1.31
+# RCSwitch-CC1101-Driver-Lib_V1.4
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.4
+---------------------------------------------
+26.07.2018
+
+Driver Library		:esp8266 Compatibility (Tested with Demos d1 mini).
+
+Driver Library		:Change default Receive filter bandwidth to 812khz (max).
+
+Driver Library		:Change default Tx Power to PA10 (max).
+
+Examples		:Add set esp command and pin settings.
+
+Examples		:Diskription change.
+
+Demo Example		:Add auto Recive and Send pulse length. (Receive_Send_Decimal_Demo_Simple.ino)
+
+Add Wiring JPG		:Add Wiring JPG esp8266.
+
+Add Wiring TXT		:Add Wiring TXT esp8266.
+
+Notes			:esp8266 pin D4 don´t work with receive, Transmit and receive is set to D2.
+
+Notes 			:esp8266 don´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.31

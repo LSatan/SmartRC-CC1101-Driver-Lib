@@ -185,12 +185,7 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define CC1101_RXFIFO       0x3F
 
 //*************************************** pins **************************************************//
-#define SCK_PIN   13
-#define MISO_PIN  12
-#define MOSI_PIN  11
-#define SS_PIN    10
 #define GDO0	2
-#define GDO2	9
 //************************************* class **************************************************//
 class ELECHOUSE_CC1101
 {
@@ -215,6 +210,7 @@ class ELECHOUSE_CC1101
     void freq2(byte F2_xxx);
     void freq1(byte F1_xxx);
     void freq0(byte F0_xxx);
+    void setESP8266(byte esp);
     void SetRx(void);
     void SetSres(void);
     void setdbm(byte dbm);
