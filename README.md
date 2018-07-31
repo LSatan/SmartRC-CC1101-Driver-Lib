@@ -1,4 +1,29 @@
-# RCSwitch-CC1101-Driver-Lib_V1.4
+# RCSwitch-CC1101-Driver-Lib_V1.5
+
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.5
+---------------------------------------------
+31.07.2018
+
+New			:Supportet NewRemoteSwitch Library. For wireless sockets by trust smart home, Smappee, DI-O Chacon, Intertechno and others.
+			 https://github.com/1technophile/NewRemoteSwitch
+			 
+Add Examples		:NewRemoteSwitch Compatible examples.
+
+Driver Library		:You can now switch directly from Tx to Rx in the loop. Without resetting the cc1101.
+
+Add Examples		:New Repeater Example for Rc-switch. For example, to increase the range of your remote control.
+
+Example changes		:Receive_Send_Decimal_Demo_Simple.ino (remove unnecessary commands).
+
+Examples Fix		:Rc-Switch examples fix TypeA, TypeB and TypeD (missing from semicolon to SetTx).
+
+Notes			:NewRemoteSwitch examples Retransmitter_cc1101.ino and LightShow_cc1101.ino only Arduino!!!
+
+Notes			:Rc-switch example Repeater_cc1101.ino only Arduino!!!
+
+Notes			:Rc-switch example Receive_Send_Decimal_Demo_Simple.ino only Arduino!!!
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.4
