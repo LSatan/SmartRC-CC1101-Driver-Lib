@@ -7,7 +7,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.5
 31.07.2018
 
 New			:Supportet NewRemoteSwitch Library. For wireless sockets by trust smart home, Smappee, DI-O Chacon, Intertechno and others.
-			 https://github.com/1technophile/NewRemoteSwitch
+			 You want to use it? Then you need that https://github.com/1technophile/NewRemoteSwitch
 			 
 Add Examples		:NewRemoteSwitch Compatible examples.
 
