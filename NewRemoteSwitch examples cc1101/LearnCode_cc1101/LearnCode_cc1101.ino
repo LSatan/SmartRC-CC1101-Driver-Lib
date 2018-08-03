@@ -23,6 +23,7 @@
 
 #define esp 0 // for ESP8266 set 1, for Arduino set 0.
 
+int esp; // for ESP8266 & Arduino setting.
 int pin; // int for Receive pin.
 int led; // pin for Led.
 
@@ -32,8 +33,12 @@ byte learnedUnit;
 
 void setup() {
     
-  if (esp == 1){pin = 4; led = 2;} // for esp8266! Receiver on pin 4 = D2. Led pin 2 = D4.
-  if (esp == 0){pin = 0; led = 4;} // for Arduino! Receiver on interrupt 0 => that is pin #2. Led pin = 4;
+#ifdef ESP8266
+esp = 1; pin = 4; led = 2; // for esp8266! Receiver on pin 4 = D2. Led pin 2 = D4.
+#else
+esp = 0; pin = 0; led = 4; // for Arduino! Receiver on interrupt 0 => that is pin #2. Led pin = 4;
+#endif  
+
 
 //CC1101 Settings:                (Settings with "//" are optional!)
   ELECHOUSE_cc1101.setESP8266(esp); // esp8266 & Arduino SPI pin settings. Don´t change this line!

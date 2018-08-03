@@ -186,6 +186,7 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 
 //*************************************** pins **************************************************//
 #define GDO0	2
+#define GDO2  3
 //************************************* class **************************************************//
 class ELECHOUSE_CC1101
 {

@@ -1,5 +1,20 @@
-# RCSwitch-CC1101-Driver-Lib_V1.5
+# RCSwitch-CC1101-Driver-Lib_V1.6
 
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
+---------------------------------------------
+03.08.2018
+
+Esp8266			:Compatibility for all RC switch examples.
+
+Driver Library		:Add the GDO2 pin for Receive. Change GDO0 to send.
+
+Wiring changes		:Description in jpg's and txt's.
+
+Examples		:All examples have been adjusted.
+
+Examples		:Esp and Arduino are set automatically. 
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.5
@@ -30,7 +45,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.4
 ---------------------------------------------
 26.07.2018
 
-Driver Library		:esp8266 Compatibility (Tested with Demos d1 mini).
+Driver Library		:esp8266 Compatibility (Tested with Wemos d1 mini).
 
 Driver Library		:Change default Receive filter bandwidth to 812khz (max).
 

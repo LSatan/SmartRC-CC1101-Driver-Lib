@@ -9,4 +9,8 @@ D5	(SCK)	/	SCK
 D6	(MISO)	/	MISO
 D7	(MOSI)	/	MOSI
 D8	(SS)	/	CSN
-D2	(PWM)	/	GDO0
+D1	(PWM)	/	GDO0 (TX)
+D2	(PWM)	/	GDO2 (RX)
+
+
+

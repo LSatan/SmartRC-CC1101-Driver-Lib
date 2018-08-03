@@ -51,7 +51,7 @@ void retransmitter(NewRemoteCode receivedCode) {
   // Create a new transmitter with the received address and period, use digital pin as output pin
 
   ELECHOUSE_cc1101.SetTx();  // set Transmit on
-  NewRemoteTransmitter transmitter(receivedCode.address, 2, receivedCode.period);
+  NewRemoteTransmitter transmitter(receivedCode.address, 6, receivedCode.period);
 
   if (receivedCode.switchType == NewRemoteCode::dim || 
     (receivedCode.switchType == NewRemoteCode::on && receivedCode.dimLevelPresent)) {

@@ -80,6 +80,7 @@ void ELECHOUSE_CC1101::SpiInit(void)
 void ELECHOUSE_CC1101::GDO_Set (void)
 {
 	pinMode(GDO0, INPUT);
+	pinMode(GDO2, OUTPUT);
 }
 
 /****************************************************************
@@ -682,7 +683,15 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
 void ELECHOUSE_CC1101::SetTx(void)
 {
 #ifdef ESP8266
-  SpiStrobe(CC1101_STX);                  //start send
+  SpiStrobe(CC1101_SRES);
+  SpiInit();                    //spi initialization
+  GDO_Set();                    //GDO set
+  digitalWrite(SS_PIN, HIGH);
+  digitalWrite(SCK_PIN, HIGH);
+  digitalWrite(MOSI_PIN, LOW);
+  Reset();                      //CC1101 reset
+  RegConfigSettings(conf);      //CC1101 register config
+  SpiStrobe(CC1101_STX);        //start send
 #else
   if (TX == 1 && RX == 1) {
   SpiStrobe(CC1101_STX);                  //start send
@@ -690,15 +699,15 @@ void ELECHOUSE_CC1101::SetTx(void)
   TX = 0;
 }
   else if (TX == 1 && RX == 0){
-  SpiStrobe(CC1101_SRES);                  //reset cc1101
+  SpiStrobe(CC1101_SRES);
   SpiInit();                    //spi initialization
   GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
   digitalWrite(SCK_PIN, HIGH);
   digitalWrite(MOSI_PIN, LOW);
-  Reset();                    //CC1101 reset
-  RegConfigSettings(conf);             //CC1101 register config
-  SpiStrobe(CC1101_STX);                  //start send
+  Reset();                      //CC1101 reset
+  RegConfigSettings(conf);      //CC1101 register config
+  SpiStrobe(CC1101_STX);        //start send
   TX = 0;
   RX = 1;
 }
@@ -713,23 +722,31 @@ void ELECHOUSE_CC1101::SetTx(void)
 void ELECHOUSE_CC1101::SetRx(void)
 {
  #ifdef ESP8266
-    SpiStrobe(CC1101_SRX);                  //start receive
- #else   
-  if (RX == 1 && TX == 1){
-  SpiStrobe(CC1101_SRX);                  //start receive
-  TX = 1;
-  RX = 0;
-}
-  else if (RX == 1 && TX == 0){
-  SpiStrobe(CC1101_SRES);                  //reset cc1101
+  SpiStrobe(CC1101_SRES);
   SpiInit();                    //spi initialization
   GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
   digitalWrite(SCK_PIN, HIGH);
   digitalWrite(MOSI_PIN, LOW);
-  Reset();                    //CC1101 reset
-  RegConfigSettings(conf);             //CC1101 register config
-  SpiStrobe(CC1101_SRX);                  //start receive
+  Reset();                      //CC1101 reset
+  RegConfigSettings(conf);      //CC1101 register config
+  SpiStrobe(CC1101_SRX);        //start receive
+ #else   
+  if (RX == 1 && TX == 1){
+  SpiStrobe(CC1101_SRX);        //start receive
+  TX = 1;
+  RX = 0;
+}
+  else if (RX == 1 && TX == 0){
+  SpiStrobe(CC1101_SRES);
+  SpiInit();                    //spi initialization
+  GDO_Set();                    //GDO set
+  digitalWrite(SS_PIN, HIGH);
+  digitalWrite(SCK_PIN, HIGH);
+  digitalWrite(MOSI_PIN, LOW);
+  Reset();                      //CC1101 reset
+  RegConfigSettings(conf);      //CC1101 register config
+  SpiStrobe(CC1101_SRX);        //start receive
   TX = 1;
   RX = 0;
 }

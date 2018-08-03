@@ -42,10 +42,10 @@ void setup() {
 
 void loop() { 
 
-  // Create a transmitter on address 123, using digital pin 2 to transmit, 
+  // Create a transmitter on address 123, using digital pin 6 to transmit, 
   // with a period duration of 260ms (default), repeating the transmitted
   // code 2^3=8 times.
-  NewRemoteTransmitter transmitter(123, 2, 260, 3);
+  NewRemoteTransmitter transmitter(123, 6, 260, 3);
    
   // Switch unit 2 off
   transmitter.sendUnit(2, false);
