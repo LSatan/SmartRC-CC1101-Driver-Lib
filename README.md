@@ -1,5 +1,11 @@
 # RCSwitch-CC1101-Driver-Lib_V1.6
 
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
+---------------------------------------------
+05.08.2018
+
+Examples Fix (rc-switch):Fix auto receive pulse. Received pulse don´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.6

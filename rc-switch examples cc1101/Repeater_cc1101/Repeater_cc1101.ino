@@ -56,9 +56,9 @@ void loop() {
 
 
   mySwitch.setRepeatTransmit(number); // transmission repetitions.
-  mySwitch.setPulseLength(puls);     // send Received Delay
-  mySwitch.setProtocol(prot);  // send Received Protocol
-  mySwitch.send(value, bits); // send Received value/bits
+  mySwitch.setProtocol(prot);        // send Received Protocol
+  mySwitch.setPulseLength(puls);    // send Received Delay
+  mySwitch.send(value, bits);      // send Received value/bits
 
     Serial.print("Transmit ");
     Serial.print( value );
