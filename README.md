@@ -1,6 +1,19 @@
 # RCSwitch-CC1101-Driver-Lib_V1.61
 
 ---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.7
+---------------------------------------------
+09.08.2018
+
+Driver Library		:Now you can enter your base frequency directly.The library calculates the settings automatically. example(433.92) 
+
+Driver Library		:Remove freq2, freq1 and freq0 Settings.
+
+Driver Library		:Removed unnecessary entries. the library shrank from 32,8kb(.cpp) and 9,38kb(.h) to 17,0kb(.cpp) and 7,87kb(.h).
+
+New Example		:(NewRemoteSwitch Library) NewRemoteRepeater.ino. Repeat the Received signal 1to1. Best thanks to Roman for write it. 
+
+---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.61
 ---------------------------------------------
 05.08.2018
