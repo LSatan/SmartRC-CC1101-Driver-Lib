@@ -259,7 +259,7 @@ float s3 = s1-s2;
 float s4 = s3*100000000;
 float s5 = 255.0/100000000*s4;
 int s6 = s5;
-float s7 = (s5-s6);//*(10);
+float s7 = (s5-s6);
 float s8 = s7*10;
 int s9;                                  // freq1
 if (s8>=5){s9=s6+1;}
