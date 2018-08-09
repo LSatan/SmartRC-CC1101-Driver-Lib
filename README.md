@@ -1,4 +1,4 @@
-# RCSwitch-CC1101-Driver-Lib_V1.61
+# RCSwitch-CC1101-Driver-Lib_V1.7
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.7
