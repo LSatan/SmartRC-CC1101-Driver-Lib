@@ -17,13 +17,6 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #include <ELECHOUSE_CC1101_RCS_DRV.h>
 #include <Arduino.h>
 
-#ifdef ESP8266
-#else
-int TX = 1;
-int RX = 1;
-#endif
-int conf;
-
 /****************************************************************/
 #define 	WRITE_BURST     	0x40						//write burst
 #define 	READ_SINGLE     	0x80						//read single
@@ -37,6 +30,8 @@ int rbw = 0x07;
 int F2 = 16;
 int F1 = 176;
 int F0 = 113;
+
+int conf;
 
 int SCK_PIN = 13;
 int MISO_PIN = 12;
@@ -412,7 +407,6 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetTx(void)
 {
-#ifdef ESP8266
   SpiStrobe(CC1101_SRES);
   SpiInit();                    //spi initialization
   GDO_Set();                    //GDO set
@@ -422,26 +416,6 @@ void ELECHOUSE_CC1101::SetTx(void)
   Reset();                      //CC1101 reset
   RegConfigSettings(conf);      //CC1101 register config
   SpiStrobe(CC1101_STX);        //start send
-#else
-  if (TX == 1 && RX == 1) {
-  SpiStrobe(CC1101_STX);                  //start send
-  RX = 1;
-  TX = 0;
-}
-  else if (TX == 1 && RX == 0){
-  SpiStrobe(CC1101_SRES);
-  SpiInit();                    //spi initialization
-  GDO_Set();                    //GDO set
-  digitalWrite(SS_PIN, HIGH);
-  digitalWrite(SCK_PIN, HIGH);
-  digitalWrite(MOSI_PIN, LOW);
-  Reset();                      //CC1101 reset
-  RegConfigSettings(conf);      //CC1101 register config
-  SpiStrobe(CC1101_STX);        //start send
-  TX = 0;
-  RX = 1;
-}
-#endif
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -451,7 +425,6 @@ void ELECHOUSE_CC1101::SetTx(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetRx(void)
 {
- #ifdef ESP8266
   SpiStrobe(CC1101_SRES);
   SpiInit();                    //spi initialization
   GDO_Set();                    //GDO set
@@ -461,14 +434,36 @@ void ELECHOUSE_CC1101::SetRx(void)
   Reset();                      //CC1101 reset
   RegConfigSettings(conf);      //CC1101 register config
   SpiStrobe(CC1101_SRX);        //start receive
- #else   
-  if (RX == 1 && TX == 1){
-  SpiStrobe(CC1101_SRX);        //start receive
-  TX = 1;
-  RX = 0;
 }
-  else if (RX == 1 && TX == 0){
+/****************************************************************
+*FUNCTION NAME:SetTx
+*FUNCTION     :set CC1101 send data
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::SetTx(float mhz)
+{
   SpiStrobe(CC1101_SRES);
+  setMHZ(mhz);
+  SpiInit();                    //spi initialization
+  GDO_Set();                    //GDO set
+  digitalWrite(SS_PIN, HIGH);
+  digitalWrite(SCK_PIN, HIGH);
+  digitalWrite(MOSI_PIN, LOW);
+  Reset();                      //CC1101 reset
+  RegConfigSettings(conf);      //CC1101 register config
+  SpiStrobe(CC1101_STX);        //start send
+}
+/****************************************************************
+*FUNCTION NAME:SetRx
+*FUNCTION     :set CC1101 to receive state
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::SetRx(float mhz)
+{
+  SpiStrobe(CC1101_SRES);
+  setMHZ(mhz);
   SpiInit();                    //spi initialization
   GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
@@ -477,10 +472,6 @@ void ELECHOUSE_CC1101::SetRx(void)
   Reset();                      //CC1101 reset
   RegConfigSettings(conf);      //CC1101 register config
   SpiStrobe(CC1101_SRX);        //start receive
-  TX = 1;
-  RX = 0;
-}
-#endif
 }
 /****************************************************************
 *FUNCTION NAME:SetSres

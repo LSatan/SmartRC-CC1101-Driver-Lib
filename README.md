@@ -1,4 +1,10 @@
-# RCSwitch-CC1101-Driver-Lib_V1.7
+# RCSwitch-CC1101-Driver-Lib_V1.71
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.71
+---------------------------------------------
+
+Driver Library		:Now you can Switch the frequency in loop. Examples: ELECHOUSE_cc1101.SetTx(433.92); and ELECHOUSE_cc1101.SetRx(433.92);.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.7
