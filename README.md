@@ -1,4 +1,12 @@
-# RCSwitch-CC1101-Driver-Lib_V1.71
+# RCSwitch-CC1101-Driver-Lib_V1.72
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.72
+---------------------------------------------
+
+Examples		:All NewRemoteSwitch examples are compatible with ESP. Exception Retransmitter_cc1101.ino.
+
+Driver Library		:Frequency calculator calibrated. Difference -0.01 MHz. (Fixed!) Frequency is now accurate.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.71

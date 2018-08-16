@@ -242,7 +242,7 @@ byte ELECHOUSE_CC1101::SpiReadStatus(byte addr)
 ****************************************************************/
 void ELECHOUSE_CC1101::setMHZ(float mhz){
 
-float MHZ = mhz;
+float MHZ = mhz + 0.01;
 
 float freq2 = 26;
 float freq1 = 0.1015625;
