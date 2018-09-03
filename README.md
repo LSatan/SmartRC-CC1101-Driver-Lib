@@ -1,4 +1,18 @@
-# RCSwitch-CC1101-Driver-Lib_V1.72
+# RCSwitch-CC1101-Driver-Lib_V1.8
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.8
+---------------------------------------------
+
+Driver Library		:Added pin settings for esp32.
+
+Examples		:Added pin settings for esp32 examples.
+
+Add Wiring JPG		:Add Wiring JPG esp32.
+
+Add Wiring TXT		:Add Wiring TXT esp32.
+
+Add Wiring JPG		:Add Wiring JPG esp32 for Receive_Send_Decimal_Demo_Simple.ino.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.72

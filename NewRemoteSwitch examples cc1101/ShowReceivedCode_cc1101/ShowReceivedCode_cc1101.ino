@@ -28,7 +28,9 @@ int pin; // int for Receive pin.
 void setup() {
   Serial.begin(115200);
 
-#ifdef ESP8266
+#ifdef ESP32
+esp = 2; pin = 4;  // for esp32! Receiver on GPIO pin 4. 
+#elif ESP8266
 esp = 1; pin = 4;  // for esp8266! Receiver on pin 4 = D2.
 #else
 esp = 0; pin = 0;  // for Arduino! Receiver on interrupt 0 => that is pin #2

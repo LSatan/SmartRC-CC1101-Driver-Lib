@@ -1,0 +1,13 @@
+CC1101 ESP32 wiring
+
+
+GPIO	ESP32  	/	CC1101
+------------------------------------
+3V3	(3,3V)	/	VCC
+G	(GND)	/	GND
+18	(SCK)	/	SCK
+19	(MISO)	/	MISO
+23	(MOSI)	/	MOSI
+5	(SS)	/	CSN
+2	(PWM)	/	GDO0 (TX)
+4	(PWM)	/	GDO2 (RX)

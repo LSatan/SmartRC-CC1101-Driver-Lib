@@ -17,11 +17,13 @@ RCSwitch mySwitch = RCSwitch();
 void setup() {
   Serial.begin(9600);
 
-#ifdef ESP8266
+#ifdef ESP32
+esp = 2; pin = 2;  // for esp32! Transmit on GPIO pin 2.
+#elif ESP8266
 esp = 1; pin = 5;  // for esp8266! Transmit on pin 5 = D1
 #else
 esp = 0; pin = 6;  // for Arduino! Transmit on pin 6.
-#endif  
+#endif    
 
 //CC1101 Settings:                (Settings with "//" are optional!)
   ELECHOUSE_cc1101.setESP8266(esp);    // esp8266 & Arduino SPI pin settings. Don´t change this line!

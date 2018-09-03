@@ -281,8 +281,9 @@ void ELECHOUSE_CC1101::setESP8266(byte esp){
 
 switch (esp)
 {
-case 1: SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15; break;
 case 0: SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10; break; 
+case 1: SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15; break;
+case 2: SCK_PIN = 18; MISO_PIN = 19; MOSI_PIN = 23; SS_PIN = 5; break;
 }
 }
 /****************************************************************

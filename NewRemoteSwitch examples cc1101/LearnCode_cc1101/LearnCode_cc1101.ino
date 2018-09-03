@@ -33,11 +33,13 @@ byte learnedUnit;
 
 void setup() {
     
-#ifdef ESP8266
-esp = 1; pin = 4; led = 2; // for esp8266! Receiver on pin 4 = D2. Led pin 2 = D4.
+#ifdef ESP32
+esp = 2; pin = 4;  // for esp32! Receiver on GPIO pin 4. 
+#elif ESP8266
+esp = 1; pin = 4;  // for esp8266! Receiver on pin 4 = D2.
 #else
-esp = 0; pin = 0; led = 4; // for Arduino! Receiver on interrupt 0 => that is pin #2. Led pin = 4;
-#endif  
+esp = 0; pin = 0;  // for Arduino! Receiver on interrupt 0 => that is pin #2
+#endif 
 
 
 //CC1101 Settings:                (Settings with "//" are optional!)
