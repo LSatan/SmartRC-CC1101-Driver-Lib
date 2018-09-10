@@ -3,6 +3,7 @@
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.8
 ---------------------------------------------
+02.09.2018
 
 Driver Library		:Added pin settings for esp32.
 
@@ -17,6 +18,7 @@ Add Wiring JPG		:Add Wiring JPG esp32 for Receive_Send_Decimal_Demo_Simple.ino.
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.72
 ---------------------------------------------
+16.08.2018
 
 Examples		:All NewRemoteSwitch examples are compatible with ESP. Exception Retransmitter_cc1101.ino.
 
@@ -25,6 +27,7 @@ Driver Library		:Frequency calculator calibrated. Difference -0.01 MHz. (Fixed!)
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.71
 ---------------------------------------------
+10.08.2018
 
 Driver Library		:Now you can Switch the frequency in loop. Examples: ELECHOUSE_cc1101.SetTx(433.92); and ELECHOUSE_cc1101.SetRx(433.92);.
 
@@ -46,7 +49,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.61
 ---------------------------------------------
 05.08.2018
 
-Examples Fix (rc-switch):Fix auto receive pulse. Received pulse don´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
+Examples Fix (rc-switch):Fix auto receive pulse. Received pulse donÂ´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
@@ -108,9 +111,9 @@ Add Wiring JPG		:Add Wiring JPG esp8266.
 
 Add Wiring TXT		:Add Wiring TXT esp8266.
 
-Notes			:esp8266 pin D4 don´t work with receive, Transmit and receive is set to D2.
+Notes			:esp8266 pin D4 donÂ´t work with receive, Transmit and receive is set to D2.
 
-Notes 			:esp8266 don´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
+Notes 			:esp8266 donÂ´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.31
