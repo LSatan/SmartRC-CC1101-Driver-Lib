@@ -3,7 +3,7 @@
   Copyright (c) 2010 Michael.
     Author: Michael, <www.elechouse.com>
     Version: November 12, 2010
-
+ 
   This library is designed to use CC1101/CC1100 module on Arduino platform.
   CC1101/CC1100 module is an useful wireless module.Using the functions of the 
   library, you can easily send and receive data by the CC1101/CC1100 module. 
