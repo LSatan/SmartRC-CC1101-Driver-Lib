@@ -1,5 +1,5 @@
 # RCSwitch-CC1101-Driver-Lib_V1.8
-
+We are sorry. there was a small problem on 11.10.18 a small change in the .h file made the reception impossible. now it is fixed!
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.8
 ---------------------------------------------
