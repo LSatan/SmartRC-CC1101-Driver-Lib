@@ -11,3 +11,5 @@ G	(GND)	/	GND
 5	(SS)	/	CSN
 2	(PWM)	/	GDO0 (TX)
 4	(PWM)	/	GDO2 (RX)
+
+gpio pin designation may vary depending on the module! Example for Gpio 2 (P2, D2, IO2, 2)

@@ -1,5 +1,48 @@
-# RCSwitch-CC1101-Driver-Lib_V1.8
-We are sorry. there was a small problem from 10.10.18 to 11.10.18 a small change in the .h file made the reception impossible. Now it is fixed!
+# RCSwitch-CC1101-Driver-Lib_V1.9
+
+---------------------------------------------
+Donation
+---------------------------------------------
+
+If you like the library you can support me with a donation.
+
+"Some things are priceless - for everything else there is this donation fund"
+"Coffee makes us good partners - but it also has to be paid for"
+
+https://www.paypal.me/LittleSatan666
+
+Thank You!
+
+---------------------------------------------
+Remotes Fusion APP has the following features.
+---------------------------------------------
+
+1.Up to 15 channels with two buttons or one button.
+2.RcSwitch and NewRemoteswitch mixed possible.
+3.Each transmitter can broadcast on its own frequency.
+4.Dimmer for NewRemoteSwitch. Can dim compatible lamps. 
+5.Monitor mode. 
+6.Repeater and receiver mode.
+7.Transmitters can be taught in or manually set. 
+8.Ap mode and client mode.
+9.For access via the internet see the instructions.
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.9
+---------------------------------------------
+18.10.2018
+
+New Sketch		:RemotesFusion.ino.
+
+New Apk´s		:RemotesFusion_V1_en.apk / RemotesFusion_V1_de.apk.
+
+Add Docs		:Docs and manuals for RemotesFusion.
+
+Changes			:channel spacing and channel set was removed from the examples. unnecessary because exact frequency can be set.
+
+notes			:RemotesFusion is an application with which Rc-Switch and NewRemoteSwitch can be controlled at the same time.
+			 A universal remote control APP with many possibilities. Only for Esp 8266/32 modules! For more information, watch the docs.
+
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.8
 ---------------------------------------------
@@ -49,7 +92,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.61
 ---------------------------------------------
 05.08.2018
 
-Examples Fix (rc-switch):Fix auto receive pulse. Received pulse donÂ´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
+Examples Fix (rc-switch):Fix auto receive pulse. Received pulse don´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
@@ -111,9 +154,9 @@ Add Wiring JPG		:Add Wiring JPG esp8266.
 
 Add Wiring TXT		:Add Wiring TXT esp8266.
 
-Notes			:esp8266 pin D4 donÂ´t work with receive, Transmit and receive is set to D2.
+Notes			:esp8266 pin D4 don´t work with receive, Transmit and receive is set to D2.
 
-Notes 			:esp8266 donÂ´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
+Notes 			:esp8266 don´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.31

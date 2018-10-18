@@ -1,0 +1,115 @@
+---------------------------------------------------------------------------------
+Is needed ...
+---------------------------------------------------------------------------------
+Rc switch: https://github.com/sui77/rc-switch
+NewRemoteSwitch: https://github.com/1technophile/NewRemoteSwitch
+
+---------------------------------------------------------------------------------
+Setup first start
+---------------------------------------------------------------------------------
+first start, connect in Accespoint mode:
+1.load the sketch remotesfusion.ino on the esp.
+2.install remotesfusion.apk on your mobile phone.
+3. go to the wireless settings on your phone,
+connect with the accespoint remotesfusion.
+enter the wifi password Fusion2018.
+4.Open the remotesfusion app. You get to the
+start screen in the settings.
+The hook in AP mode must be set.
+Now RemotesFusion can be used in Accespoint mode.
+
+---------------------------------------------------------------------------------
+
+router connection settings:
+1. Make sure you are connected to the esp in ap mode.
+2. enter your router ssid or scan for your wifi.
+3. enter your wifi password.
+4. Pressures on transfer settings. The settings are on the
+esp transferred and stored in the eeprom.
+5. Press on reconnect esp or manually reset your esp.
+6. Go to the settings in your mobile phone and connect with your wifi.
+7. Go back to the app and take out the hook at AP mode.
+now esp and the app are connected to each other via your router.
+
+notes: the connection should be delayed later (send / receive)
+then enter the IP address assigned by your router at hostname, 
+instead of the hostname. The CL IP can be found in the serial monitor
+after the start of the esp.
+
+---------------------------------------------------------------------------------
+
+connection via the internet
+1. Set up a dns server. example tourturial dns server: http://www.goip.it/install.html
+2. enter the hostname of your dns address.
+Example: dns-example.com
+
+notes: Internet currently only via dns! about database possibly in later updates!
+
+---------------------------------------------------------------------------------
+
+cc1101 settings:
+MHZ = the standard frequency for receiving and repeating in extra mode.
+rx bandwidth = standard reception bandwidth. recommended 812khz = max.
+Tx power = transmission power. recommended db10 = max.
+Transfer settings: transfers the cc1101 settings to the esp and saves them in the eeprom.
+
+---------------------------------------------------------------------------------
+
+App settings:
+
+extras: additional settings on the main page.
+(Monitor, repeater mode, receive mode).
+
+Select station: up to 15 stations can be created.
+save: creates the selected transmitter.
+erase: clears the selected station.
+
+Two switches: if active on and off button available per transmitter.
+
+NewRemoteSwitch: if active, transmitter can be created for NewRemoteSwitch.
+if not active for rc-switch.
+
+Dimmer: Only available in NewRemoteSwitch. Can dimming compatible bulbs.
+
+Frequency: sets the frequency for the selected station.
+notes: each transmitter can transmit on its own frequency.
+
+Transmitter headline: Create a headline for your transmitter for example living room, bedroom, light, TV, garage door and so on.
+
+Transmit Reruns: Repeat Retries Best Short Retries. For learning devices
+It is recommended to set the send repetitions for learning as high as possible.
+
+Text Transmitter ON / Off: Create a button text for the Transmitters for example On, Off, Open, Close, Execute and so on.
+
+Learn Button: Learn the buttons on your remote. Press learn and then a button on your remote.
+
+Manual settings NewRemoteSwitch: Address, Pulse, Unit, Off bit, Groups bit.
+
+
+Manual settings Rc-Switch: address, pulse, bit, protocol.
+
+---------------------------------------------------------------------------------
+Main page stations
+---------------------------------------------------------------------------------
+
+Expand: Additional Options.
+
+Repeater mode: Repeats the received signal. Rc switch and NewRemoteswitch signals. Sending is possible at the same time
+
+Receive Mode: Receives signals. Rc switch and NewRemoteswitch signals. Sending is possible at the same time
+
+Monitor: Shows sent, received and repeated signals.
+
+Monitor not Hide: If the hook by Expand is removed, the monitor remains visible.
+
+notes: If multiple phones are used, then repeater and receive mode is not recommended!
+(The Esp could crash due to too many requests!)
+-------------------------------------------------- -------------------------------
+miscellaneous
+-------------------------------------------------- -------------------------------
+
+In the settings: Gear = Go to the main page. Back = Go to the main page.
+
+On the main page: Gear = Go to Settings. Back = RemotesFusion Exit.
+
+If at least one station has been created, you will get to the main page after the start.
