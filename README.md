@@ -18,7 +18,7 @@ Thank You!
 Remotes Fusion APP has the following features.
 ---------------------------------------------
 
-- 1.Up to 15 channels with two buttons or one button.
+- 1.Up to 15 transmitters with two buttons or one button.
 - 2.RcSwitch and NewRemoteswitch mixed possible.
 - 3.Each transmitter can broadcast on its own frequency.
 - 4.Dimmer for NewRemoteSwitch. Can dim compatible lamps. 
