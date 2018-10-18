@@ -8,7 +8,7 @@ If you like the library you can support me with a donation.
 
 "Some things are priceless - for everything else there is this donation fund"
 
-"Coffee makes us good partners - but it also has to be paid for"
+"Coffee is a good partner - but it also has to be paid for"
 
 https://www.paypal.me/LittleSatan666
 
