@@ -7,6 +7,7 @@ Donation
 If you like the library you can support me with a donation.
 
 "Some things are priceless - for everything else there is this donation fund"
+
 "Coffee makes us good partners - but it also has to be paid for"
 
 https://www.paypal.me/LittleSatan666
@@ -17,15 +18,15 @@ Thank You!
 Remotes Fusion APP has the following features.
 ---------------------------------------------
 
-1.Up to 15 channels with two buttons or one button.
-2.RcSwitch and NewRemoteswitch mixed possible.
-3.Each transmitter can broadcast on its own frequency.
-4.Dimmer for NewRemoteSwitch. Can dim compatible lamps. 
-5.Monitor mode. 
-6.Repeater and receiver mode.
-7.Transmitters can be taught in or manually set. 
-8.Ap mode and client mode.
-9.For access via the internet see the instructions.
+- 1.Up to 15 channels with two buttons or one button.
+- 2.RcSwitch and NewRemoteswitch mixed possible.
+- 3.Each transmitter can broadcast on its own frequency.
+- 4.Dimmer for NewRemoteSwitch. Can dim compatible lamps. 
+- 5.Monitor mode. 
+- 6.Repeater and receiver mode.
+- 7.Transmitters can be taught in or manually set. 
+- 8.Ap mode and client mode.
+- 9.For access via the internet see the instructions.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.9
