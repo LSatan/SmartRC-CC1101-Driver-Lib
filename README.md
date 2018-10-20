@@ -47,6 +47,8 @@ notes			:RemotesFusion is an application with which Rc-Switch and NewRemoteSwitc
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.8
 ---------------------------------------------
+[Download Release V1.8](https://drive.google.com/file/d/1ADKOmW0SrUoomeoDskFrm0J2SdwCLB_O/view?usp=sharing)
+
 02.09.2018
 
 Driver Library		:Added pin settings for esp32.
@@ -62,6 +64,8 @@ Add Wiring JPG		:Add Wiring JPG esp32 for Receive_Send_Decimal_Demo_Simple.ino.
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.72
 ---------------------------------------------
+[Download Release V1.72](https://drive.google.com/file/d/1sfMvQw2JaGARTaYXZevOjB20BFOMS0tw/view?usp=sharing)
+
 16.08.2018
 
 Examples		:All NewRemoteSwitch examples are compatible with ESP. Exception Retransmitter_cc1101.ino.
@@ -71,6 +75,8 @@ Driver Library		:Frequency calculator calibrated. Difference -0.01 MHz. (Fixed!)
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.71
 ---------------------------------------------
+[Download Release V1.71](https://drive.google.com/file/d/1PXa1k0AIDY8bTMxFyyQMbOljijhIn1ke/view?usp=sharing)
+
 10.08.2018
 
 Driver Library		:Now you can Switch the frequency in loop. Examples: ELECHOUSE_cc1101.SetTx(433.92); and ELECHOUSE_cc1101.SetRx(433.92);.
@@ -78,6 +84,8 @@ Driver Library		:Now you can Switch the frequency in loop. Examples: ELECHOUSE_c
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.7
 ---------------------------------------------
+[Download Release V1.7](https://drive.google.com/file/d/1uxACfe1ZUrkL4S3_NPVN0DmUfzbxt6oQ/view?usp=sharing)
+
 09.08.2018
 
 Driver Library		:Now you can enter your base frequency directly.The library calculates the settings automatically. example(433.92) 
@@ -91,6 +99,8 @@ New Example		:(NewRemoteSwitch Library) NewRemoteRepeater.ino. Repeat the Receiv
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.61
 ---------------------------------------------
+[Download Release V1.61](https://drive.google.com/file/d/1q8FV5kDnhAj1SMZf6DS0wDcm5xo4E-5-/view?usp=sharing)
+
 05.08.2018
 
 Examples Fix (rc-switch):Fix auto receive pulse. Received pulse don´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
@@ -98,6 +108,8 @@ Examples Fix (rc-switch):Fix auto receive pulse. Received pulse don´t transmit. 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
 ---------------------------------------------
+[Download Release V1.6](https://drive.google.com/file/d/1p_iAxh7ZWlNWhFoqMM_tlLTLdyGK07-a/view?usp=sharing)
+
 03.08.2018
 
 Esp8266			:Compatibility for all RC switch examples.
@@ -113,6 +125,8 @@ Examples		:Esp and Arduino are set automatically.
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.5
 ---------------------------------------------
+[Download Release V1.5](https://drive.google.com/file/d/1XcGPbvI5v2PcpnVBbjtOFwtuJtx3jMK4/view?usp=sharing)
+
 31.07.2018
 
 New			:Supportet NewRemoteSwitch Library. For wireless sockets by trust smart home, Smappee, DI-O Chacon, Intertechno and others.
@@ -137,6 +151,8 @@ Notes			:Rc-switch example Receive_Send_Decimal_Demo_Simple.ino only Arduino!!!
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.4
 ---------------------------------------------
+[Download Release V1.4](https://drive.google.com/file/d/1nAPGeQSutfskirJsng44adB4sXU1YU6A/view?usp=sharing)
+
 26.07.2018
 
 Driver Library		:esp8266 Compatibility (Tested with Wemos d1 mini).
@@ -162,6 +178,8 @@ Notes 			:esp8266 don´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.31
 ---------------------------------------------
+[Download Release V1.31](https://drive.google.com/file/d/1iKmagldd14O1Boa9Z_PDpXbHRECYUPdt/view?usp=sharing)
+
 30.03.2018:
 
 Driver Library Fix	:no effect set by transmission power.
@@ -175,6 +193,8 @@ Examples Fix		:set Receive filter bandwidth (command incomplete) Fixed.
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.3
 ---------------------------------------------
+[Download Release V1.3](https://drive.google.com/file/d/1q56Qewk8-Aquv1epss1gd7Gc05q4GrbO/view?usp=sharing)
+
 25.03.2018:
 
 Driver Library		:Add Channel List. Now you can set channel numbers 0-255.
@@ -192,6 +212,8 @@ Examples		:Add set new commands
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.2 
 ---------------------------------------------
+[Download Release V1.2](https://drive.google.com/file/d/1KLJt8ygszj9rqcttiEMt5zCnJKHc_qe3/view?usp=sharing)
+
 20.03.2018:
 
 Driver Library 		:Add 315Mhz Support.
@@ -203,6 +225,8 @@ Examples		:Add set channel command in examples.
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.1 
 ---------------------------------------------
+[Download Release V1.1](https://drive.google.com/file/d/1uZzcY4uoduiUjFZzXdxA-ucLoA_TtC1f/view?usp=sharing)
+
 19.03.2018:
 
 Driver Library Fix	:Calibrated Frequency from 433.86 to 433.92 - 433.93 Mhz.
@@ -220,6 +244,8 @@ Add Wiring JPG		:Wiring for Nano / Uno
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.0 
 ---------------------------------------------
+[Download Release V1.0](https://drive.google.com/file/d/14538RtiEakZ_8yioXJT32XneheSjDqxi/view?usp=sharing)
+
 18.03.2018:
 
 cc1101 Compatibility for RC-Switch.
