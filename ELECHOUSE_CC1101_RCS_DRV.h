@@ -3,7 +3,6 @@
   Copyright (c) 2010 Michael.
     Author: Michael, <www.elechouse.com>
     Version: November 12, 2010
-
   This library is designed to use CC1101/CC1100 module on Arduino platform.
   CC1101/CC1100 module is an useful wireless module.Using the functions of the 
   library, you can easily send and receive data by the CC1101/CC1100 module. 
@@ -120,9 +119,6 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define CC1101_TXFIFO       0x3F
 #define CC1101_RXFIFO       0x3F
 
-//*************************************** pins **************************************************//
-#define GDO0 0
-#define GDO2 0
 //************************************* class **************************************************//
 class ELECHOUSE_CC1101
 {
@@ -142,13 +138,15 @@ class ELECHOUSE_CC1101
 	public:
 		void Init(void);
 		void Init(byte f);
+    int GetGDO0(void);
+    int GetGDO2(void);
     void SetRx(void);
     void SetTx(void);
     void SetRx(float mhz);
     void SetTx(float mhz);
     void setMHZ(float mhz);
     void SendData(byte *txBuffer, byte size);
-    void setESP8266(byte esp);
+    void setModule(byte module);
     void SetSres(void);
     void setdbm(byte dbm);
     void setChsp(byte Chsp);

@@ -37,6 +37,8 @@ int SCK_PIN = 13;
 int MISO_PIN = 12;
 int MOSI_PIN = 11;
 int SS_PIN = 10;
+int GDO0 = 2;
+int GDO2 = 3;
 
 /****************************************************************/
 uint8_t PA_TABLE10[8] {0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,};
@@ -272,18 +274,18 @@ F1 = s9;
 F0 = s14;
 }
 /****************************************************************
-*FUNCTION NAME:ESP 8266 pin settings
-*FUNCTION     :set esp or arduino
-*INPUT        :none
+*FUNCTION NAME: Module pin settings
+*FUNCTION     :set arduino (0), esp8266 (1) or esp32 (2)
+*INPUT        :module indicator
 *OUTPUT       :none
 ****************************************************************/
-void ELECHOUSE_CC1101::setESP8266(byte esp){
+void ELECHOUSE_CC1101::setModule(byte module){
 
-switch (esp)
+switch (module)
 {
-case 0: SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10; break; 
-case 1: SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15; break;
-case 2: SCK_PIN = 18; MISO_PIN = 19; MOSI_PIN = 23; SS_PIN = 5; break;
+case 0: SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10; GDO0 = 2; GDO2 = 3; break; 
+case 1: SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15; GDO0  = 1; GDO2 = 2; break;
+case 2: SCK_PIN = 18; MISO_PIN = 19; MOSI_PIN = 23; SS_PIN = 5; GDO0 = 2; GDO2 = 4; break;
 }
 }
 /****************************************************************
@@ -532,8 +534,26 @@ byte ELECHOUSE_CC1101::ReceiveData(byte *rxBuffer)
 	
 }
 
+/****************************************************************
+*FUNCTION NAME:GetGDO0
+*FUNCTION     :get GDO0 pin
+*INPUT        :none
+*OUTPUT       :GDO0 pin
+****************************************************************/
+int ELECHOUSE_CC1101::GetGDO0(void)
+{
+    return GDO0;
+}
+
+/****************************************************************
+*FUNCTION NAME:GetGDO2
+*FUNCTION     :get GDO2 pin
+*INPUT        :none
+*OUTPUT       :GDO2 pin
+****************************************************************/
+int ELECHOUSE_CC1101::GetGDO2(void)
+{
+    return GDO2;
+}
+
 ELECHOUSE_CC1101 ELECHOUSE_cc1101;
-
-
-
-
