@@ -11,7 +11,7 @@ erster start, verbinden im Accespoint modus:
 1.lade den sketch remotesfusion.ino auf den esp.
 2.installiere remotesfusion.apk auf deinem handy.
 3.gehe in die wlan einstellungen auf deinem handy,
-verbinde dich mit dem accespoint remotesfusion.
+verbinde dich mit dem accespoint remotes_fusion.
 gib das wlan passwort Fusion2018 ein.
 4.öffne die remotesfusion app. du gelangst nach dem 
 startbildschirm in die einstellungen.

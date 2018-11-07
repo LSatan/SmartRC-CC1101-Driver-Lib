@@ -11,7 +11,7 @@ first start, connect in Accespoint mode:
 1.load the sketch remotesfusion.ino on the esp.
 2.install remotesfusion.apk on your mobile phone.
 3. go to the wireless settings on your phone,
-connect with the accespoint remotesfusion.
+connect with the accespoint remotes_fusion.
 enter the wifi password Fusion2018.
 4.Open the remotesfusion app. You get to the
 start screen in the settings.

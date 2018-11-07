@@ -1,10 +1,10 @@
-# RCSwitch-CC1101-Driver-Lib_V1.9
+# RCSwitch-CC1101-Driver-Lib_V1.91
 
 ---------------------------------------------
 Donation
 ---------------------------------------------
 
-If you like the library you can support me with a donation.
+If you like the library, support me with a donation.
 
 "Some things are priceless - for everything else there is this donation fund"
 
@@ -27,6 +27,13 @@ Remotes Fusion APP has the following features.
 - 7.Transmitters can be taught in or manually set. 
 - 8.Ap mode and client mode.
 - 9.For access via the internet see the instructions.
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.91
+---------------------------------------------
+07.11.2018
+
+New Sketch		:Clear_EEPROM.ino (if there are problems with the access point password or if you want to use your ESP for other projects).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.9
