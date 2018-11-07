@@ -1,8 +1,8 @@
 /*Clears the EEPROM. 
 For problems with password settings 
 or to use the ESP in other projects.
-
 */
+
 #include <EEPROM.h>
 
 
