@@ -911,7 +911,7 @@ if (int_2.toFloat() >= 300 && int_2.toFloat() <= 348 || int_2.toFloat() >= 387 &
   mhz = int_2.toFloat();
   ELECHOUSE_cc1101.SetRx(mhz);
 }else{
-  ELECHOUSE_cc1101.SetRx();  
+  ELECHOUSE_cc1101.SetRx(MHZ);  
 }
 Serial.println("ALL Receiver initialized");
 

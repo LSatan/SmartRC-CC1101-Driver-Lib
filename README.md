@@ -1,4 +1,4 @@
-# RCSwitch-CC1101-Driver-Lib_V1.91
+# RCSwitch-CC1101-Driver-Lib_V1.92
 
 ---------------------------------------------
 Donation
@@ -27,6 +27,17 @@ Remotes Fusion APP has the following features.
 - 7.Transmitters can be taught in or manually set. 
 - 8.Ap mode and client mode.
 - 9.For access via the internet see the instructions.
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.92
+---------------------------------------------
+16.11.2018
+
+Fixes Remotes Fusion	:Receive mode and Repeater mode frequency, changes to the transmitter frequency after pressing on a transmitter. (RemotesFusion.ino)Fixed!
+
+NewRemoteSwitch		:LearnCode_cc1101.ino (corrections).
+
+Added			:Keywords.txt added.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.91
