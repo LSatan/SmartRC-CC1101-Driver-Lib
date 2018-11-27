@@ -19,3 +19,4 @@ notes: 	The whole stuff that is not directly related to Rc_Switch,
 	Example RemotesFusion.apk or frequency calculator in the driver lib.
 	And so on...
 	You can freely use, edit or distribute it with reference to the source.
+	For everything else, the rights of the respective owners apply!
