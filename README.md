@@ -47,7 +47,7 @@ Add Wiring JPG		:WIRING MEGA.jpg
 
 LICENSE			:LICENSE.txt Update.
 
-notes:			:setGDO is not compatible with RC_Switch / NewRemotSwitch.
+notes			:setGDO is not compatible with RC_Switch / NewRemotSwitch.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.92
