@@ -45,6 +45,8 @@ Add Wiring TXT		:WIRING MEGA.txt
 
 Add Wiring JPG		:WIRING MEGA.jpg
 
+LICENSE			:LICENSE.txt Update.
+
 notes:			:setGDO is not compatible with RC_Switch / NewRemotSwitch.
 
 ---------------------------------------------
