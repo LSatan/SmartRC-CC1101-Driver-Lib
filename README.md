@@ -1,4 +1,4 @@
-# RCSwitch-CC1101-Driver-Lib_V1.92
+# RCSwitch-CC1101-Driver-Lib_V1.93
 
 ---------------------------------------------
 Donation
@@ -27,6 +27,25 @@ Remotes Fusion APP has the following features.
 - 7.Transmitters can be taught in or manually set. 
 - 8.Ap mode and client mode.
 - 9.For access via the internet see the instructions.
+
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V1.93
+---------------------------------------------
+27.11.2018
+
+Driver Library		:setESP8266 has been removed. Pins are set automatically with the init command.
+
+Driver Library		:Arduino mega SPI pins added.
+
+Driver Library		:Added setGDO pins (For libraries that directly address the GDO pins).Like this https://github.com/EinfachArne/Somfy_Remote .
+			 Example ELECHOUSE_CC1101.setGDO(2, 4); // (pin2 = GDO0, pin4 = GDO2).
+
+Add Wiring TXT		:WIRING MEGA.txt
+
+Add Wiring JPG		:WIRING MEGA.jpg
+
+notes:			:setGDO is not compatible with RC_Switch / NewRemotSwitch.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.92

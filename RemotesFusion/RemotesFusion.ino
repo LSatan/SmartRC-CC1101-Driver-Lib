@@ -66,7 +66,6 @@ int DimLevel;
 bool Switch;
 
 //Serial Monitor / Data evaluation.
-int esp;
 int repeater;
 int receiver;
 int fusion;
@@ -152,13 +151,12 @@ addr = 212;
 
 
 #ifdef ESP32
-esp = 2; pinRx = 4; pinTx = 2;
+pinRx = 4; pinTx = 2;
 #elif ESP8266
-esp = 1; pinRx = 4; pinTx = 5;
+pinRx = 4; pinTx = 5;
 #endif 
 
 if (int_1.length() > 1){
-ELECHOUSE_cc1101.setESP8266(esp);
 MHZ = int_1.toFloat();
 if (int_2 == "1"){RxBW = 1;}if (int_2 == "2"){RxBW = 2;}if (int_2 == "3"){RxBW = 3;}if (int_2 == "4"){RxBW = 4;}
 if (int_2 == "5"){RxBW = 5;}if (int_2 == "6"){RxBW = 6;}if (int_2 == "7"){RxBW = 7;}if (int_2 == "8"){RxBW = 8;}
@@ -171,7 +169,6 @@ if (int_3 == "PA5"){ELECHOUSE_cc1101.Init(PA5);} if (int_3 == "PA0"){ELECHOUSE_c
 if (int_3 == "PA_10"){ELECHOUSE_cc1101.Init(PA_10);}  if (int_3 == "PA_15"){ELECHOUSE_cc1101.Init(PA_15);} 
 if (int_3 == "PA_20"){ELECHOUSE_cc1101.Init(PA_20);} if (int_3 == "PA30"){ELECHOUSE_cc1101.Init(PA_30);}
 }else{
-ELECHOUSE_cc1101.setESP8266(esp);
 ELECHOUSE_cc1101.setRxBW(RxBW);
 ELECHOUSE_cc1101.setMHZ(MHZ);
 ELECHOUSE_cc1101.Init(PA10);

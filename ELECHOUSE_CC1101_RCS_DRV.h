@@ -120,9 +120,6 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define CC1101_TXFIFO       0x3F
 #define CC1101_RXFIFO       0x3F
 
-//*************************************** pins **************************************************//
-#define GDO0 0
-#define GDO2 0
 //************************************* class **************************************************//
 class ELECHOUSE_CC1101
 {
@@ -148,9 +145,8 @@ class ELECHOUSE_CC1101
     void SetTx(float mhz);
     void setMHZ(float mhz);
     void SendData(byte *txBuffer, byte size);
-    void setESP8266(byte esp);
     void SetSres(void);
-    void setdbm(byte dbm);
+    void setGDO(byte gdo0, byte gdo2);
     void setChsp(byte Chsp);
     void setRxBW(byte RxBW);
     void setChannel(byte chnl);

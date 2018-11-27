@@ -1,13 +1,12 @@
-CC1101 Arduino Nano/Uno wiring (ATmega 168 / ATmega328P)
-
+CC1101 Arduino Mega (ATmega1280 / ATmega 2560)
 
 Arduino		/	CC1101
 ------------------------------------
 3.3V		/	VCC
 GND		/	GND
-D13		/	SCK
-D12		/	MISO
-D11		/	MOSI
-D10		/	CSN
+D52		/	SCK
+D50		/	MISO
+D51		/	MOSI
+D53		/	CSN
 D6		/	GDO0 (TX)
 D2		/	GDO2 (RX)
