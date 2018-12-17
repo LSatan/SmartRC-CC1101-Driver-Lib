@@ -31,7 +31,7 @@ int F2 = 16;
 int F1 = 176;
 int F0 = 113;
 
-int conf;
+int conf = PA10;
 
 int SCK_PIN = 13;
 int MISO_PIN = 12;
@@ -39,6 +39,7 @@ int MOSI_PIN = 11;
 int SS_PIN = 10;
 int GDO0;
 int GDO2;
+int spi;
 
 /****************************************************************/
 uint8_t PA_TABLE10[8] {0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,};
@@ -103,23 +104,14 @@ void ELECHOUSE_CC1101::Reset (void)
 ****************************************************************/
 void ELECHOUSE_CC1101::Init(void)
 {
-  #ifdef __AVR_ATmega168__ || __AVR_ATmega328P__
-  SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;  
-  #elif __AVR_ATmega1280__ || __AVR_ATmega2560__  
-  SCK_PIN = 52; MISO_PIN = 50; MOSI_PIN = 51; SS_PIN = 53;
-  #elif ESP8266
-  SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15;
-  #elif ESP32
-  SCK_PIN = 18; MISO_PIN = 19; MOSI_PIN = 23; SS_PIN = 5;
-  #endif
-
+  setSpi();
 	SpiInit();										//spi initialization
 	GDO_Set();										//GDO set
 	digitalWrite(SS_PIN, HIGH);
 	digitalWrite(SCK_PIN, HIGH);
 	digitalWrite(MOSI_PIN, LOW);
 	Reset();										//CC1101 reset
-	RegConfigSettings(PA10);						//CC1101 register config
+	RegConfigSettings(conf);						//CC1101 register config
 }
 /****************************************************************
 *FUNCTION NAME:Init
@@ -129,16 +121,7 @@ void ELECHOUSE_CC1101::Init(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::Init(byte f)
 {
-  #ifdef __AVR_ATmega168__ || __AVR_ATmega328P__  
-  SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;  
-  #elif __AVR_ATmega1280__ || __AVR_ATmega2560__
-  SCK_PIN = 52; MISO_PIN = 50; MOSI_PIN = 51; SS_PIN = 53;
-  #elif ESP8266
-  SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15;
-  #elif ESP32
-  SCK_PIN = 18; MISO_PIN = 19; MOSI_PIN = 23; SS_PIN = 5;
-  #endif
-  
+  setSpi();  
   conf = (f);
 	SpiInit();										//spi initialization
 	GDO_Set();										//GDO set
@@ -254,6 +237,40 @@ byte ELECHOUSE_CC1101::SpiReadStatus(byte addr)
 	digitalWrite(SS_PIN, HIGH);
 
 	return value;
+}
+/****************************************************************
+*FUNCTION NAME:SPI pin Settings
+*FUNCTION     :Set Spi pins
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setSpi(void){
+  if (spi == 1){}else{
+  #ifdef __AVR_ATmega168__ || __AVR_ATmega328P__  
+  SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;  
+  #elif __AVR_ATmega1280__ || __AVR_ATmega2560__
+  SCK_PIN = 52; MISO_PIN = 50; MOSI_PIN = 51; SS_PIN = 53;
+  #elif ESP8266
+  SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15;
+  #elif ESP32
+  SCK_PIN = 18; MISO_PIN = 19; MOSI_PIN = 23; SS_PIN = 5;
+  #else
+  SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;
+  #endif
+}
+}
+/****************************************************************
+*FUNCTION NAME:COSTUM SPI
+*FUNCTION     :set costum spi pins.
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setSpiPin(byte sck, byte miso, byte mosi, byte ss){
+  spi = 1;
+  SCK_PIN = sck;
+  MISO_PIN = miso;
+  MOSI_PIN = mosi;
+  SS_PIN = ss;
 }
 /****************************************************************
 *FUNCTION NAME:Frequnz Calculator
@@ -496,7 +513,7 @@ void ELECHOUSE_CC1101::SetRx(float mhz)
 *INPUT        :none
 *OUTPUT       :none
 ****************************************************************/
-void ELECHOUSE_CC1101::SetSres(void)
+void ELECHOUSE_CC1101::setSres(void)
 {
   SpiStrobe(CC1101_SRES);                  //reset cc1101  
 }

@@ -1,0 +1,135 @@
+------------------------------------------------------------------------------------
+Commands:
+------------------------------------------------------------------------------------
+
+----------------------------
+Default Settings!
+----------------------------
+ELECHOUSE_cc1101.setMHZ(MHZ);	//Set the basic frequency. The cc1101 can: 300-348 MHZ, 387-464MHZ and 779-928MHZ. Read More info from datasheet.
+ELECHOUSE_cc1101.Init();	//Initialize the cc1101 with max Pa power.	
+ELECHOUSE_cc1101.Init(PAxx);	//Initialize the cc1101 with custom PA power.PA10, PA7, PA5, PA0, PA_10, PA_15, PA_20, PA_30.
+ELECHOUSE_cc1101.SetTx();	//Sets the cc1101 to transmit. 
+ELECHOUSE_cc1101.SetTx(MHZ);	//Sets the cc1101 to transmit and changes the frequency. The cc1101 can: 300-348 MHZ, 387-464MHZ and 779-928MHZ. Read More info from datasheet.
+ELECHOUSE_cc1101.SetRX();	//Sets the cc1101 to receive.
+ELECHOUSE_cc1101.SetRx(MHZ);	//Sets the cc1101 to receive and changes the frequency.  The cc1101 can: 300-348 MHZ, 387-464MHZ and 779-928MHZ. Read More info from datasheet.
+		
+----------------------------
+Expert Settings!
+----------------------------
+ELECHOUSE_cc1101.setGDO(GDO0, GDO2);	//Put the Gdo pins. For libraries that address the gdo pins directly.
+ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //costum SPI pins. Set your own Spi Pins.
+ELECHOUSE_cc1101.setRxBW(RXBW);		//set Receive filter bandwidth (default = 812khz. for example: your basic frequency is 433.92mhz and Receive Bandwith is 812khz. Than is your receive range from 433.51 to 434.32) 1 = 58khz, 2 = 67khz, 3 = 81khz, 4 = 101khz, 5 = 116khz, 6 = 135khz, 7 = 162khz, 8 = 203khz, 9 = 232khz, 10 = 270khz, 11 = 325khz, 12 = 406khz, 13 = 464khz, 14 = 541khz, 15 = 650khz, 16 = 812khz.
+ELECHOUSE_cc1101.setChsp(CHSP);		//set cannel spacing 
+ELECHOUSE_cc1101.setChannel(chnl);	//Set Channel from 0 to 255. default = 1(basic frequency). 
+ELECHOUSE_cc1101.setSres();		//Reset the cc1101 chip
+
+------------------------------------------------------------------------------------
+minimal Setup
+------------------------------------------------------------------------------------
+
+ELECHOUSE_cc1101.Init(); // Init the cc1101 with max tx power. is only this set, then will set all default settings. 433.92 mhz, PA max...
+or:
+ELECHOUSE_cc1101.Init(PAxx); // Init the cc1101 with your set tx power. is only this set, then will set all default settings. 433.92 mhz...
+
+------------------------------------------------------------------------------------
+Default Setup
+------------------------------------------------------------------------------------
+
+ELECHOUSE_cc1101.setRxBW(RXBW);
+ELECHOUSE_cc1101.setMHZ(MHZ);
+ELECHOUSE_cc1101.Init(PAxx);
+
+------------------------------------------------------------------------------------
+Example Expert Setup
+------------------------------------------------------------------------------------
+
+ELECHOUSE_cc1101.setGDO(0, 0);
+ELECHOUSE_cc1101.setSpiPin(10, 11, 12, 13);
+ELECHOUSE_cc1101.setRxBW(16);
+ELECHOUSE_cc1101.setChsp(812); 
+ELECHOUSE_cc1101.setChannel(1);
+ELECHOUSE_cc1101.setMHZ(433.92);
+ELECHOUSE_cc1101.Init(PA10);
+
+------------------------------------------------------------------------------------
+Example send different frequencies in loop:
+------------------------------------------------------------------------------------
+
+-------------------------
+Setup area example:
+-------------------------
+
+ELECHOUSE_cc1101.Init();
+ELECHOUSE_cc1101.SetTx();
+
+---------------------------
+Example somewhere in the loop:
+---------------------------
+SENDING SCRIPT ...
+
+ELECHOUSE_cc1101.setTx(433.42);
+SENDING SCRIPT ...
+
+ELECHOUSE_cc1101.setTx(315.00);
+SENDING SCRIPT ...
+
+ELECHOUSE_cc1101.setTx(420.50);
+SENDING SCRIPT ...
+
+ELECHOUSE_cc1101.setTx(348.00);
+SENDING SCRIPT ...
+
+ELECHOUSE_cc1101.setTx(387.98);
+SENDING SCRIPT ...
+
+ELECHOUSE_cc1101.setTx(433.92);
+
+better with delay between sendings! But not necessary.
+
+------------------------------------------------------------------------------------
+Example multiple cc1101:
+------------------------------------------------------------------------------------
+
+Spi Wiring example:
+
+cc1101 Modul1	/ Arduino
+-------------------------
+SCK		/ pin 10
+MISO		/ pin 11
+MOSI		/ pin 12
+CSN		/ pin 13
+-------------------------
+
+cc1101 Modul2	/ Arduino
+-------------------------
+SCK		/ pin 10
+MISO		/ pin 11
+MOSI		/ pin 12
+CSN		/ pin 9
+-------------------------
+
+-------------------------
+Setup area example:
+-------------------------
+ELECHOUSE_cc1101.setSpiPin(10, 11, 12, 13); //Change to module 1. csn pin to pin 13.
+ELECHOUSE_cc1101.setMHZ(433.92);
+ELECHOUSE_cc1101.Init(PA10);
+ELECHOUSE_cc1101.SetRx(); or ELECHOUSE_cc1101.setTx();
+
+
+ELECHOUSE_cc1101.setSpiPin(10, 11, 12, 9); //Change to module 2. csn pin to pin 9.
+ELECHOUSE_cc1101.setMHZ(315.00);
+ELECHOUSE_cc1101.Init(PA10);
+ELECHOUSE_cc1101.SetRx(); or ELECHOUSE_cc1101.setTx();
+
+---------------------------
+Example somewhere in the loop:
+---------------------------
+ELECHOUSE_cc1101.setSpiPin(10, 11, 12, 13); //Change to module 1. csn pin to pin 13.
+ELECHOUSE_cc1101.SetTx(420.00); //Send to 420.00 mhz.
+SENDING SCRIPT ...
+ELECHOUSE_cc1101.SetRx(433.92); //Receive 433.92 mhz.
+
+ELECHOUSE_cc1101.setSpiPin(10, 11, 12, 9); //Change to module 2. csn pin to pin 9.
+MAKE SOMETHING WITH MODULE 2 ...
+--------------------------------------------------------------------------------------

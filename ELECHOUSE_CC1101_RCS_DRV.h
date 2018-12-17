@@ -136,6 +136,7 @@ class ELECHOUSE_CC1101
 		void SpiReadBurstReg(byte addr, byte *buffer, byte num);
 		byte SpiReadStatus(byte addr);
 		void RegConfigSettings(byte f);
+    void setSpi(void);
 	public:
 		void Init(void);
 		void Init(byte f);
@@ -145,7 +146,8 @@ class ELECHOUSE_CC1101
     void SetTx(float mhz);
     void setMHZ(float mhz);
     void SendData(byte *txBuffer, byte size);
-    void SetSres(void);
+    void setSpiPin(byte sck, byte miso, byte mosi, byte ss);
+    void setSres(void);
     void setGDO(byte gdo0, byte gdo2);
     void setChsp(byte Chsp);
     void setRxBW(byte RxBW);
