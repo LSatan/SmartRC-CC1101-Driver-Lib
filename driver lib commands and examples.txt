@@ -17,7 +17,7 @@ ELECHOUSE_cc1101.SetRx(MHZ);	//Sets the cc1101 to receive and changes the freque
 Expert Settings!
 ----------------------------
 ELECHOUSE_cc1101.setGDO(GDO0, GDO2);	//Put the Gdo pins. For libraries that address the gdo pins directly.
-ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //costum SPI pins. Set your own Spi Pins.
+ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your own Spi Pins.
 ELECHOUSE_cc1101.setRxBW(RXBW);		//set Receive filter bandwidth (default = 812khz. for example: your basic frequency is 433.92mhz and Receive Bandwith is 812khz. Than is your receive range from 433.51 to 434.32) 1 = 58khz, 2 = 67khz, 3 = 81khz, 4 = 101khz, 5 = 116khz, 6 = 135khz, 7 = 162khz, 8 = 203khz, 9 = 232khz, 10 = 270khz, 11 = 325khz, 12 = 406khz, 13 = 464khz, 14 = 541khz, 15 = 650khz, 16 = 812khz.
 ELECHOUSE_cc1101.setChsp(CHSP);		//set cannel spacing 
 ELECHOUSE_cc1101.setChannel(chnl);	//Set Channel from 0 to 255. default = 1(basic frequency). 
