@@ -1,4 +1,4 @@
-# RCSwitch-CC1101-Driver-Lib_V2.0
+# RCSwitch-CC1101-Driver-Lib_V2.1
 
 ---------------------------------------------
 Donation
@@ -28,6 +28,13 @@ Remotes Fusion APP has the following features.
 - 8.Ap mode and client mode.
 - 9.For access via the internet see the instructions.
 
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V2.1
+---------------------------------------------
+3.1.2019
+
+Driver Library		:Spi corrections for esp32. Spi Pin changes did not work on esp32. FIXED!
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V2.0

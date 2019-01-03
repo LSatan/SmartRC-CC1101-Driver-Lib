@@ -64,8 +64,12 @@ void ELECHOUSE_CC1101::SpiInit(void)
   pinMode(MISO_PIN, INPUT);
   pinMode(SS_PIN, OUTPUT);
 
-  // enable SPI 
+  // enable SPI
+  #ifdef ESP32
+  SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
+  #else
   SPI.begin();
+  #endif
 }
 /****************************************************************
 *FUNCTION NAME: GDO_Set()
