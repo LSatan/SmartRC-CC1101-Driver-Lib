@@ -1,4 +1,4 @@
-# RCSwitch-CC1101-Driver-Lib_V2.1
+# RCSwitch-CC1101-Driver-Lib_V2.2 HOTFIX!
 
 ---------------------------------------------
 Donation
@@ -28,6 +28,27 @@ Remotes Fusion APP has the following features.
 - 8.Ap mode and client mode.
 - 9.For access via the internet see the instructions.
 
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V2.2
+---------------------------------------------
+17.01.2019
+
+Version notes		:Spi was reconfigured for fix some issuses.
+
+Driver Library		:HotFix for cc1101 module with "8pins"(example DSun). Transmitting on Esp8266 based bords not work. FIXED!
+
+Driver Library		:Change "SpiReadStatus" to public. Now can read RSSI Level!
+
+Driver Library		:Spi transfer rate was limited to cc1101 max transfer rate (10mhz).
+
+Driver Library		:After Spi using Spi now was disabled. (receive data from serial monitor and rx pin was not working on Esp 8266/32) FIXED!
+
+Add Examples		:ReceiveDemo_Simple_with_RSSI_cc1101.ino (Shows reception strength)
+
+Add Examples		:Frequency_Scanner_cc1101.ino (Scan Transmitting frequency of your remotes)
+
+Add Examples		:ProtocolAnalyzeDemo_cc1101.ino (for scan unknown protokolls. Requires: link is in sketch!) 
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V2.1

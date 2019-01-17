@@ -18,10 +18,10 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #include <Arduino.h>
 
 /****************************************************************/
-#define 	WRITE_BURST     	0x40						//write burst
-#define 	READ_SINGLE     	0x80						//read single
-#define 	READ_BURST      	0xC0						//read burst
-#define 	BYTES_IN_RXFIFO     0x47  						//byte number in RXfifo
+#define   WRITE_BURST       0x40            //write burst
+#define   READ_SINGLE       0x80            //read single
+#define   READ_BURST        0xC0            //read burst
+#define   BYTES_IN_RXFIFO   0x47            //byte number in RXfifo
 
 int mdcf1 = 0x00;
 int mdcf0 = 0xF8;
@@ -51,12 +51,12 @@ uint8_t PA_TABLE_15[8] {0x00,0x1D,0x00,0x00,0x00,0x00,0x00,0x00,};
 uint8_t PA_TABLE_20[8] {0x00,0x0E,0x00,0x00,0x00,0x00,0x00,0x00,};
 uint8_t PA_TABLE_30[8] {0x00,0x12,0x00,0x00,0x00,0x00,0x00,0x00,};
 /****************************************************************
-*FUNCTION NAME:SpiInit
-*FUNCTION     :spi communication initialization
+*FUNCTION NAME:SpiStart
+*FUNCTION     :spi communication start
 *INPUT        :none
 *OUTPUT       :none
 ****************************************************************/
-void ELECHOUSE_CC1101::SpiInit(void)
+void ELECHOUSE_CC1101::SpiStart(void)
 {
   // initialize the SPI pins
   pinMode(SCK_PIN, OUTPUT);
@@ -67,9 +67,23 @@ void ELECHOUSE_CC1101::SpiInit(void)
   // enable SPI
   #ifdef ESP32
   SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
+  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
   #else
   SPI.begin();
+  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
   #endif
+}
+/****************************************************************
+*FUNCTION NAME:SpiEnd
+*FUNCTION     :spi communication disable
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::SpiEnd(void)
+{
+  // disable SPI
+  SPI.endTransaction();
+  SPI.end();
 }
 /****************************************************************
 *FUNCTION NAME: GDO_Set()
@@ -96,8 +110,8 @@ void ELECHOUSE_CC1101::Reset (void)
 	delay(1);
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SPI.transfer(CC1101_SRES);
-	while(digitalRead(MISO_PIN));
+  SPI.transfer(CC1101_SRES);
+  while(digitalRead(MISO_PIN));
 	digitalWrite(SS_PIN, HIGH);
 }
 /****************************************************************
@@ -109,13 +123,14 @@ void ELECHOUSE_CC1101::Reset (void)
 void ELECHOUSE_CC1101::Init(void)
 {
   setSpi();
-	SpiInit();										//spi initialization
+	SpiStart();										//spi initialization
 	GDO_Set();										//GDO set
 	digitalWrite(SS_PIN, HIGH);
 	digitalWrite(SCK_PIN, HIGH);
 	digitalWrite(MOSI_PIN, LOW);
 	Reset();										//CC1101 reset
 	RegConfigSettings(conf);						//CC1101 register config
+  SpiEnd();
 }
 /****************************************************************
 *FUNCTION NAME:Init
@@ -127,13 +142,14 @@ void ELECHOUSE_CC1101::Init(byte f)
 {
   setSpi();  
   conf = (f);
-	SpiInit();										//spi initialization
+	SpiStart();										//spi initialization
 	GDO_Set();										//GDO set
 	digitalWrite(SS_PIN, HIGH);
 	digitalWrite(SCK_PIN, HIGH);
 	digitalWrite(MOSI_PIN, LOW);
 	Reset();										//CC1101 reset
 	RegConfigSettings(conf);							//CC1101 register config
+  SpiEnd();
 }
 /****************************************************************
 *FUNCTION NAME:SpiWriteReg
@@ -143,11 +159,13 @@ void ELECHOUSE_CC1101::Init(byte f)
 ****************************************************************/
 void ELECHOUSE_CC1101::SpiWriteReg(byte addr, byte value)
 {
+  SpiStart();
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SPI.transfer(addr);
-	SPI.transfer(value);
+  SPI.transfer(addr);
+  SPI.transfer(value); 
 	digitalWrite(SS_PIN, HIGH);
+  SpiEnd();
 }
 /****************************************************************
 *FUNCTION NAME:SpiWriteBurstReg
@@ -158,16 +176,17 @@ void ELECHOUSE_CC1101::SpiWriteReg(byte addr, byte value)
 void ELECHOUSE_CC1101::SpiWriteBurstReg(byte addr, byte *buffer, byte num)
 {
 	byte i, temp;
-
+  SpiStart();
 	temp = addr | WRITE_BURST;
-    digitalWrite(SS_PIN, LOW);
-    while(digitalRead(MISO_PIN));
-    SPI.transfer(temp);
-    for (i = 0; i < num; i++)
+  digitalWrite(SS_PIN, LOW);
+  while(digitalRead(MISO_PIN));
+  SPI.transfer(temp);
+  for (i = 0; i < num; i++)
  	{
-        SPI.transfer(buffer[i]);
-    }
-    digitalWrite(SS_PIN, HIGH);
+  SPI.transfer(buffer[i]);
+  }
+  digitalWrite(SS_PIN, HIGH);
+  SpiEnd();
 }
 /****************************************************************
 *FUNCTION NAME:SpiStrobe
@@ -177,10 +196,12 @@ void ELECHOUSE_CC1101::SpiWriteBurstReg(byte addr, byte *buffer, byte num)
 ****************************************************************/
 void ELECHOUSE_CC1101::SpiStrobe(byte strobe)
 {
+  SpiStart();
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SPI.transfer(strobe);
+  SPI.transfer(strobe);
 	digitalWrite(SS_PIN, HIGH);
+  SpiEnd();
 }
 /****************************************************************
 *FUNCTION NAME:SpiReadReg
@@ -191,14 +212,14 @@ void ELECHOUSE_CC1101::SpiStrobe(byte strobe)
 byte ELECHOUSE_CC1101::SpiReadReg(byte addr) 
 {
 	byte temp, value;
-
-    temp = addr|READ_SINGLE;
+  SpiStart();
+  temp = addr| READ_SINGLE;
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SPI.transfer(temp);
-	value=SPI.transfer(0);
+  SPI.transfer(temp);
+  value=SPI.transfer(0);
 	digitalWrite(SS_PIN, HIGH);
-
+  SpiEnd();
 	return value;
 }
 
@@ -211,16 +232,17 @@ byte ELECHOUSE_CC1101::SpiReadReg(byte addr)
 void ELECHOUSE_CC1101::SpiReadBurstReg(byte addr, byte *buffer, byte num)
 {
 	byte i,temp;
-
+  SpiStart();
 	temp = addr | READ_BURST;
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SPI.transfer(temp);
+  SPI.transfer(temp);
 	for(i=0;i<num;i++)
 	{
-		buffer[i]=SPI.transfer(0);
+  buffer[i]=SPI.transfer(0);
 	}
 	digitalWrite(SS_PIN, HIGH);
+  SpiEnd();
 }
 
 /****************************************************************
@@ -232,14 +254,14 @@ void ELECHOUSE_CC1101::SpiReadBurstReg(byte addr, byte *buffer, byte num)
 byte ELECHOUSE_CC1101::SpiReadStatus(byte addr) 
 {
 	byte value,temp;
-
+  SpiStart();
 	temp = addr | READ_BURST;
 	digitalWrite(SS_PIN, LOW);
 	while(digitalRead(MISO_PIN));
-	SPI.transfer(temp);
-	value=SPI.transfer(0);
+  SPI.transfer(temp);
+  value=SPI.transfer(0);
 	digitalWrite(SS_PIN, HIGH);
-
+  SpiEnd();
 	return value;
 }
 /****************************************************************
@@ -250,8 +272,8 @@ byte ELECHOUSE_CC1101::SpiReadStatus(byte addr)
 ****************************************************************/
 void ELECHOUSE_CC1101::setSpi(void){
   if (spi == 1){}else{
-  #ifdef __AVR_ATmega168__ || __AVR_ATmega328P__  
-  SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;  
+  #ifdef __AVR_ATmega168__ || __AVR_ATmega328P__
+  SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;
   #elif __AVR_ATmega1280__ || __AVR_ATmega2560__
   SCK_PIN = 52; MISO_PIN = 50; MOSI_PIN = 51; SS_PIN = 53;
   #elif ESP8266
@@ -277,8 +299,8 @@ void ELECHOUSE_CC1101::setSpiPin(byte sck, byte miso, byte mosi, byte ss){
   SS_PIN = ss;
 }
 /****************************************************************
-*FUNCTION NAME:Frequnz Calculator
-*FUNCTION     :Calculate the Basic Frquenz.
+*FUNCTION NAME:Frequency Calculator
+*FUNCTION     :Calculate the basic frequency.
 *INPUT        :none
 *OUTPUT       :none
 ****************************************************************/
@@ -333,8 +355,8 @@ void ELECHOUSE_CC1101::setChsp(byte Chsp){
 
 switch (Chsp)
 {
-case 25: mdcf1=0x00; mdcf0=0x00; break; case 50: mdcf1=0x00; mdcf0=0xF8; break; case 80: mdcf1=0x01; mdcf0=0x93; break; case 100: mdcf1=0x01; mdcf0=0xF8; break; case 150: mdcf1=0x02; mdcf0=0x7A; break; 
-case 200: mdcf1=0x02; mdcf0=0xF8; break; case 250: mdcf1=0x03; mdcf0=0x3B; break; case 300: mdcf1=0x03; mdcf0=0x7A; break; case 350: mdcf1=0x03; mdcf0=0xB9; break; case 405: mdcf1=0x03; mdcf0=0xFF; break;  
+case 1: mdcf1=0x00; mdcf0=0x00; break; case 2: mdcf1=0x00; mdcf0=0xF8; break; case 3: mdcf1=0x01; mdcf0=0x93; break; case 4: mdcf1=0x01; mdcf0=0xF8; break; case 5: mdcf1=0x02; mdcf0=0x7A; break; 
+case 6: mdcf1=0x02; mdcf0=0xF8; break; case 7: mdcf1=0x03; mdcf0=0x3B; break; case 8: mdcf1=0x03; mdcf0=0x7A; break; case 9: mdcf1=0x03; mdcf0=0xB9; break; case 10: mdcf1=0x03; mdcf0=0xFF; break;  
 }
 }
 /****************************************************************
@@ -446,7 +468,7 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
 void ELECHOUSE_CC1101::SetTx(void)
 {
   SpiStrobe(CC1101_SRES);
-  SpiInit();                    //spi initialization
+  SpiStart();                    //spi initialization
   GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
   digitalWrite(SCK_PIN, HIGH);
@@ -464,7 +486,7 @@ void ELECHOUSE_CC1101::SetTx(void)
 void ELECHOUSE_CC1101::SetRx(void)
 {
   SpiStrobe(CC1101_SRES);
-  SpiInit();                    //spi initialization
+  SpiStart();                    //spi initialization
   GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
   digitalWrite(SCK_PIN, HIGH);
@@ -483,7 +505,7 @@ void ELECHOUSE_CC1101::SetTx(float mhz)
 {
   SpiStrobe(CC1101_SRES);
   setMHZ(mhz);
-  SpiInit();                    //spi initialization
+  SpiStart();                    //spi initialization
   GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
   digitalWrite(SCK_PIN, HIGH);
@@ -502,7 +524,7 @@ void ELECHOUSE_CC1101::SetRx(float mhz)
 {
   SpiStrobe(CC1101_SRES);
   setMHZ(mhz);
-  SpiInit();                    //spi initialization
+  SpiStart();                    //spi initialization
   GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
   digitalWrite(SCK_PIN, HIGH);

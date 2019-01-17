@@ -124,17 +124,15 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 class ELECHOUSE_CC1101
 {
 	private:
-		void SpiInit(void);
-		void SpiMode(byte config);
-		byte SpiTransfer(byte value);
+		void SpiStart(void);
+    void SpiEnd(void);
 		void GDO_Set (void);
 		void Reset (void);
 		void SpiWriteReg(byte addr, byte value);
 		void SpiWriteBurstReg(byte addr, byte *buffer, byte num);
 		void SpiStrobe(byte strobe);
-		byte SpiReadReg(byte addr);
 		void SpiReadBurstReg(byte addr, byte *buffer, byte num);
-		byte SpiReadStatus(byte addr);
+    byte SpiReadReg(byte addr);
 		void RegConfigSettings(byte f);
     void setSpi(void);
 	public:
@@ -154,6 +152,8 @@ class ELECHOUSE_CC1101
     void setChannel(byte chnl);
     byte CheckReceiveFlag(void);
     byte ReceiveData(byte *rxBuffer);
+    byte SpiReadStatus(byte addr);
+
 };
 
 extern ELECHOUSE_CC1101 ELECHOUSE_cc1101;
