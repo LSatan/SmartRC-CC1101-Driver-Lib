@@ -46,7 +46,7 @@ Driver Library		:After using Spi, it will now be disabled. (receive data from se
 
 Add Examples		:ReceiveDemo_Simple_with_RSSI_cc1101.ino (Shows reception strength)
 
-Add Examples		:Frequency_Scanner_cc1101.ino (Scans Transmitting frequency of your remotes)
+Add Examples		:Frequency_Scanner_cc1101.ino (Scans Transmitting frequency of your remotes. No good results with cc1101-DSun)
 
 Add Examples		:ProtocolAnalyzeDemo_cc1101.ino (for scan unknown protokolls. Requires: link is in sketch!) 
 
