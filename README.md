@@ -42,7 +42,7 @@ Driver Library		:Change "SpiReadStatus" to public. Now can read RSSI Level!
 
 Driver Library		:Spi transfer rate was limited to cc1101 max transfer rate (10mhz).
 
-Driver Library		:After Spi using Spi now was disabled. (receive data from serial monitor and rx pin was not working on Esp 8266/32) FIXED!
+Driver Library		:After using Spi, it will now be disabled. (receive data from serial monitor and rx pin was not working on Esp 8266/32) FIXED!
 
 Add Examples		:ReceiveDemo_Simple_with_RSSI_cc1101.ino (Shows reception strength)
 
