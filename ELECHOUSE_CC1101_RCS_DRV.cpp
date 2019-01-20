@@ -67,10 +67,8 @@ void ELECHOUSE_CC1101::SpiStart(void)
   // enable SPI
   #ifdef ESP32
   SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
-  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
   #else
   SPI.begin();
-  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));
   #endif
 }
 /****************************************************************

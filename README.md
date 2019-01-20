@@ -1,4 +1,4 @@
-# RCSwitch-CC1101-Driver-Lib_V2.2 HOTFIX!
+# RCSwitch-CC1101-Driver-Lib_V2.21 HOTFIX ESP32!
 
 ---------------------------------------------
 Donation
@@ -28,6 +28,15 @@ Remotes Fusion APP has the following features.
 - 8.Ap mode and client mode.
 - 9.For access via the internet see the instructions.
 
+
+---------------------------------------------
+Changelog: RCSwitch-CC1101-Driver-Lib_V2.21
+---------------------------------------------
+20.01.2019
+
+Driver Library		:Spi options have been removed. (Problems with ESP32) FIXED!
+
+notes			:everything was checked again. D-SUN module on esp8266 / 32 and so on.
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V2.2
