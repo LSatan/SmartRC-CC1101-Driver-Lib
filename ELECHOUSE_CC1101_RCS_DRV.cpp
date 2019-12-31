@@ -270,9 +270,9 @@ byte ELECHOUSE_CC1101::SpiReadStatus(byte addr)
 ****************************************************************/
 void ELECHOUSE_CC1101::setSpi(void){
   if (spi == 1){}else{
-  #ifdef __AVR_ATmega168__ || __AVR_ATmega328P__
+  #if defined __AVR_ATmega168__ || defined __AVR_ATmega328P__
   SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;
-  #elif __AVR_ATmega1280__ || __AVR_ATmega2560__
+  #elif defined __AVR_ATmega1280__ || defined __AVR_ATmega2560__
   SCK_PIN = 52; MISO_PIN = 50; MOSI_PIN = 51; SS_PIN = 53;
   #elif ESP8266
   SCK_PIN = 14; MISO_PIN = 12; MOSI_PIN = 13; SS_PIN = 15;
