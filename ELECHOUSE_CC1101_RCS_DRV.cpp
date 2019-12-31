@@ -465,15 +465,8 @@ void ELECHOUSE_CC1101::RegConfigSettings(byte f)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetTx(void)
 {
-  SpiStrobe(CC1101_SRES);
-  SpiStart();                    //spi initialization
-  GDO_Set();                    //GDO set
-  digitalWrite(SS_PIN, HIGH);
-  digitalWrite(SCK_PIN, HIGH);
-  digitalWrite(MOSI_PIN, LOW);
-  Reset();                      //CC1101 reset
-  RegConfigSettings(conf);      //CC1101 register config
-  SpiStrobe(CC1101_STX);        //start send
+    SpiStrobe(CC1101_SIDLE);
+    SpiStrobe(CC1101_STX);        //start send
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -483,15 +476,7 @@ void ELECHOUSE_CC1101::SetTx(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetRx(void)
 {
-  SpiStrobe(CC1101_SRES);
-  SpiStart();                    //spi initialization
-  GDO_Set();                    //GDO set
-  digitalWrite(SS_PIN, HIGH);
-  digitalWrite(SCK_PIN, HIGH);
-  digitalWrite(MOSI_PIN, LOW);
-  Reset();                      //CC1101 reset
-  RegConfigSettings(conf);      //CC1101 register config
-  SpiStrobe(CC1101_SRX);        //start receive
+    SpiStrobe(CC1101_SRX);        //start receive
 }
 /****************************************************************
 *FUNCTION NAME:SetTx
@@ -501,15 +486,11 @@ void ELECHOUSE_CC1101::SetRx(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetTx(float mhz)
 {
-  SpiStrobe(CC1101_SRES);
   setMHZ(mhz);
-  SpiStart();                    //spi initialization
-  GDO_Set();                    //GDO set
-  digitalWrite(SS_PIN, HIGH);
-  digitalWrite(SCK_PIN, HIGH);
-  digitalWrite(MOSI_PIN, LOW);
-  Reset();                      //CC1101 reset
-  RegConfigSettings(conf);      //CC1101 register config
+  SpiWriteReg(CC1101_FREQ2, F2);
+  SpiWriteReg(CC1101_FREQ1, F1);
+  SpiWriteReg(CC1101_FREQ0, F0);
+  SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_STX);        //start send
 }
 /****************************************************************
@@ -520,15 +501,11 @@ void ELECHOUSE_CC1101::SetTx(float mhz)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetRx(float mhz)
 {
-  SpiStrobe(CC1101_SRES);
   setMHZ(mhz);
-  SpiStart();                    //spi initialization
-  GDO_Set();                    //GDO set
-  digitalWrite(SS_PIN, HIGH);
-  digitalWrite(SCK_PIN, HIGH);
-  digitalWrite(MOSI_PIN, LOW);
-  Reset();                      //CC1101 reset
-  RegConfigSettings(conf);      //CC1101 register config
+  SpiWriteReg(CC1101_FREQ2, F2);
+  SpiWriteReg(CC1101_FREQ1, F1);
+  SpiWriteReg(CC1101_FREQ0, F0);
+  SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_SRX);        //start receive
 }
 /****************************************************************
