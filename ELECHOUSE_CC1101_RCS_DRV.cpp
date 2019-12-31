@@ -281,6 +281,7 @@ void ELECHOUSE_CC1101::setSpi(void){
   #else
   SCK_PIN = 13; MISO_PIN = 12; MOSI_PIN = 11; SS_PIN = 10;
   #endif
+  spi = 1;
 }
 }
 /****************************************************************
