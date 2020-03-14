@@ -1,4 +1,4 @@
-# RCSwitch-CC1101-Driver-Lib_V2.21 HOTFIX ESP32!
+# RCSwitch-CC1101-Driver-Lib_V2.21 HOTFIX ESP32! !!!UPDATE SOON!!! today: 14.03.2020
 
 ---------------------------------------------
 Donation
@@ -120,7 +120,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.9
 
 New Sketch		:RemotesFusion.ino.
 
-New Apk´s		:RemotesFusion_V1_en.apk / RemotesFusion_V1_de.apk.
+New ApkÂ´s		:RemotesFusion_V1_en.apk / RemotesFusion_V1_de.apk.
 
 Add Docs		:Docs and manuals for RemotesFusion.
 
@@ -188,7 +188,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.61
 
 05.08.2018
 
-Examples Fix (rc-switch):Fix auto receive pulse. Received pulse don´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
+Examples Fix (rc-switch):Fix auto receive pulse. Received pulse donÂ´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
@@ -256,9 +256,9 @@ Add Wiring JPG		:Add Wiring JPG esp8266.
 
 Add Wiring TXT		:Add Wiring TXT esp8266.
 
-Notes			:esp8266 pin D4 don´t work with receive, Transmit and receive is set to D2.
+Notes			:esp8266 pin D4 donÂ´t work with receive, Transmit and receive is set to D2.
 
-Notes 			:esp8266 don´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
+Notes 			:esp8266 donÂ´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
 
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V1.31
