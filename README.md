@@ -105,7 +105,7 @@ Thank You!
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3
 ---------------------------------------------
-xx.03.2020
+18.03.2020
 
 Driver Library		:"RcSwitch-cc1101-driver-lib" becomes "SmartRC-cc1101-driver-lib".
 
