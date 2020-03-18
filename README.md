@@ -58,13 +58,13 @@ ELECHOUSE_cc1101.setPA(PA);		//Set transmission power.
 
 ELECHOUSE_cc1101.setMHZ(MHZ);		//Set the basic frequency.
 
-ELECHOUSE_cc1101.SetTx();		//Sets the cc1101 to transmit. 
+ELECHOUSE_cc1101.SetTx();		//Set transmit on. 
 
-ELECHOUSE_cc1101.SetTx(MHZ);		//Sets the cc1101 to transmit and changes the frequency.
+ELECHOUSE_cc1101.SetTx(MHZ);		//Sets transmit on and changes the frequency.
 
-ELECHOUSE_cc1101.SetRX();		//Sets the cc1101 to receive.
+ELECHOUSE_cc1101.SetRX();		//Set receive on.
 
-ELECHOUSE_cc1101.SetRx(MHZ);		//Sets the cc1101 to receive and changes the frequency.
+ELECHOUSE_cc1101.SetRx(MHZ);		//Sets receive on and changes the frequency.
 
 ELECHOUSE_cc1101.setRxBW(RXBW);		//Set Receive filter bandwidth		
 
