@@ -15,8 +15,8 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
   For the details, please refer to the datasheet of CC1100/CC1101.
 
 notes: 	The whole stuff that is not directly related to Rc_Switch,
-	NewRemoteSwitch or Elechouse_cc1101 Lib is Copyright (c) 2018 by Little Satan.
-	Example RemotesFusion.apk or frequency calculator in the driver lib.
+	NewRemoteSwitch or Elechouse_cc1101 Lib is Copyright (c) 2018 - 2020 by Little Satan.
+	Example calculator codes in the driver lib.
 	And so on...
 	You can freely use, edit or distribute it with reference to the source.
 	For everything else, the rights of the respective owners apply!
