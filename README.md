@@ -26,22 +26,19 @@ All examples included are listed in the next field.
 Containing examples:
 ---------------------------------------------
 1.Elechouse CC1101
-Description: CC1101 Internal send / receive examples. Supported modulations 2-FSK, GFSK, ASK/OOK, 4-FSK, MSK.
+-Description: CC1101 Internal send / receive examples. Supported modulations 2-FSK, GFSK, ASK/OOK, 4-FSK, MSK.
 
 2.Rc-Switch
-Description: Arduino lib to operate 433/315Mhz devices like power outlet sockets.
-
-Link: https://github.com/sui77/rc-switch
+<p>Description: Arduino lib to operate 433/315Mhz devices like power outlet sockets.</p>
+<p>Link: https://github.com/sui77/rc-switch</p>
 
 3.NewRemoteswitch
-Description: This library provides an easy class for Arduino, to send and receive signals used by some common "new style" 433MHz remote control switches.
-
-Link: https://github.com/1technophile/NewRemoteSwitch
+<p>Description: This library provides an easy class for Arduino, to send and receive signals used by some common "new style" 433MHz remote control switches.</p>
+<p>Link: https://github.com/1technophile/NewRemoteSwitch</p>
 
 4.RemoteSensor library
-Description: This library provides an easy class for Arduino, to send and receive signals used by some common weather stations using remote 433MHz sensors.
-
-Link: https://github.com/mattwire/arduino-dev/tree/master/libraries/RemoteSensor
+<p>Description: This library provides an easy class for Arduino, to send and receive signals used by some common weather stations using -remote 433MHz sensors.</p>
+<p>Link: https://github.com/mattwire/arduino-dev/tree/master/libraries/RemoteSensor</p>
 
 ---------------------------------------------
 Instructions / Description:
