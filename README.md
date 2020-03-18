@@ -30,6 +30,7 @@ Description: CC1101 Internal send / receive examples. Supported modulations 2-FS
 
 2.Rc-Switch
 Description: Arduino lib to operate 433/315Mhz devices like power outlet sockets.
+
 Link: https://github.com/sui77/rc-switch
 
 3.NewRemoteswitch
@@ -49,17 +50,29 @@ This driver library can be used for many libraries that use a simple RF ASK modu
 with the advantages of the cc1101 module.
 
 The most important functions at a glance:
+
 ELECHOUSE_cc1101.Init();		//Initialize the cc1101.
+
 ELECHOUSE_cc1101.setPA(PA);		//Set transmission power.
+
 ELECHOUSE_cc1101.setMHZ(MHZ);		//Set the basic frequency.
+
 ELECHOUSE_cc1101.SetTx();		//Sets the cc1101 to transmit. 
+
 ELECHOUSE_cc1101.SetTx(MHZ);		//Sets the cc1101 to transmit and changes the frequency.
+
 ELECHOUSE_cc1101.SetRX();		//Sets the cc1101 to receive.
+
 ELECHOUSE_cc1101.SetRx(MHZ);		//Sets the cc1101 to receive and changes the frequency.
+
 ELECHOUSE_cc1101.setRxBW(RXBW);		//Set Receive filter bandwidth		
+
 ELECHOUSE_cc1101.setGDO(GDO0, GDO2); 	//Put the Gdo pins. For libraries that address the gdo pins directly.
+
 ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your own Spi Pins.Or to switch between multiple cc1101.
+
 ELECHOUSE_cc1101.setChannel(chnl); 	//Set Channel from 0 to 255. default = 0(basic frequency).
+
 ELECHOUSE_cc1101.setChsp(chsp);		//Set cannel spacing from min 25.39khz to max 405.45khz directly like SmartRF Studio.
 
 All can also be used in a loop and are applied directly.
