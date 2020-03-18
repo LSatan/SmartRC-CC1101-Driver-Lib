@@ -140,8 +140,7 @@ examples		:Remote Fusion has been removed and given an extra library.
 ---------------------------------------------
 Changelog: RCSwitch-CC1101-Driver-Lib_V2.2.1
 ---------------------------------------------
-[Download Release V2.2.1]
-(https://drive.google.com/file/d/1YHFpp2GQC96-GKcg67Tym9wt1E4CBdFc/view?usp=sharing)
+[Download Release V2.2.1](https://drive.google.com/file/d/1YHFpp2GQC96-GKcg67Tym9wt1E4CBdFc/view?usp=sharing)
 
 20.01.2019
 
