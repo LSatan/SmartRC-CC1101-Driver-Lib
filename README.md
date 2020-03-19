@@ -1,4 +1,4 @@
-# SmartRC-CC1101-Driver-Lib_V2.3
+﻿# SmartRC-CC1101-Driver-Lib_V2.3.1
 
 
 ---------------------------------------------
@@ -44,6 +44,11 @@ Description: CC1101 Internal send / receive examples. Supported modulations 2-FS
 <p>Description: This library provides an easy class for Arduino, to send and receive signals used by some common weather stations using -remote 433MHz sensors.</p>
 <p>Link: https://github.com/mattwire/arduino-dev/tree/master/libraries/RemoteSensor</p>
 
+5.ESPiLight:
+-
+<p>Description:This Arduino library is a port of the pilight 433.92MHz protocols to the Arduino platform. It was tested with a ESP8266. The aim is to transmit, receive and parse many 433.92MHz protocols, by providing a simple Arduino friendly API. This should help to implement IoT bridges between the 434MHz-RF band and internet protocols.</p>
+<p>Link:https://github.com/puuu/ESPiLight</p>
+
 ---------------------------------------------
 Instructions / Description:
 ---------------------------------------------
@@ -52,7 +57,7 @@ with the advantages of the cc1101 module.
 
 The most important functions at a glance:
 
-ELECHOUSE_cc1101.Init();		//Initialize the cc1101.
+ELECHOUSE_cc1101.Init();		//Initialize the cc1101. Must be set first!
 
 ELECHOUSE_cc1101.setPA(PA);		//Set transmission power.
 
@@ -101,6 +106,19 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.3.1
+---------------------------------------------
+18.03.2020
+
+Driver Library		:ESP8266/32 core panik. Fixed! The cc1101 must be initialized before setting options!
+
+examples		:all examples have been adapted.
+
+examples		:internal cc1101 examples have been adapted for esp8266/32.
+
+examples		:ESPiLight examples added.
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3
