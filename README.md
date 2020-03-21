@@ -1,5 +1,9 @@
 ﻿# SmartRC-CC1101-Driver-Lib_V2.3.1
 
+---------------------------------------------
+Download:
+---------------------------------------------
+Can be downloaded directly from the arduino library manager. Simply search for cc1101.
 
 ---------------------------------------------
 Foreword:
