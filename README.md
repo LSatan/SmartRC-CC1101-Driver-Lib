@@ -66,7 +66,7 @@ ELECHOUSE_cc1101.Init();		//Initialize the cc1101. Must be set first!
 ELECHOUSE_cc1101.setPA(PA);		//Set transmission power.
 
 ELECHOUSE_cc1101.setMHZ(MHZ);		//Set the basic frequency.
-Freely selectable! the library calculates the frequency independently example (433.92).
+Freely selectable! the library calculates the frequency independently. Example: (433.92).
 
 ELECHOUSE_cc1101.SetTx();		//Set transmit on. 
 
