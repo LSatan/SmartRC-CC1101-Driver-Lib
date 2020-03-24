@@ -93,7 +93,7 @@ void ELECHOUSE_CC1101::SpiEnd(void)
 void ELECHOUSE_CC1101::GDO_Set (void)
 {
 	pinMode(GDO0, INPUT);
-	pinMode(GDO2, INPUT);
+	pinMode(GDO2, OUTPUT);
 }
 /****************************************************************
 *FUNCTION NAME:Reset

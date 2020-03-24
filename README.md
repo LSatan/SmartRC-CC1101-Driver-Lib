@@ -1,9 +1,5 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.3.1
+﻿# SmartRC-CC1101-Driver-Lib_V2.3.2
 
----------------------------------------------
-Download:
----------------------------------------------
-Can be downloaded directly from the arduino library manager. Simply search for cc1101.
 
 ---------------------------------------------
 Foreword:
@@ -66,7 +62,6 @@ ELECHOUSE_cc1101.Init();		//Initialize the cc1101. Must be set first!
 ELECHOUSE_cc1101.setPA(PA);		//Set transmission power.
 
 ELECHOUSE_cc1101.setMHZ(MHZ);		//Set the basic frequency.
-Freely selectable! the library calculates the frequency independently. Example: (433.92).
 
 ELECHOUSE_cc1101.SetTx();		//Set transmit on. 
 
@@ -80,7 +75,7 @@ ELECHOUSE_cc1101.setRxBW(RXBW);		//Set Receive filter bandwidth
 
 ELECHOUSE_cc1101.setGDO(GDO0, GDO2); 	//Put the Gdo pins. For libraries that address the gdo pins directly.
 
-ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your own Spi Pins.Or to switch between multiple cc1101.
+ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your own Spi Pins.Or to switch between multiple cc1101. Must be set before init and before changing the cc1101.
 
 ELECHOUSE_cc1101.setChannel(chnl); 	//Set Channel from 0 to 255. default = 0(basic frequency).
 
@@ -111,6 +106,15 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.3.2
+---------------------------------------------
+24.03.2020
+
+Driver Library		:Set gdo2 from input to output. Errors in libraries that use the pins directly.
+
+examples		:Set gdo2 from setting 2 to 0 in default examples. Gdo2 is not required for these examples.
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3.1
