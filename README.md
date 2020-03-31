@@ -118,6 +118,7 @@ Driver Library		:set FSCTRL1 from 8hex to 6hex. for better receive.
 Driver Library		:set SpiWriteReg to public. Make it fit for debug tool!
 
 Driver Library		:set SpiStrobe to public. Make it fit for debug tool!
+
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3.2
 ---------------------------------------------
