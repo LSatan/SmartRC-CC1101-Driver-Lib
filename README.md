@@ -1,5 +1,6 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.3.2
+﻿# SmartRC-CC1101-Driver-Lib_V2.3.3
 
+NEW Debug Service Tool: https://github.com/LSatan/CC1101-Debug-Service-Tool
 
 ---------------------------------------------
 Foreword:
@@ -107,6 +108,16 @@ https://www.paypal.me/LittleSatan666
 
 Thank You!
 
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.3.3
+---------------------------------------------
+01.04.2020
+
+Driver Library		:set FSCTRL1 from 8hex to 6hex. for better receive.
+
+Driver Library		:set SpiWriteReg to public. Make it fit for debug tool!
+
+Driver Library		:set SpiStrobe to public. Make it fit for debug tool!
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3.2
 ---------------------------------------------

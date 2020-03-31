@@ -509,7 +509,7 @@ SpiWriteReg(CC1101_CHANNR,   chan);
 ****************************************************************/
 void ELECHOUSE_CC1101::RegConfigSettings(void) 
 {   
-    SpiWriteReg(CC1101_FSCTRL1,  0x08);
+    SpiWriteReg(CC1101_FSCTRL1,  0x06);
     
     setCCMode(ccmode);
     setMHZ(MHz);

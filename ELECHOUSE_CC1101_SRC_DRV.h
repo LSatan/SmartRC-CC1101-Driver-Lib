@@ -118,9 +118,7 @@ private:
   void SpiEnd(void);
   void GDO_Set (void);
   void Reset (void);
-  void SpiWriteReg(byte addr, byte value);
   void SpiWriteBurstReg(byte addr, byte *buffer, byte num);
-  void SpiStrobe(byte strobe);
   byte SpiReadReg(byte addr);
   void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setSpi(void);
@@ -148,7 +146,8 @@ public:
   void SendData(byte *txBuffer, byte size);
   byte CheckReceiveFlag(void);
   byte ReceiveData(byte *rxBuffer);
-
+  void SpiStrobe(byte strobe);
+  void SpiWriteReg(byte addr, byte value);
 };
 
 extern ELECHOUSE_CC1101 ELECHOUSE_cc1101;
