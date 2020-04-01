@@ -1,6 +1,12 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.3.3
+﻿# SmartRC-CC1101-Driver-Lib_V2.3.4
 
 NEW Debug Service Tool: https://github.com/LSatan/CC1101-Debug-Service-Tool
+
+---------------------------------------------
+Install:
+---------------------------------------------
+
+Can be downloaded directly from the Arduino library manager. Just search for cc1101.
 
 ---------------------------------------------
 Foreword:
@@ -108,12 +114,20 @@ https://www.paypal.me/LittleSatan666
 
 Thank You!
 
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.3.4
+---------------------------------------------
+01.04.2020
+
+Driver Library		:set AGCCTRL2 from 0x07 to 0xC7. Reception is significantly improved!
+
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3.3
 ---------------------------------------------
 01.04.2020
 
-Driver Library		:set FSCTRL1 from 8hex to 6hex. for better receive.
+Driver Library		:set FSCTRL1 from 0x08 to 0x06. for better receive.
 
 Driver Library		:set SpiWriteReg to public. Make it fit for debug tool!
 
