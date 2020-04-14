@@ -9,7 +9,6 @@ setModulation		KEYWORD2
 setPA			KEYWORD2
 setMHZ			KEYWORD2
 setRxBW			KEYWORD2
-setChsp			KEYWORD2
 setChannel		KEYWORD2
 SetTx			KEYWORD2
 SetRx			KEYWORD2

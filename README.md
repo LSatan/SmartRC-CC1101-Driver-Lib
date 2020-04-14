@@ -1,6 +1,6 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.3.4
+﻿# SmartRC-CC1101-Driver-Lib_V2.3.5
 
-NEW Debug Service Tool: https://github.com/LSatan/CC1101-Debug-Service-Tool
+NEW Debug Service Tool V1.0: https://github.com/LSatan/CC1101-Debug-Service-Tool
 
 ---------------------------------------------
 Install:
@@ -86,7 +86,6 @@ ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your ow
 
 ELECHOUSE_cc1101.setChannel(chnl); 	//Set Channel from 0 to 255. default = 0(basic frequency).
 
-ELECHOUSE_cc1101.setChsp(chsp);		//Set cannel spacing from min 25.39khz to max 405.45khz directly like SmartRF Studio.
 
 All can also be used in a loop and are applied directly.
 
@@ -114,6 +113,13 @@ https://www.paypal.me/LittleSatan666
 
 Thank You!
 
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.3.5
+---------------------------------------------
+14.04.2020
+
+Driver Library		:setChsp has been removed to save space. This function is available in the Service / Debug Tool as an extended function.
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3.4

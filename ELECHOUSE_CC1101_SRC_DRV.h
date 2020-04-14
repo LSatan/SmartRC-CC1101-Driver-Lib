@@ -134,7 +134,6 @@ public:
   void setPA(int p);
   void setMHZ(float mhz);
   void setRxBW(byte RxBW);
-  void setChsp(float Chsp);
   void setChannel(byte chnl);
   void SetTx(void);
   void SetRx(void);

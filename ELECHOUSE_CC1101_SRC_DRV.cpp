@@ -39,7 +39,6 @@ byte mdcf2;
 byte rxbw = 0;
 bool ccmode = 0;
 float MHz = 433.92;
-float CHsp = 405.45;
 
 /****************************************************************/
 uint8_t PA_TABLE[8]     {0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00};
@@ -464,34 +463,6 @@ rxbw = r *16;
 setCCMode(ccmode);
 }
 /****************************************************************
-*FUNCTION NAME:Channel spacing
-*FUNCTION     :Channel spacing
-*INPUT        :none
-*OUTPUT       :none
-****************************************************************/
-void ELECHOUSE_CC1101::setChsp(float Chsp){
-int mdc0 = 0;
-int mdc1 = 0;
-CHsp = Chsp;
-if (Chsp > 405.456543){Chsp = 405.456543;}
-if (Chsp < 25.390625){Chsp = 25.390625;}
-for (int i = 0; i<5; i++){
-if (Chsp <= 50.682068){
-Chsp = Chsp - 25.390625;
-Chsp = Chsp / 0.0991825;
-mdc0 = Chsp;
-float s1 = (Chsp - mdc0) *10;
-if (s1 >= 5){mdc0++;}
-i = 5;
-}else{
-mdc1++;
-Chsp = Chsp/2;
-}
-}
-SpiWriteReg(CC1101_MDMCFG1,  mdc1);
-SpiWriteReg(CC1101_MDMCFG0,  mdc0);
-}
-/****************************************************************
 *FUNCTION NAME:Set Channel
 *FUNCTION     :none
 *INPUT        :none
@@ -513,8 +484,9 @@ void ELECHOUSE_CC1101::RegConfigSettings(void)
     
     setCCMode(ccmode);
     setMHZ(MHz);
-    setChsp(CHsp);
-    
+
+    SpiWriteReg(CC1101_MDMCFG1,  0x03);
+    SpiWriteReg(CC1101_MDMCFG0,  0xFF);
     SpiWriteReg(CC1101_CHANNR,   chan);
     SpiWriteReg(CC1101_DEVIATN,  0x47);
     SpiWriteReg(CC1101_FREND1,   0x56);
