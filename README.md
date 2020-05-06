@@ -1,6 +1,9 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.3.5
+﻿# SmartRC-CC1101-Driver-Lib_V2.4.0
 
-NEW Debug Service Tool V1.0: https://github.com/LSatan/CC1101-Debug-Service-Tool
+For debug and advanced functions: https://github.com/LSatan/CC1101-Debug-Service-Tool
+
+Note: Find out about the laws in your country.
+Use at your own risk.
 
 ---------------------------------------------
 Install:
@@ -86,12 +89,16 @@ ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your ow
 
 ELECHOUSE_cc1101.setChannel(chnl); 	//Set Channel from 0 to 255. default = 0(basic frequency).
 
+ELECHOUSE_cc1101.setClb(fband, cal1, cal2); //Optionally enter Offset Callibration. Requirements: Sketch Calibrate_frequency.ino below [CC1101-Debug-Service-Tool](https://github.com/LSatan/CC1101-Debug-Service-Tool/tree/master/Calibrate_frequency).A SDR receiver and SDR software.
+
 
 All can also be used in a loop and are applied directly.
 
 ---------------------------------------------
 Wiring:
 ---------------------------------------------
+
+Notes: A logic level converter is recommended for arduino. It also works well without. Use at your own risk.
 
 <img src="https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Nano_CC1101.png"/>
 
@@ -112,6 +119,18 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.4.0
+---------------------------------------------
+07.05.2020
+
+Driver Library		:frequency calculator has been simplified. error-free calculations and less variable.
+
+Driver Library		:Added frequency calibration option.
+
+Driver Library		:Certain frequencies could not be set. Fixed! Big thanks to gusgorman402!
 
 
 ---------------------------------------------

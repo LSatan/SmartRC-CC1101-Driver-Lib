@@ -18,3 +18,4 @@ setSres			KEYWORD2
 SendData		KEYWORD2
 CheckReceiveFlag	KEYWORD2
 ReceiveData		KEYWORD2
+setClb			KEYWORD2

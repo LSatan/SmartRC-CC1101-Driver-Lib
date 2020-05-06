@@ -39,6 +39,10 @@ byte mdcf2;
 byte rxbw = 0;
 bool ccmode = 0;
 float MHz = 433.92;
+byte clb1[2]= {24,28};
+byte clb2[2]= {31,38};
+byte clb3[2]= {65,76};
+byte clb4[2]= {77,79};
 
 /****************************************************************/
 uint8_t PA_TABLE[8]     {0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00};
@@ -352,7 +356,6 @@ else if (pa > -10 && pa <= 0){a = PA_TABLE_315[4];}
 else if (pa > 0 && pa <= 5){a = PA_TABLE_315[5];}
 else if (pa > 5 && pa <= 7){a = PA_TABLE_315[6];}
 else if (pa > 7){a = PA_TABLE_315[7];}
-SpiWriteReg(CC1101_FSCTRL0,  0x19);
 last_pa = 1;
 }
 else if (MHz >= 378 && MHz <= 464){
@@ -364,7 +367,6 @@ else if (pa > -10 && pa <= 0){a = PA_TABLE_433[4];}
 else if (pa > 0 && pa <= 5){a = PA_TABLE_433[5];}
 else if (pa > 5 && pa <= 7){a = PA_TABLE_433[6];}
 else if (pa > 7){a = PA_TABLE_433[7];}
-SpiWriteReg(CC1101_FSCTRL0,  0x24);
 last_pa = 2;
 }
 else if (MHz >= 779 && MHz <= 899.99){
@@ -378,7 +380,6 @@ else if (pa > 0 && pa <= 5){a = PA_TABLE_868[6];}
 else if (pa > 5 && pa <= 7){a = PA_TABLE_868[7];}
 else if (pa > 7 && pa <= 10){a = PA_TABLE_868[8];}
 else if (pa > 10){a = PA_TABLE_868[9];}
-SpiWriteReg(CC1101_FSCTRL0,  0x4B);
 last_pa = 3;
 }
 else if (MHz >= 900 && MHz <= 928){
@@ -392,7 +393,6 @@ else if (pa > 0 && pa <= 5){a = PA_TABLE_915[6];}
 else if (pa > 5 && pa <= 7){a = PA_TABLE_915[7];}
 else if (pa > 7 && pa <= 10){a = PA_TABLE_915[8];}
 else if (pa > 10){a = PA_TABLE_915[9];}
-SpiWriteReg(CC1101_FSCTRL0,  0x4F);
 last_pa = 4;
 }
 if (modulation == 2){
@@ -411,42 +411,104 @@ SpiWriteBurstReg(CC1101_PATABLE,PA_TABLE,8);
 *OUTPUT       :none
 ****************************************************************/
 void ELECHOUSE_CC1101::setMHZ(float mhz){
+byte freq2 = 0;
+byte freq1 = 0;
+byte freq0 = 0;
 
 MHz = mhz;
 
-const float freq2 = 26;
-const float freq1 = 0.1015625;
-const float freq0 = 0.00039675;
+for (bool i = 0; i==0;){
+if (mhz >= 26){
+mhz-=26;
+freq2+=1;
+}
+else if (mhz >= 0.1015625){
+mhz-=0.1015625;
+freq1+=1;
+}
+else if (mhz >= 0.00039675){
+mhz-=0.00039675;
+freq0+=1;
+}
+else{i=1;}
+}
+if (freq0 > 255){freq1+=1;freq0-=256;}
 
-float s1 = mhz/freq2; 
-int s2 = s1;                             // freq2
-float s3 = s1-s2;
-float s4 = s3*100000000;
-float s5 = 255.0/100000000*s4;
-int s6 = s5;
-float s7 = (s5-s6);
-float s8 = s7*10;
-int s9;                                  // freq1
-if (s8>=5){s9=s6+1;}
-else{s9=s6;}
-float s10 = mhz-(freq2*s2+freq1*s9);
-float s11 = s10/freq0;
-int s12 = s11;
-float s13 = (s11-s12)*(10);
-int s14;                                 // freq0
-if (s13>=5){s14=s12+1;}
-else{s14=s12;}
-if (s14 > 255){s9+=1;s14-=256;}
+SpiWriteReg(CC1101_FREQ2, freq2);
+SpiWriteReg(CC1101_FREQ1, freq1);
+SpiWriteReg(CC1101_FREQ0, freq0);
 
-SpiWriteReg(CC1101_FREQ2,    s2);
-SpiWriteReg(CC1101_FREQ1,    s9);
-SpiWriteReg(CC1101_FREQ0,    s14);
+Calibrate();
+}
+/****************************************************************
+*FUNCTION NAME:Calibrate
+*FUNCTION     :Calibrate frequency
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::Calibrate(void){
 
-if (MHz >= 300 && MHz <= 348 && last_pa == 1){return;}
-else if (MHz >= 378 && MHz <= 464 && last_pa == 2){return;}
-else if (MHz >= 779 && MHz <= 899.99 && last_pa == 3){return;}
-else if (MHz >= 900 && MHz <= 928 && last_pa == 4){return;}
-else{setPA(pa);}
+if (MHz >= 300 && MHz <= 348){
+SpiWriteReg(CC1101_FSCTRL0, map(MHz, 300, 348, clb1[0], clb1[1]));
+if (MHz < 322.88){SpiWriteReg(CC1101_TEST0,0x0B);}
+else{
+SpiWriteReg(CC1101_TEST0,0x09);
+int s = ELECHOUSE_cc1101.SpiReadStatus(CC1101_FSCAL2);
+if (s<32){SpiWriteReg(CC1101_FSCAL2, s+32);}
+if (last_pa != 1){setPA(pa);}
+}
+}
+else if (MHz >= 378 && MHz <= 464){
+SpiWriteReg(CC1101_FSCTRL0, map(MHz, 378, 464, clb2[0], clb2[1]));
+if (MHz < 430.5){SpiWriteReg(CC1101_TEST0,0x0B);}
+else{
+SpiWriteReg(CC1101_TEST0,0x09);
+int s = ELECHOUSE_cc1101.SpiReadStatus(CC1101_FSCAL2);
+if (s<32){SpiWriteReg(CC1101_FSCAL2, s+32);}
+if (last_pa != 2){setPA(pa);}
+}
+}
+else if (MHz >= 779 && MHz <= 899.99){
+SpiWriteReg(CC1101_FSCTRL0, map(MHz, 779, 899, clb3[0], clb3[1]));
+if (MHz < 861){SpiWriteReg(CC1101_TEST0,0x0B);}
+else{
+SpiWriteReg(CC1101_TEST0,0x09);
+int s = ELECHOUSE_cc1101.SpiReadStatus(CC1101_FSCAL2);
+if (s<32){SpiWriteReg(CC1101_FSCAL2, s+32);}
+if (last_pa != 3){setPA(pa);}
+}
+}
+else if (MHz >= 900 && MHz <= 928){
+SpiWriteReg(CC1101_FSCTRL0, map(MHz, 900, 928, clb4[0], clb4[1]));
+SpiWriteReg(CC1101_TEST0,0x09);
+int s = ELECHOUSE_cc1101.SpiReadStatus(CC1101_FSCAL2);
+if (s<32){SpiWriteReg(CC1101_FSCAL2, s+32);}
+if (last_pa != 4){setPA(pa);}
+}
+}
+/****************************************************************
+*FUNCTION NAME:Calibration offset
+*FUNCTION     :Set calibration offset
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setClb(byte b, byte s, byte e){
+if (b == 1){
+clb1[0]=s;
+clb1[1]=e;  
+}
+else if (b == 2){
+clb2[0]=s;
+clb2[1]=e;  
+}
+else if (b == 3){
+clb3[0]=s;
+clb3[1]=e;  
+}
+else if (b == 4){
+clb4[0]=s;
+clb4[1]=e;  
+}
 }
 /****************************************************************
 *FUNCTION NAME:Set RX bandwidth

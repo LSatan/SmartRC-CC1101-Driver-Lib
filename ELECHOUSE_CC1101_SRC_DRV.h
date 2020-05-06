@@ -123,7 +123,7 @@ private:
   void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setSpi(void);
   void RegConfigSettings(void);
-
+  void Calibrate(void);
 public:
   void Init(void);
   byte SpiReadStatus(byte addr);
@@ -147,6 +147,7 @@ public:
   byte ReceiveData(byte *rxBuffer);
   void SpiStrobe(byte strobe);
   void SpiWriteReg(byte addr, byte value);
+  void setClb(byte b, byte s, byte e);
 };
 
 extern ELECHOUSE_CC1101 ELECHOUSE_cc1101;
