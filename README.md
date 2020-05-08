@@ -126,7 +126,7 @@ Changelog: SmartRC-CC1101-Driver-Lib_V2.4.0
 ---------------------------------------------
 07.05.2020
 
-Driver Library		:frequency calculator has been simplified. error-free calculations and less variable.
+Driver Library		:frequency calculator has been simplified. error-free calculations and less variables.
 
 Driver Library		:Added frequency calibration option.
 
