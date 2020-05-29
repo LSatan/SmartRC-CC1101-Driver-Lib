@@ -4,7 +4,7 @@ Note: Find out about the laws in your country.
 Use at your own risk.
 
 ---------------------------------------------
-# Announcements / other
+Announcements / other
 ---------------------------------------------
 
 For debug and advanced functions: https://github.com/LSatan/CC1101-Debug-Service-Tool
