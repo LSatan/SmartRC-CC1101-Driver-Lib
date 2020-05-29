@@ -9,6 +9,8 @@ Announcements / other
 
 For debug and advanced functions: https://github.com/LSatan/CC1101-Debug-Service-Tool
 
+Coming soon: https://github.com/LSatan/Simu_Remote_CC1101
+
 ---------------------------------------------
 Install:
 ---------------------------------------------
