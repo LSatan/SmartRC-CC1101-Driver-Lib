@@ -1,13 +1,13 @@
 ﻿# SmartRC-CC1101-Driver-Lib_V2.4.0
 
+Note: Find out about the laws in your country.
+Use at your own risk.
+
 ---------------------------------------------
 # Announcements / other
 ---------------------------------------------
 
 For debug and advanced functions: https://github.com/LSatan/CC1101-Debug-Service-Tool
-
-Note: Find out about the laws in your country.
-Use at your own risk.
 
 ---------------------------------------------
 Install:
