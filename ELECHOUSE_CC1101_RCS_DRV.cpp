@@ -506,6 +506,7 @@ void ELECHOUSE_CC1101::SetRx(float mhz)
   SpiWriteReg(CC1101_FREQ1, F1);
   SpiWriteReg(CC1101_FREQ0, F0);
   SpiStrobe(CC1101_SIDLE);
+  digitalWrite(SCK_PIN, LOW);
   SpiStrobe(CC1101_SRX);        //start receive
 }
 /****************************************************************
