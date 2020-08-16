@@ -1,4 +1,4 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.4.0
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.0
 
 Note: Find out about the laws in your country.
 Use at your own risk.
@@ -69,7 +69,8 @@ Description: CC1101 Internal send / receive examples. Supported modulations 2-FS
 Instructions / Description:
 ---------------------------------------------
 This driver library can be used for many libraries that use a simple RF ASK module,
-with the advantages of the cc1101 module.
+with the advantages of the cc1101 module.It offers many direct setting options as in 
+SmartRF Studio and calculates settings such as MHz directly.
 
 The most important functions at a glance:
 
@@ -126,6 +127,20 @@ https://www.paypal.me/LittleSatan666
 
 Thank You!
 
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.0
+---------------------------------------------
+16.08.2020
+
+Driver Library		:Rssi was calculated incorrectly.Fixed Thanks to zapquiyou!
+
+Driver Library		:New receiving method for internal examples added. Allows several actions to be carried out in the loop.
+
+Driver Library		:Internal Crc check added for internal examples.
+
+Driver Library		:Simplification to send char added for internal transfer examples.
+
+Driver Library		:A lot of new settings added for internal transmission examples. Everything can be set as in SmartRF Studio and is calculated automatically. An overview: setDeviation, setChsp, setRxBW, setDRate, setSyncMode, setSyncWord, setAdrChk, setAddr, setWhiteData, setPktFormat, setLengthConfig, setPacketLength, setCrc, setCRC_AF, setDcFilterOff, setManchester, setFEC, setPQT, setAppendStatus. description in the examples!
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.4.0
@@ -137,7 +152,6 @@ Driver Library		:frequency calculator has been simplified. error-free calculatio
 Driver Library		:Added frequency calibration option.
 
 Driver Library		:Certain frequencies could not be set. Fixed! Big thanks to gusgorman402!
-
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.3.5
