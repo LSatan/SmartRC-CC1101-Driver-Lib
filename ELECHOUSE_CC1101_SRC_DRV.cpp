@@ -1042,7 +1042,8 @@ void ELECHOUSE_CC1101::SendData(byte *txBuffer,byte size)
 {
   SpiWriteReg(CC1101_TXFIFO,size);
   SpiWriteBurstReg(CC1101_TXFIFO,txBuffer,size);      //write data to send
-  SpiStrobe(CC1101_STX);                  //start send  
+  SpiStrobe(CC1101_SIDLE);
+  SpiStrobe(CC1101_STX);                  //start send
     while (!digitalRead(GDO0));               // Wait for GDO0 to be set -> sync transmitted  
     while (digitalRead(GDO0));                // Wait for GDO0 to be cleared -> end of packet
   SpiStrobe(CC1101_SFTX);                 //flush TXfifo

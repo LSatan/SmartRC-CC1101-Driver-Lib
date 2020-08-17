@@ -1,4 +1,4 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.0
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.1
 
 Note: Find out about the laws in your country.
 Use at your own risk.
@@ -126,6 +126,13 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.0
+---------------------------------------------
+16.08.2020
+
+Driver Library		:When changing from receiving to sending, the program freezes (internal send functions). fixed!
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.5.0
