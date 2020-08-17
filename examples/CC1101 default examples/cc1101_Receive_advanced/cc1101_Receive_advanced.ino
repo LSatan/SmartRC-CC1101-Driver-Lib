@@ -4,8 +4,6 @@
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
 int gdo0;
 
-const int n = 61;
-
 void setup(){
 
 #ifdef ESP32
