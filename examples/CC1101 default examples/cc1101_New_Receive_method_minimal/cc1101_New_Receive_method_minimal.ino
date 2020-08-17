@@ -7,8 +7,6 @@
 
 //int gdo0;
 
-const int n = 61;
-
 void setup(){
 /*
 #ifdef ESP32
