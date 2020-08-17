@@ -128,9 +128,9 @@ https://www.paypal.me/LittleSatan666
 Thank You!
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.0
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.1
 ---------------------------------------------
-16.08.2020
+18.08.2020
 
 Driver Library		:When changing from receiving to sending, the program freezes (internal send functions). fixed!
 
