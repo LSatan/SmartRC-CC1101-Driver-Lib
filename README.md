@@ -115,6 +115,10 @@ Notes: A logic level converter is recommended for arduino. It also works well wi
 
 <img src="https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Esp32_CC1101.png"/>
 
+<img src="https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/TXS0108E_CC1101.png"/>
+
+<img src="https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Wiring_CC1101.png"/>
+
 ---------------------------------------------
 Donation
 ---------------------------------------------
