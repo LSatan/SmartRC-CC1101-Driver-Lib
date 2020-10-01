@@ -118,9 +118,6 @@ private:
   void SpiEnd(void);
   void GDO_Set (void);
   void Reset (void);
-  void SpiWriteBurstReg(byte addr, byte *buffer, byte num);
-  byte SpiReadReg(byte addr);
-  void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setSpi(void);
   void RegConfigSettings(void);
   void Calibrate(void);
@@ -152,11 +149,16 @@ public:
   void setSres(void);
   void SendData(byte *txBuffer, byte size);
   void SendData(char *txchar);
+  void SendData(byte *txBuffer, byte size, int t);
+  void SendData(char *txchar, int t);
   byte CheckReceiveFlag(void);
   byte ReceiveData(byte *rxBuffer);
   bool CheckCRC(void);
   void SpiStrobe(byte strobe);
   void SpiWriteReg(byte addr, byte value);
+  void SpiWriteBurstReg(byte addr, byte *buffer, byte num);
+  byte SpiReadReg(byte addr);
+  void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setClb(byte b, byte s, byte e);
   void setSyncWord(byte sh, byte sl);
   void setAddr(byte v);

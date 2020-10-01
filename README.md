@@ -1,4 +1,4 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.1
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.2
 
 Note: Find out about the laws in your country.
 Use at your own risk.
@@ -29,10 +29,6 @@ Link: http://www.elechouse.com/elechouse/
 The library has been redesigned and some improvements have been made.
 
 Among other things, you can now also use the internal send / receive function.
-
-With the exception of bug fixes and examples, there will be no major innovations for this library in the future to keep the library as small as possible.
-
-There will be a second library that has a larger set of functions and accordingly takes up more memory.
 
 I would be happy to receive your suggestions for further examples from other libraries.
 
@@ -130,6 +126,21 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.2
+---------------------------------------------
+01.10.2020
+
+Driver Library		:SpiWriteReg, SpiReadReg, SpiWriteBurstReg and SpiReadBurstReg change to public. Allows additional modifications from sketch.
+
+Driver Library		:Setrx no longer has to be set to receive.(internal transmission methods)
+
+Driver Library		:Gdo pins are now set to input / output with set gdo instead of Init.
+
+Driver Library		:Added new sending method. Allows sending without a gdo0 pin.
+
+notes			:The new internal send and receive methods now work completely without an additional gdo pin.
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.5.1

@@ -54,6 +54,7 @@ byte pc0WDATA;
 byte pc0PktForm;
 byte pc0CRC_EN;
 byte pc0LenConf;
+byte trxstate;
 byte clb1[2]= {24,28};
 byte clb2[2]= {31,38};
 byte clb3[2]= {65,76};
@@ -141,7 +142,6 @@ void ELECHOUSE_CC1101::Init(void)
 {
   setSpi();
   SpiStart();                   //spi initialization
-  GDO_Set();                    //GDO set
   digitalWrite(SS_PIN, HIGH);
   digitalWrite(SCK_PIN, HIGH);
   digitalWrite(MOSI_PIN, LOW);
@@ -305,6 +305,7 @@ void ELECHOUSE_CC1101::setSpiPin(byte sck, byte miso, byte mosi, byte ss){
 void ELECHOUSE_CC1101::setGDO(byte gdo0, byte gdo2){
 GDO0 = gdo0;
 GDO2 = gdo2;  
+GDO_Set();
 }
 /****************************************************************
 *FUNCTION NAME:CCMode
@@ -526,7 +527,7 @@ clb4[1]=e;
 }
 }
 /****************************************************************
-*FUNCTION NAME:Set Sync_Worf
+*FUNCTION NAME:Set Sync_Word
 *FUNCTION     :Sync Word
 *INPUT        :none
 *OUTPUT       :none
@@ -949,6 +950,7 @@ void ELECHOUSE_CC1101::SetTx(void)
 {
   SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_STX);        //start send
+  trxstate=1;
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -959,6 +961,7 @@ void ELECHOUSE_CC1101::SetTx(void)
 void ELECHOUSE_CC1101::SetRx(void)
 {
   SpiStrobe(CC1101_SRX);        //start receive
+  trxstate=2;
 }
 /****************************************************************
 *FUNCTION NAME:SetTx
@@ -971,6 +974,7 @@ void ELECHOUSE_CC1101::SetTx(float mhz)
   setMHZ(mhz);
   SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_STX);        //start send
+  trxstate=1;
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -982,6 +986,7 @@ void ELECHOUSE_CC1101::SetRx(float mhz)
 {
   setMHZ(mhz);
   SpiStrobe(CC1101_SRX);        //start receive
+  trxstate=2;
 }
 /****************************************************************
 *FUNCTION NAME:RSSI Level
@@ -1047,6 +1052,36 @@ void ELECHOUSE_CC1101::SendData(byte *txBuffer,byte size)
     while (!digitalRead(GDO0));               // Wait for GDO0 to be set -> sync transmitted  
     while (digitalRead(GDO0));                // Wait for GDO0 to be cleared -> end of packet
   SpiStrobe(CC1101_SFTX);                 //flush TXfifo
+  trxstate=1;
+}
+/****************************************************************
+*FUNCTION NAME:Char direct SendData
+*FUNCTION     :use CC1101 send data without GDO
+*INPUT        :txBuffer: data array to send; size: number of data to send, no more than 61
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::SendData(char *txchar,int t)
+{
+int len = strlen(txchar);
+byte chartobyte[len];
+for (int i = 0; i<len; i++){chartobyte[i] = txchar[i];}
+SendData(chartobyte,len,t);
+}
+/****************************************************************
+*FUNCTION NAME:SendData
+*FUNCTION     :use CC1101 send data without GDO
+*INPUT        :txBuffer: data array to send; size: number of data to send, no more than 61
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::SendData(byte *txBuffer,byte size,int t)
+{
+  SpiWriteReg(CC1101_TXFIFO,size);
+  SpiWriteBurstReg(CC1101_TXFIFO,txBuffer,size);      //write data to send
+  SpiStrobe(CC1101_SIDLE);
+  SpiStrobe(CC1101_STX);                  //start send
+  delay(t);
+  SpiStrobe(CC1101_SFTX);                 //flush TXfifo
+  trxstate=1;
 }
 /****************************************************************
 *FUNCTION NAME:Check CRC
@@ -1072,6 +1107,7 @@ return 0;
 *OUTPUT       :flag: 0 no data; 1 receive data 
 ****************************************************************/
 bool ELECHOUSE_CC1101::CheckRxFifo(int t){
+if(trxstate!=2){SetRx();}
 if(SpiReadStatus(CC1101_RXBYTES) & BYTES_IN_RXFIFO){
 delay(t);
 return 1;
@@ -1087,6 +1123,7 @@ return 0;
 ****************************************************************/
 byte ELECHOUSE_CC1101::CheckReceiveFlag(void)
 {
+  if(trxstate!=2){SetRx();}
 	if(digitalRead(GDO0))			//receive data
 	{
 		while (digitalRead(GDO0));
