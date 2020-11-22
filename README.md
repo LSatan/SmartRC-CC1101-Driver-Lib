@@ -7,6 +7,11 @@ Use at your own risk.
 Announcements / other
 ---------------------------------------------
 
+attention: currently i can only answer questions very belatedly.
+try to scour existing problems for a solution if possible.
+Problems that have not yet been closed are mostly already solved!
+thanks for your understanding
+
 For debug and advanced functions: https://github.com/LSatan/CC1101-Debug-Service-Tool
 
 new library Simu_Remote: https://github.com/LSatan/Simu_Remote_CC1101
