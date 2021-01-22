@@ -54,7 +54,7 @@ byte pc0WDATA;
 byte pc0PktForm;
 byte pc0CRC_EN;
 byte pc0LenConf;
-byte trxstate;
+byte trxstate = 0;
 byte clb1[2]= {24,28};
 byte clb2[2]= {31,38};
 byte clb3[2]= {65,76};
@@ -527,6 +527,29 @@ clb4[1]=e;
 }
 }
 /****************************************************************
+*FUNCTION NAME:getCC1101
+*FUNCTION     :Test Spi connection and return 1 when true.
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+bool ELECHOUSE_CC1101::getCC1101(void){
+setSpi();
+if (SpiReadStatus(0x31)>0){
+return 1;
+}else{
+return 0;
+}
+}
+/****************************************************************
+*FUNCTION NAME:getMode
+*FUNCTION     :Return the Mode. Sidle = 0, TX = 1, Rx = 2.
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+byte ELECHOUSE_CC1101::getMode(void){
+return trxstate;
+}
+/****************************************************************
 *FUNCTION NAME:Set Sync_Word
 *FUNCTION     :Sync Word
 *INPUT        :none
@@ -948,9 +971,11 @@ void ELECHOUSE_CC1101::RegConfigSettings(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetTx(void)
 {
+  if(trxstate!=1){
   SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_STX);        //start send
   trxstate=1;
+}
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -960,8 +985,10 @@ void ELECHOUSE_CC1101::SetTx(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetRx(void)
 {
+  if(trxstate!=2){
   SpiStrobe(CC1101_SRX);        //start receive
   trxstate=2;
+}
 }
 /****************************************************************
 *FUNCTION NAME:SetTx
@@ -972,9 +999,11 @@ void ELECHOUSE_CC1101::SetRx(void)
 void ELECHOUSE_CC1101::SetTx(float mhz)
 {
   setMHZ(mhz);
+  if(trxstate!=1){
   SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_STX);        //start send
   trxstate=1;
+}
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -985,8 +1014,10 @@ void ELECHOUSE_CC1101::SetTx(float mhz)
 void ELECHOUSE_CC1101::SetRx(float mhz)
 {
   setMHZ(mhz);
+  if(trxstate!=2){
   SpiStrobe(CC1101_SRX);        //start receive
   trxstate=2;
+}
 }
 /****************************************************************
 *FUNCTION NAME:RSSI Level
@@ -1022,7 +1053,31 @@ return lqi;
 ****************************************************************/
 void ELECHOUSE_CC1101::setSres(void)
 {
-  SpiStrobe(CC1101_SRES);                  //reset cc1101  
+  SpiStrobe(CC1101_SRES);
+  trxstate=0;
+}
+/****************************************************************
+*FUNCTION NAME:setSidle
+*FUNCTION     :set Rx / TX Off
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setSidle(void)
+{
+  SpiStrobe(CC1101_SIDLE);
+  trxstate=0;
+  
+}
+/****************************************************************
+*FUNCTION NAME:goSleep
+*FUNCTION     :set cc1101 Sleep on
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::goSleep(void){
+  trxstate=0;
+  SpiStrobe(0x36);//Exit RX / TX, turn off frequency synthesizer and exit
+  SpiStrobe(0x39);//Enter power down mode when CSn goes high.
 }
 /****************************************************************
 *FUNCTION NAME:Char direct SendData
@@ -1107,7 +1162,7 @@ return 0;
 *OUTPUT       :flag: 0 no data; 1 receive data 
 ****************************************************************/
 bool ELECHOUSE_CC1101::CheckRxFifo(int t){
-if(trxstate!=2){SetRx();}
+SetRx();
 if(SpiReadStatus(CC1101_RXBYTES) & BYTES_IN_RXFIFO){
 delay(t);
 return 1;
@@ -1123,7 +1178,7 @@ return 0;
 ****************************************************************/
 byte ELECHOUSE_CC1101::CheckReceiveFlag(void)
 {
-  if(trxstate!=2){SetRx();}
+  SetRx();
 	if(digitalRead(GDO0))			//receive data
 	{
 		while (digitalRead(GDO0));

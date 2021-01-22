@@ -8,6 +8,13 @@
 void setup(){
 
     Serial.begin(9600);
+
+    if (ELECHOUSE_cc1101.getCC1101()){         // Check the CC1101 Spi connection.
+    Serial.println("Connection OK");
+    }else{
+    Serial.println("Connection Error");
+    }
+
     ELECHOUSE_cc1101.Init();              // must be set to initialize the cc1101!
     ELECHOUSE_cc1101.setCCMode(1);       // set config for internal transmission mode.
     ELECHOUSE_cc1101.setModulation(0);  // set modulation mode. 0 = 2-FSK, 1 = GFSK, 2 = ASK/OOK, 3 = 4-FSK, 4 = MSK.

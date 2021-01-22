@@ -20,12 +20,17 @@ SetRx			KEYWORD2
 getRssi			KEYWORD2
 getLqi			KEYWORD2
 setSres			KEYWORD2
+setSidle		KEYWORD2
+goSleep			KEYWORD2
 SendData		KEYWORD2
 CheckReceiveFlag	KEYWORD2
 CheckRxFifo		KEYWORD2
 CheckCRC		KEYWORD2
 ReceiveData		KEYWORD2
 setClb			KEYWORD2
+getCC1101		KEYWORD2
+getMode			KEYWORD2
+setSyncWord		KEYWORD2
 setChsp			KEYWORD2
 setDRate		KEYWORD2
 setDeviation		KEYWORD2

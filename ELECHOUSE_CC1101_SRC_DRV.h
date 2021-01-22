@@ -147,6 +147,8 @@ public:
    int getRssi(void);
   byte getLqi(void);
   void setSres(void);
+  void setSidle(void);
+  void goSleep(void);
   void SendData(byte *txBuffer, byte size);
   void SendData(char *txchar);
   void SendData(byte *txBuffer, byte size, int t);
@@ -160,6 +162,8 @@ public:
   byte SpiReadReg(byte addr);
   void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setClb(byte b, byte s, byte e);
+  bool getCC1101(void);
+  byte getMode(void);
   void setSyncWord(byte sh, byte sl);
   void setAddr(byte v);
   void setWhiteData(bool v);

@@ -23,7 +23,13 @@ TRANSMITTER_PIN = 5;  // for esp8266! Transmit on pin 5 = D1.
 TRANSMITTER_PIN = 6;  // for Arduino! Transmit on pin 6.
 #endif
 
- //CC1101 Settings:                (Settings with "//" are optional!)
+  if (ELECHOUSE_cc1101.getCC1101()){       // Check the CC1101 Spi connection.
+  Serial.println("Connection OK");
+  }else{
+  Serial.println("Connection Error");
+  }
+
+//CC1101 Settings:                (Settings with "//" are optional!)
   ELECHOUSE_cc1101.Init();            // must be set to initialize the cc1101!
 //ELECHOUSE_cc1101.setRxBW(812.50);  // Set the Receive Bandwidth in kHz. Value from 58.03 to 812.50. Default is 812.50 kHz.
 //ELECHOUSE_cc1101.setPA(10);       // set TxPower. The following settings are possible depending on the frequency band.  (-30  -20  -15  -10  -6    0    5    7    10   11   12)   Default is max!

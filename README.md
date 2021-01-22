@@ -1,4 +1,4 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.2
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.3
 
 Note: Find out about the laws in your country.
 Use at your own risk.
@@ -131,6 +131,23 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.3
+---------------------------------------------
+22.01.2021
+
+Driver Library		:Putting rx tx has no effect if they are already in mode. Prevents unnecessary double-initaliesing.
+
+Driver Library		:new command added: ELECHOUSE_cc1101.goSleep();   //Enter power down mode. For wakeup set RX or TX.
+
+Driver Library		:new command added: ELECHOUSE_cc1101.getMode();   //Return the Mode. Sidle = 0, TX = 1, Rx = 2.
+
+Driver Library		:new command added: ELECHOUSE_cc1101.setSidle();  //Set Rx / Tx Off.
+
+Driver Library		:new command added: ELECHOUSE_cc1101.getCC1101(); //Test Spi connection and return 1 when true.
+
+Examples		:RcSwitch Repeater_cc1101.ino has been shortened.
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.5.2

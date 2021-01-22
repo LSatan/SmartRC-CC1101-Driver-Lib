@@ -20,6 +20,13 @@ gdo0 = 6;  // for Arduino! GDO0 on pin 6.
 #endif 
   
     Serial.begin(9600);
+    
+    if (ELECHOUSE_cc1101.getCC1101()){         // Check the CC1101 Spi connection.
+    Serial.println("Connection OK");
+    }else{
+    Serial.println("Connection Error");
+    }
+ 
     ELECHOUSE_cc1101.Init();               // must be set to initialize the cc1101!
     ELECHOUSE_cc1101.setGDO(gdo0,0);      // set lib internal gdo pins (gdo0,gdo2). Gdo2 not use for this example.
     ELECHOUSE_cc1101.setCCMode(1);       // set config for internal transmission mode.

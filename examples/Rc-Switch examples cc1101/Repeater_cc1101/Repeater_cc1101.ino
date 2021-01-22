@@ -18,11 +18,6 @@ RCSwitch mySwitch = RCSwitch();
 int number = 15;  // set number of transmission repetitions.
 int TIME = 3000; // set delay befor repeat. For direct repetition after receive set 0.
 
-int long value;      // int to save value
-int bits;           // int to save bit number
-int prot;          // int to save Protocol number
-int puls;         // int to save pulse length
-
 void setup() {
   Serial.begin(9600);
 
@@ -33,6 +28,12 @@ pinRx = 4; pinTx = 5;  // for esp8266! Receiver on pin 4 = D2. Transmit on pin 5
 #else
 pinRx = 0; pinTx = 6;  // for Arduino! Receiver on interrupt 0 => that is pin #2. Transmit on pin 6.
 #endif   
+
+  if (ELECHOUSE_cc1101.getCC1101()){       // Check the CC1101 Spi connection.
+  Serial.println("Connection OK");
+  }else{
+  Serial.println("Connection Error");
+  }
 
 //CC1101 Settings:                (Settings with "//" are optional!)
   ELECHOUSE_cc1101.Init();            // must be set to initialize the cc1101!
@@ -46,38 +47,6 @@ pinRx = 0; pinTx = 6;  // for Arduino! Receiver on interrupt 0 => that is pin #2
 }
 void loop() {
 
-   if (value > 0) {
-
-  ELECHOUSE_cc1101.SetTx();           // set Transmit on
-  mySwitch.disableReceive();         // Receiver off
-  mySwitch.enableTransmit(pinTx);   // Transmit on
-
-
-  mySwitch.setRepeatTransmit(number); // transmission repetitions.
-  mySwitch.setProtocol(prot);        // send Received Protocol
-  mySwitch.setPulseLength(puls);    // send Received Delay
-  mySwitch.send(value, bits);      // send Received value/bits
-
-    Serial.print("Transmit ");
-    Serial.print( value );
-    Serial.print(" / ");
-    Serial.print( bits );
-    Serial.print("bit ");
-    Serial.print("Protocol: ");
-    Serial.print( prot );
-    Serial.print(" Delay: ");    
-    Serial.println( puls );      
-
-
-  ELECHOUSE_cc1101.SetRx();      // set Receive on
-  mySwitch.disableTransmit();   // set Transmit off
-  mySwitch.enableReceive(pinRx);   // Receiver on
-    
-   value = 0; // Reset value after transmit for receive.
-
-   }
-   
-   else{
   if (mySwitch.available()){
     
     Serial.print("Received ");
@@ -90,14 +59,25 @@ void loop() {
     Serial.print(" Delay: ");    
     Serial.println( mySwitch.getReceivedDelay() );
 
-    value =  mySwitch.getReceivedValue();        // save received Value
-    bits = mySwitch.getReceivedBitlength();     // save received Bitlength
-    prot = mySwitch.getReceivedProtocol();     // save received Protocol
-    puls =  mySwitch.getReceivedDelay();      // save received pulse length
+    delay(TIME);   
+    mySwitch.disableReceive();                                                        // Receiver off
+    mySwitch.enableTransmit(pinTx);                                                   // Transmit on
+    ELECHOUSE_cc1101.SetTx();                                                         // set Transmit on
+
+    Serial.println("Transmit");
+
+    mySwitch.setRepeatTransmit(number);                                               // transmission repetitions.
+    mySwitch.setProtocol(mySwitch.getReceivedProtocol());                             // send Received Protocol
+    mySwitch.setPulseLength(mySwitch.getReceivedDelay());                             // send Received Delay
+    mySwitch.send(mySwitch.getReceivedValue(), mySwitch.getReceivedBitlength());      // send Received value/bits
+  
+    ELECHOUSE_cc1101.SetRx();                                                         // set Receive on
+    mySwitch.disableTransmit();                                                       // set Transmit off
+    mySwitch.enableReceive(pinRx);                                                    // Receiver on
+
+    Serial.println("Receive");
     
     mySwitch.resetAvailable();
-    delay(TIME);   
-   }
-   }
 
+   }
 }

@@ -39,6 +39,12 @@ RECEIVER_PIN = 4; TRANSMITTER_PIN = 5;  // for esp8266! Receiver on pin 4 = D2. 
 RECEIVER_PIN = 0; TRANSMITTER_PIN = 6;  // for Arduino! Receiver on interrupt 0 => that is pin #2. Transmit on pin 6.
 #endif
 
+  if (ELECHOUSE_cc1101.getCC1101()){    // Check the CC1101 Spi connection.
+  Serial.println("Connection OK");
+  }else{
+  Serial.println("Connection Error");
+  }
+
 //CC1101 Settings:                (Settings with "//" are optional!)
   ELECHOUSE_cc1101.Init();            // must be set to initialize the cc1101!
 //ELECHOUSE_cc1101.setRxBW(812.50);  // Set the Receive Bandwidth in kHz. Value from 58.03 to 812.50. Default is 812.50 kHz.
