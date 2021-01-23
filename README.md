@@ -1,4 +1,4 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.4
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.5
 
 Note: Find out about the laws in your country.
 Use at your own risk.
@@ -131,6 +131,13 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.5
+---------------------------------------------
+23.01.2021
+
+Driver Library		:Error correction for CheckRxFifo and CheckReceiveFlag (reception internal CC1101 function).
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.5.4
