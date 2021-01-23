@@ -971,11 +971,9 @@ void ELECHOUSE_CC1101::RegConfigSettings(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetTx(void)
 {
-  if(trxstate!=1){
   SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_STX);        //start send
   trxstate=1;
-}
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -985,10 +983,9 @@ void ELECHOUSE_CC1101::SetTx(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetRx(void)
 {
-  if(trxstate!=2){
+  SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_SRX);        //start receive
   trxstate=2;
-}
 }
 /****************************************************************
 *FUNCTION NAME:SetTx
@@ -998,12 +995,10 @@ void ELECHOUSE_CC1101::SetRx(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetTx(float mhz)
 {
-  setMHZ(mhz);
-  if(trxstate!=1){
   SpiStrobe(CC1101_SIDLE);
+  setMHZ(mhz);
   SpiStrobe(CC1101_STX);        //start send
   trxstate=1;
-}
 }
 /****************************************************************
 *FUNCTION NAME:SetRx
@@ -1013,11 +1008,10 @@ void ELECHOUSE_CC1101::SetTx(float mhz)
 ****************************************************************/
 void ELECHOUSE_CC1101::SetRx(float mhz)
 {
+  SpiStrobe(CC1101_SIDLE);
   setMHZ(mhz);
-  if(trxstate!=2){
   SpiStrobe(CC1101_SRX);        //start receive
   trxstate=2;
-}
 }
 /****************************************************************
 *FUNCTION NAME:RSSI Level

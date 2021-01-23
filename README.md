@@ -1,4 +1,4 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.3
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.4
 
 Note: Find out about the laws in your country.
 Use at your own risk.
@@ -131,6 +131,15 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.4
+---------------------------------------------
+23.01.2021
+
+Driver Library		:No big frequency jumps over SetRx(freq); Possible. Fixed! Big thanks to NorthernMan54 for testing!
+
+Driver Library		:double-initaliesing option from V2.5.3 has been removed. Necessary for SetRx(freq); to use.
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.5.3
