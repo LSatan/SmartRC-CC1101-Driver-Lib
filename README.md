@@ -1,5 +1,7 @@
 ﻿# SmartRC-CC1101-Driver-Lib_V2.5.5
 
+![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/LSatan/SmartRC-CC1101-Driver-Lib)
+
 Note: Find out about the laws in your country.
 Use at your own risk.
 
