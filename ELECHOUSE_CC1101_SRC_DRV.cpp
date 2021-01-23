@@ -1156,7 +1156,7 @@ return 0;
 *OUTPUT       :flag: 0 no data; 1 receive data 
 ****************************************************************/
 bool ELECHOUSE_CC1101::CheckRxFifo(int t){
-if(trxstate!=2){SetRx();}
+SetRx();
 if(SpiReadStatus(CC1101_RXBYTES) & BYTES_IN_RXFIFO){
 delay(t);
 return 1;
@@ -1172,7 +1172,7 @@ return 0;
 ****************************************************************/
 byte ELECHOUSE_CC1101::CheckReceiveFlag(void)
 {
-  if(trxstate!=2){SetRx();}
+  SetRx();
 	if(digitalRead(GDO0))			//receive data
 	{
 		while (digitalRead(GDO0));
