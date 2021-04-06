@@ -1,4 +1,4 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.5
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.6
 
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/LSatan/SmartRC-CC1101-Driver-Lib)
 
@@ -133,6 +133,13 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.6
+---------------------------------------------
+06.04.2021
+
+Driver Library		:Add NUM_PREAMBLE. Sets the minimum number of preamble bytes to be transmitted.
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.5.5

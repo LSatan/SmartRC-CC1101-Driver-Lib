@@ -727,6 +727,19 @@ if (v==1){m1FEC=128;}
 SpiWriteReg(CC1101_MDMCFG1, m1FEC+m1PRE+m1CHSP);
 }
 /****************************************************************
+*FUNCTION NAME:Set PRE
+*FUNCTION     :Sets the minimum number of preamble bytes to be transmitted.
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setPRE(byte v){
+Split_MDMCFG1();
+m1PRE=0;
+if (v>7){v=7;}
+m1PRE = v*16;
+SpiWriteReg(CC1101_MDMCFG1, m1FEC+m1PRE+m1CHSP);
+}
+/****************************************************************
 *FUNCTION NAME:Set Channel
 *FUNCTION     :none
 *INPUT        :none

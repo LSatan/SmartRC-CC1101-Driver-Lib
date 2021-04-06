@@ -175,6 +175,7 @@ public:
   void setManchester(bool v);
   void setSyncMode(byte v);
   void setFEC(bool v);
+  void setPRE(byte v);
   void setPQT(byte v);
   void setCRC_AF(bool v);
   void setAppendStatus(bool v);

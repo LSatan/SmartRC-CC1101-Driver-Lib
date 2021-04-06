@@ -46,5 +46,6 @@ setCRC_AF		KEYWORD2
 setDcFilterOff		KEYWORD2
 setManchester		KEYWORD2
 setFEC			KEYWORD2
+setPRE			KEYWORD2
 setPQT			KEYWORD2
 setAppendStatus		KEYWORD2
