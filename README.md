@@ -1,9 +1,11 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.6
+﻿# SmartRC-CC1101-Driver-Lib_V2.5.7
 
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/LSatan/SmartRC-CC1101-Driver-Lib)
 
 Note: Find out about the laws in your country.
 Use at your own risk.
+
+Attention! in version 2.5.7 there are changes for the internal transfer functions regarding the gdo pin assignment!
 
 ---------------------------------------------
 Announcements / other
@@ -93,7 +95,8 @@ ELECHOUSE_cc1101.SetRx(MHZ);		//Sets receive on and changes the frequency.
 
 ELECHOUSE_cc1101.setRxBW(RXBW);		//Set Receive filter bandwidth		
 
-ELECHOUSE_cc1101.setGDO(GDO0, GDO2); 	//Put the Gdo pins. For libraries that address the gdo pins directly.
+ELECHOUSE_cc1101.setGDO(GDO0, GDO2); 	//Set Gdo0 (tx) and Gdo2 (rx) for serial transmission function.
+
 
 ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your own Spi Pins.Or to switch between multiple cc1101. Must be set before init and before changing the cc1101.
 
@@ -101,6 +104,20 @@ ELECHOUSE_cc1101.setChannel(chnl); 	//Set Channel from 0 to 255. default = 0(bas
 
 ELECHOUSE_cc1101.setClb(fband, cal1, cal2); //Optionally enter Offset Callibration. Requirements: Sketch Calibrate_frequency.ino below [CC1101-Debug-Service-Tool](https://github.com/LSatan/CC1101-Debug-Service-Tool/tree/master/Calibrate_frequency).A SDR receiver and SDR software.
 
+New in V2.5.7
+
+ELECHOUSE_cc1101.setGDO0(GDO0);         //Sets Gdo0 for internal transfer function.
+
+ELECHOUSE_cc1101.addGDO0(GDO0, Modul);	//Adds Gdo0 for internal transfer function (multiple cc1101).
+
+ELECHOUSE_cc1101.addGDO(GDO0, GDO2, Modul);  //Adds Gdo0 (tx) and Gdo2 (rx) for serial transmission function (multiple cc1101).
+
+ELECHOUSE_cc1101.addSpiPin(SCK, MISO, MOSI, CSN, Modul);  //Adds Spi Pins for multiple cc1101.
+
+ELECHOUSE_cc1101.setModul(Modul);  //Switches between modules. from 0 to 5. So a maximum of 6.
+
+
+The new features are not final and can be changed at any time.
 
 All can also be used in a loop and are applied directly.
 
@@ -133,6 +150,15 @@ you can support me with a donation.
 https://www.paypal.me/LittleSatan666
 
 Thank You!
+
+---------------------------------------------
+Changelog: SmartRC-CC1101-Driver-Lib_V2.5.7
+---------------------------------------------
+13.07.2021
+
+Driver Library		:Fixed a bug when initalizing multiple cc1101
+
+Driver Library		:new commandos for easy handling of multiple cc1101
 
 ---------------------------------------------
 Changelog: SmartRC-CC1101-Driver-Lib_V2.5.6

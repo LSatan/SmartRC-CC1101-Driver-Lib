@@ -22,18 +22,26 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define   READ_SINGLE       0x80            //read single
 #define   READ_BURST        0xC0            //read burst
 #define   BYTES_IN_RXFIFO   0x7F            //byte number in RXfifo
+#define   max_modul 6
 
 byte modulation = 2;
 byte frend0;
 byte chan = 0;
 int pa = 12;
 byte last_pa;
-byte SCK_PIN = 13;
-byte MISO_PIN = 12;
-byte MOSI_PIN = 11;
-byte SS_PIN = 10;
+byte SCK_PIN;
+byte MISO_PIN;
+byte MOSI_PIN;
+byte SS_PIN;
 byte GDO0;
 byte GDO2;
+byte SCK_PIN_M[max_modul];
+byte MISO_PIN_M[max_modul];
+byte MOSI_PIN_M[max_modul];
+byte SS_PIN_M[max_modul];
+byte GDO0_M[max_modul];
+byte GDO2_M[max_modul];
+byte gdo_set=0;
 bool spi = 0;
 bool ccmode = 0;
 float MHz = 433.92;
@@ -101,18 +109,27 @@ void ELECHOUSE_CC1101::SpiEnd(void)
   // disable SPI
   SPI.endTransaction();
   SPI.end();
-  digitalWrite(SCK_PIN, LOW);
 }
 /****************************************************************
 *FUNCTION NAME: GDO_Set()
-*FUNCTION     : set GDO0,GDO2 pin
+*FUNCTION     : set GDO0,GDO2 pin for serial pinmode.
 *INPUT        : none
 *OUTPUT       : none
 ****************************************************************/
 void ELECHOUSE_CC1101::GDO_Set (void)
 {
-	pinMode(GDO0, INPUT);
-	pinMode(GDO2, OUTPUT);
+	pinMode(GDO0, OUTPUT);
+	pinMode(GDO2, INPUT);
+}
+/****************************************************************
+*FUNCTION NAME: GDO_Set()
+*FUNCTION     : set GDO0 for internal transmission mode.
+*INPUT        : none
+*OUTPUT       : none
+****************************************************************/
+void ELECHOUSE_CC1101::GDO0_Set (void)
+{
+  pinMode(GDO0, INPUT);
 }
 /****************************************************************
 *FUNCTION NAME:Reset
@@ -297,6 +314,19 @@ void ELECHOUSE_CC1101::setSpiPin(byte sck, byte miso, byte mosi, byte ss){
   SS_PIN = ss;
 }
 /****************************************************************
+*FUNCTION NAME:COSTUM SPI
+*FUNCTION     :set costum spi pins.
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::addSpiPin(byte sck, byte miso, byte mosi, byte ss, byte modul){
+  spi = 1;
+  SCK_PIN_M[modul] = sck;
+  MISO_PIN_M[modul] = miso;
+  MOSI_PIN_M[modul] = mosi;
+  SS_PIN_M[modul] = ss;
+}
+/****************************************************************
 *FUNCTION NAME:GDO Pin settings
 *FUNCTION     :set GDO Pins
 *INPUT        :none
@@ -306,6 +336,58 @@ void ELECHOUSE_CC1101::setGDO(byte gdo0, byte gdo2){
 GDO0 = gdo0;
 GDO2 = gdo2;  
 GDO_Set();
+}
+/****************************************************************
+*FUNCTION NAME:GDO0 Pin setting
+*FUNCTION     :set GDO0 Pin
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setGDO0(byte gdo0){
+GDO0 = gdo0;
+GDO0_Set();
+}
+/****************************************************************
+*FUNCTION NAME:GDO Pin settings
+*FUNCTION     :add GDO Pins
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::addGDO(byte gdo0, byte gdo2, byte modul){
+GDO0_M[modul] = gdo0;
+GDO2_M[modul] = gdo2;  
+gdo_set=2;
+GDO_Set();
+}
+/****************************************************************
+*FUNCTION NAME:add GDO0 Pin
+*FUNCTION     :add GDO0 Pin
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::addGDO0(byte gdo0, byte modul){
+GDO0_M[modul] = gdo0;
+gdo_set=1;
+GDO0_Set();
+}
+/****************************************************************
+*FUNCTION NAME:set Modul
+*FUNCTION     :change modul
+*INPUT        :none
+*OUTPUT       :none
+****************************************************************/
+void ELECHOUSE_CC1101::setModul(byte modul){
+  SCK_PIN = SCK_PIN_M[modul];
+  MISO_PIN = MISO_PIN_M[modul];
+  MOSI_PIN = MOSI_PIN_M[modul];
+  SS_PIN = SS_PIN_M[modul];
+  if (gdo_set==1){
+  GDO0 = GDO0_M[modul];
+  }
+  else if (gdo_set==2){
+  GDO0 = GDO0_M[modul];
+  GDO2 = GDO2_M[modul];
+  }
 }
 /****************************************************************
 *FUNCTION NAME:CCMode
@@ -1073,7 +1155,6 @@ void ELECHOUSE_CC1101::setSidle(void)
 {
   SpiStrobe(CC1101_SIDLE);
   trxstate=0;
-  
 }
 /****************************************************************
 *FUNCTION NAME:goSleep
