@@ -7,32 +7,32 @@
 
   Copyright (C) 2021 Jorge Rivera. GNU General Public License v3.0.
 
-  New v2 firmware features:
-   - Can run on any AVR Arduino compatible board, like Arduino UNO, Nano, Mega, Leonardo, etc.
-   - Can run on other platforms like Arduino SAMD boards (DUE, M0, etc.), ESP8266, ESP32, Teensy, even Raspberry Pico.
-   - Fully Arduino IDE compiler environment compatible. Arduino PRO IDE and Arduino CLI also supported.
-   - Configurable RF receiver output (RX_PIN); must be interrupt attachable, depends board (D2 as default).
-   - Configurable RF transmitter input (TX_PIN); can be any digital pin, depends board (D5 as default).
-   - Support to configure a digital output so that a led blinks at valid RF code reception.
-   - Support to configure send of every 'space' before 'pulse', which stripped in previous version firmware.
-   - Support to configure initial RX settings at boot, like as 's:20,200,4000,82000@'.
-   - Support to configure show settings at boot, like as: 'v:20,200,4000,82000,2,1,1600@'.
-   - Support to configure add line feed '\n' each line output.
-   - Support to configure a tx enable pin (PTT_PIN), useful for use transceivers.
+  pilight USB Nano Arduino environment compatible firmware from:
+  https://github.com/latchdevel/pilight-usb-nano/tree/arduino
 
-*/ 
+  Example use of Texas Instruments CC1101 SPI transceiver driver from:
+  Little_S@tan https://github.com/LSatan/SmartRC-CC1101-Driver-Lib
+
+  GDO2 --> CC1101 Output to Arduino/ESP8266/ESP32 RX input pin.
+  GDO0 <-- CC1101 Input from Arduino/ESP8266/ESP32 TX output pin.
+
+  CC1101 operates at 3.3v, not 5v tolerant. You must use a level shifter.
+
+*/
+
+#include <ELECHOUSE_CC1101_SRC_DRV.h>
 
 /* Configurable RX & TX pins */
-#define RX_PIN                2     // Pin for ASK/OOK pulse input from RF receiver module data output.
-#define TX_PIN                5     // Pin for ASK/OOK pulse output to RF transmitter module data input.
+#define RX_PIN                2     // Pin for ASK/OOK pulse input from CC1101 pin GDO2.
+#define TX_PIN                6     // Pin for ASK/OOK pulse output to CC1101 pin GDO0.
 #define PTT_PIN               4     // If a pin is defined, it will set to high state during transmissions.
 
-#define EVERY_SEC_LINE_FEED       // If defined, print line feed '\n' every second, to emulate legacy firmware.
-//#define SEND_STRIPPED_SPACES        // If defined, send every 'space' before 'pulse' in broadcast(), which stripped in legacy firmware.
-//#define LED_BLINK_RX LED_BUILTIN    // If defined, sets the digital output to blink on valid RF code reception.
-//#define DEFAULT_RX_SETTINGS         // If defined, sets valid RX settings at boot, like sets 's:20,200,4000,82000@'
-//#define BOOT_SHOW_SETTINGS          // If defined, show settings at boot, like as: 'v:20,200,4000,82000,2,1,1600@'
-//#define ADD_LINE_FEED               // If defined, add line feed '\n' each line output.
+//#define EVERY_SEC_LINE_FEED       // If defined, print line feed '\n' every second, to emulate legacy firmware.
+#define SEND_STRIPPED_SPACES        // If defined, send every 'space' before 'pulse' in broadcast(), which stripped in legacy firmware.
+#define LED_BLINK_RX LED_BUILTIN    // If defined, sets the digital output to blink on valid RF code reception.
+#define DEFAULT_RX_SETTINGS         // If defined, sets valid RX settings at boot, like sets 's:20,200,4000,82000@'
+#define BOOT_SHOW_SETTINGS          // If defined, show settings at boot, like as: 'v:20,200,4000,82000,2,1,1600@'
+#define ADD_LINE_FEED               // If defined, add line feed '\n' each line output.
 
 #define BUFFER_SIZE           256   // Warning: 256 max because buffer indexes "nrpulses" and "q" are "uint8_t" type
 #define MAX_PULSE_TYPES        10   // From 0 to 9
@@ -107,6 +107,21 @@ void setup() {
 #endif
 #endif
 
+  // Check CC1101 SPI connection
+  if (ELECHOUSE_cc1101.getCC1101()){       
+
+    ELECHOUSE_cc1101.Init();          // must be set to initialize the cc1101!
+    ELECHOUSE_cc1101.setPA(12);       // set TxPower. The following settings are possible depending on the frequency band.  (-30  -20  -15  -10  -6    0    5    7    10   11   12)   Default is max! +12 dBm (15.8 mW)
+    ELECHOUSE_cc1101.setMHZ(433.92);  // set frequency
+    ELECHOUSE_cc1101.SetRx();         // set RX mode
+
+  }else{
+    // Show error message forever
+    while (true){
+      Serial.println("CC1101 SPI Connection Error");
+      delay(5000);
+    }
+  }
 }
 
 /* Everything is parsed on-the-fly to preserve memory */
@@ -198,6 +213,7 @@ void receive() {
         }
 
         /* Begin RF TX */
+        ELECHOUSE_cc1101.SetTx();
   #ifdef PTT_PIN
         // Enable PTT
         digitalWrite(PTT_PIN,HIGH);
@@ -224,6 +240,7 @@ void receive() {
         // Disable PTT
         digitalWrite(PTT_PIN,LOW);
   #endif
+        ELECHOUSE_cc1101.SetRx();
         /* End RF TX */
 
         // Clear pulse types array
