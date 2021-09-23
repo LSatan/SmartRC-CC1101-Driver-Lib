@@ -23,9 +23,17 @@
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
 
 /* Configurable RX & TX pins */
+#ifdef ESP32
+#define RX_PIN                4     // GPIO for ASK/OOK pulse input from CC1101 pin GDO2.
+#define TX_PIN               14     // GPIO for ASK/OOK pulse output to CC1101 pin GDO0.
+#elif ESP8266
+#define RX_PIN                4     // GPIO for ASK/OOK pulse input from CC1101 pin GDO2.
+#define TX_PIN                5     // GPIO for ASK/OOK pulse output to CC1101 pin GDO0.
+#else
 #define RX_PIN                2     // Pin for ASK/OOK pulse input from CC1101 pin GDO2.
 #define TX_PIN                6     // Pin for ASK/OOK pulse output to CC1101 pin GDO0.
-#define PTT_PIN               4     // If a pin is defined, it will set to high state during transmissions.
+#endif
+#define NO_PTT_PIN                  // If a pin is defined, it will set to high state during transmissions.
 
 //#define EVERY_SEC_LINE_FEED       // If defined, print line feed '\n' every second, to emulate legacy firmware.
 #define SEND_STRIPPED_SPACES        // If defined, send every 'space' before 'pulse' in broadcast(), which stripped in legacy firmware.
@@ -91,9 +99,15 @@ void setup() {
   digitalWrite(PTT_PIN,LOW);
 #endif
 
-  // Arduino built-in function to attach Interrupt Service Routines (depends board)
+  // Arduino built-in function to attach Interrupt Service Routines
+#if defined ESP32 || defined ESP8266  
+  // Use GPIO number (digital pin depens board)
+  attachInterrupt(RX_PIN, ISR_RX, CHANGE);
+#else
+  // Use Arduino digital pin number
   attachInterrupt(digitalPinToInterrupt(RX_PIN), ISR_RX, CHANGE);
-    
+#endif
+
   // Arduino build-in function to set serial UART data baud rate (depends board)
   Serial.begin(BAUD);
 
@@ -213,7 +227,7 @@ void receive() {
         }
 
         /* Begin RF TX */
-        ELECHOUSE_cc1101.SetTx();
+        ELECHOUSE_cc1101.SetTx();  // CC1101 set mode Transmit on (Receive off)
   #ifdef PTT_PIN
         // Enable PTT
         digitalWrite(PTT_PIN,HIGH);
@@ -240,7 +254,7 @@ void receive() {
         // Disable PTT
         digitalWrite(PTT_PIN,LOW);
   #endif
-        ELECHOUSE_cc1101.SetRx();
+        ELECHOUSE_cc1101.setSidle();  // CC1101 set mode Idle (Transmit off)
         /* End RF TX */
 
         // Clear pulse types array
@@ -248,6 +262,8 @@ void receive() {
             plstypes[i] = 0;
         }
         q = 0;
+
+        ELECHOUSE_cc1101.SetRx();  // CC1101 set mode Receive on
     }
 }
 
@@ -323,8 +339,18 @@ void broadcast(uint8_t nrpulses) {
 #endif
 }
 
+#if defined ESP8266 
+    // interrupt handler and related code must be in RAM on ESP8266
+    #define RECEIVE_ATTR ICACHE_RAM_ATTR
+#elif defined ESP32
+	// interrupt handler and related code must be in RAM on ESP32	
+	#define RECEIVE_ATTR IRAM_ATTR
+#else
+    #define RECEIVE_ATTR
+#endif
+
 // Generic ISR function for RF RX pulse interrupt handler
-void ISR_RX(){
+void RECEIVE_ATTR ISR_RX(){
 
   uint32_t current_counter = micros();
   uint16_t ten_us_counter  = uint16_t((current_counter-new_counter)/10);
@@ -363,6 +389,11 @@ void ISR_RX(){
 
 void loop(){
 
+  // Workaround for Leonardo, Micro, and others MCUs like ESP8266 and ESP32
+#ifndef HAVE_HWSERIAL0
+  if (Serial.available()) serialEvent();
+#endif
+
   // if receive flag is set
   if (receive_flag){
     // Call to receive()
@@ -395,4 +426,5 @@ void loop(){
     Serial.println();
   }
 #endif
+
 }
