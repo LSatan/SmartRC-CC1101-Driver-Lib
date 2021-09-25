@@ -1,0 +1,153 @@
+# This is the name of the workflow, visible on GitHub UI.
+name: 'Compile Tests'
+
+#description: 'Run the Arduino CLI to compile example sketches and check if compiles fine for multiple boards'
+#author: 'Jorge Rivera'
+
+# Controls when the action will run. 
+# Here we tell GitHub to run the workflow when a commit.
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+    paths:
+      - '*.h'
+      - '*.cpp'
+      - '**.ino'
+      - '.github/workflows/*.yml'
+
+  pull_request:
+    paths:
+      - '*.h'
+      - '*.cpp'
+      - '**.ino'
+      - '.github/workflows/*.yml'
+  
+  schedule:
+    - cron:  '0 0 1 * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# This is the list of jobs that will be run concurrently.
+# Since we use a build matrix, the actual number of jobs
+# started depends on how many configurations the matrix
+# will produce.
+jobs:
+  boards:
+    # This is the name of the job
+    name: "Compile test for ${{ matrix.config.board }}"
+    
+    # This is the platform GitHub will use to run our workflow
+    runs-on: ubuntu-latest
+    
+    # Here we tell GitHub that the jobs must be determined
+    # dynamically depending on a matrix configuration.
+    strategy:
+      
+      # Set to false so that GitHub does not cancel all jobs
+      # in progress if any array job fails.
+      fail-fast: false
+      
+      # The matrix will produce one job for each configuration:
+      matrix:
+        config:
+          - board: "Arduino Nano"
+            fqbn: "arduino:avr:nano"
+            platform: "arduino:avr"
+
+          - board: "Arduino Mega2560"
+            fqbn: "arduino:avr:mega"
+            platform: "arduino:avr"
+
+          - board: "ESP8266 Wemos D1 Mini (@2.7.4)"
+            fqbn: "esp8266:esp8266:d1_mini"
+            platform: "esp8266:esp8266@2.7.4"
+            additional-url: "--additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json"
+            
+          - board: "ESP32 NodeMCU-32S"
+            fqbn: "esp32:esp32:nodemcu-32s"
+            platform: "esp32:esp32"
+            additional-url: "--additional-urls https://dl.espressif.com/dl/package_esp32_index.json"
+
+    # This is the list of steps this job will run.
+    steps:
+      # We use the "arduino/setup-arduino-cli" action to install and
+      # configure the Arduino CLI on the system.
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.1.1
+
+      # We then install the platform, which one will be determined
+      # dynamically by the build matrix.
+      - name: Install platform ${{ matrix.config.platform }} 
+        run: |
+          arduino-cli config init -v ${{ matrix.config.additional-url }}
+          arduino-cli core update-index -v 
+          arduino-cli core install -v ${{ matrix.config.platform }} --run-post-install
+
+      # First of all, we clone the repo using the "checkout" action.
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Install ESPiLight library from Arduino library manager.
+      # Current version v0.17.0 not work on ESP8266 v3.x.x framework.
+      - name: Install ESPiLight library
+        run: |
+          arduino-cli lib update-index
+          arduino-cli lib install ESPiLight
+
+      # Install RC-Switch from repo https://github.com/Martin-Laclaustra
+      # Requires modified rc-switch branch "protocollessreceiver"
+      # with ReceivedInverted() and getReceivedLevelInFirstTiming()
+      - name: Install RC-Switch custom library 
+        run: |
+          git clone --branch protocollessreceiver https://github.com/Martin-Laclaustra/rc-switch.git libs/rc-switch
+          
+      # Install RemoteSensor library from directory repo using svn command from Apache Subversion.
+      - name: Install RemoteSensor custom library 
+        run: |
+          svn export https://github.com/mattwire/arduino-dev/trunk/libraries/RemoteSensor libs/RemoteSensor
+
+      # Install NewRemoteSwitch from repo. Commit c3ca4cb (Sep 19, 2021) or later, required.
+      - name: Install NewRemoteSwitch custom library 
+        run: |
+          git clone https://github.com/1technophile/NewRemoteSwitch.git libs/NewRemoteSwitch
+
+      # Finally, we compile the sketches, using the FQBN that was set in the boards matrix.
+      - name: Compile examples for ${{ matrix.config.board }}
+        id: compile
+        env: 
+          fqbn: ${{ matrix.config.fqbn }}
+        run: |
+          # Compile example sketches:
+          export errors=()
+          for sketch in $( find ./examples -name "*.ino"|sed "s/\ /__ESPACE__/g" )
+          do
+            sketch_path=$( echo $sketch |sed "s/__ESPACE__/\ /g" )
+            sketch_name=$( echo $sketch_path |sed "s/.*\///" )
+            grep -qi 'ESPiLight' <<< $sketch_path && grep -qiv '^esp' <<< $fqbn && echo -e "\033[33;1;4mSkip example sketch: $sketch_path for $fqbn board\033[0m" || \
+            {
+              echo -e "\033[34;1;4mCompile example sketch: $sketch_path\033[0m"
+              arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --warnings none \
+                --library ../SmartRC-CC1101-Driver-Lib  \
+                --library $GITHUB_WORKSPACE/libs/rc-switch  \
+                --library $GITHUB_WORKSPACE/libs/RemoteSensor  \
+                --library $GITHUB_WORKSPACE/libs/NewRemoteSwitch "$sketch_path" \
+              || { errors+=($sketch) ; echo -e "\033[31;1;4mERROR COMPILING SKETCH: $sketch_path\033[0m\r\n" ;} \
+            ;}
+          done
+          echo ::set-output name=errors::${errors[@]}
+
+      # Show errors
+      - name: Show errors
+        if: ${{ steps.compile.outputs.errors }}
+        env: 
+          errors: ${{ steps.compile.outputs.errors }}
+        run: |
+          #  Show errors
+          for sketch in $errors 
+          do
+            sketch_path=$( echo $sketch |sed "s/__ESPACE__/\ /g" )
+            echo -e "\033[31;1;4mERROR COMPILING SKETCH: $sketch_path\033[0m"
+          done
+          exit 1
