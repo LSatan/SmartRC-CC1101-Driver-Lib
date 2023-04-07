@@ -1,5 +1,8 @@
 # SmartRC-CC1101-Driver-Lib
 
+Texax Instruments TI CC1101 radio transmitter/receiver library for Arduino IDE.
+CC1101 details: https://www.ti.com/product/CC1101
+
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/LSatan/SmartRC-CC1101-Driver-Lib)
 
 Note: Find out about the laws in your country. Use at your own risk.
