@@ -1,34 +1,34 @@
-﻿# SmartRC-CC1101-Driver-Lib_V2.5.7
+# SmartRC-CC1101-Driver-Lib
+
+Texax Instruments TI CC1101 radio transmitter/receiver library for Arduino IDE.
+CC1101 details: https://www.ti.com/product/CC1101
 
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/LSatan/SmartRC-CC1101-Driver-Lib)
 
-Note: Find out about the laws in your country.
-Use at your own risk.
+Note: Find out about the laws in your country. Use at your own risk.
 
-Attention! in version 2.5.7 there are changes for the internal transfer functions regarding the gdo pin assignment!
+If you like the library, I would be happy about a star.
 
----------------------------------------------
-Announcements / other
----------------------------------------------
+You can support me with a donation: 
+https://www.paypal.me/LittleSatan666
 
-attention: currently i can only answer questions very belatedly.
-try to scour existing problems for a solution if possible.
-Problems that have not yet been closed are mostly already solved!
-thanks for your understanding
+
+# Announcements
+Note: In version 2.5.7 there are changes for the internal transfer functions regarding the gdo pin assignment!
+
+Note: Currently I can only answer questions very belatedly. Try to scour existing problems for a solution if possible. Problems that have not yet been closed are still mostly already solved. Thanks for your understanding! 
 
 For debug and advanced functions: https://github.com/LSatan/CC1101-Debug-Service-Tool
 
-new library Simu_Remote: https://github.com/LSatan/Simu_Remote_CC1101
+New library Simu_Remote: https://github.com/LSatan/Simu_Remote_CC1101
 
----------------------------------------------
-Install:
----------------------------------------------
 
-Can be downloaded directly from the Arduino library manager. Just search for cc1101.
+# Installation
+Can be downloaded directly from the Arduino Library manager. Search for CC1101. 
 
----------------------------------------------
-Foreword:
----------------------------------------------
+You also need to install depencies/libaries mentioned in examples if you those. 
+
+# Foreword
 First of all, thanks to Elechouse that I can make the modified library accessible to everyone.
 
 Link: http://www.elechouse.com/elechouse/
@@ -43,89 +43,61 @@ I would be happy to receive your suggestions for further examples from other lib
 
 All examples included are listed in the next field.
 
----------------------------------------------
-Containing examples:
----------------------------------------------
-1.Elechouse CC1101:
--
-Description: CC1101 Internal send / receive examples. Supported modulations 2-FSK, GFSK, ASK/OOK, 4-FSK, MSK.
 
-2.Rc-Switch:
--
-<p>Description: Arduino lib to operate 433/315Mhz devices like power outlet sockets.</p>
-<p>Link: https://github.com/sui77/rc-switch</p>
+# Included examples
+## Elechouse CC1101
+Description: CC1101 Internal send / receive examples. Supported modulations 2-FSK, GFSK, ASK/OOK, 4-FSK, MSK. 
 
-3.NewRemoteswitch:
--
-<p>Description: This library provides an easy class for Arduino, to send and receive signals used by some common "new style" 433MHz remote control switches.</p>
-<p>Link: https://github.com/1technophile/NewRemoteSwitch</p>
+## Rc-Switch
+Description: Arduino lib to operate 433/315Mhz devices like power outlet sockets. Example 'receive_advanced_cc1101' can be used to capture commands from existing remote (in decimal or hex) and then example 'send_cc1101' can send those captured commands.
+Link: https://github.com/sui77/rc-switch
 
-4.RemoteSensor library:
--
-<p>Description: This library provides an easy class for Arduino, to send and receive signals used by some common weather stations using -remote 433MHz sensors.</p>
-<p>Link: https://github.com/mattwire/arduino-dev/tree/master/libraries/RemoteSensor</p>
+## NewRemoteswitch
+Description: This library provides an easy class for Arduino, to send and receive signals used by some common "new style" 433MHz remote control switches.
+Link: https://github.com/1technophile/NewRemoteSwitch
 
-5.ESPiLight:
--
-<p>Description:This Arduino library is a port of the pilight 433.92MHz protocols to the Arduino platform. It was tested with a ESP8266. The aim is to transmit, receive and parse many 433.92MHz protocols, by providing a simple Arduino friendly API. This should help to implement IoT bridges between the 434MHz-RF band and internet protocols.</p>
-<p>Link:https://github.com/puuu/ESPiLight</p>
+## RemoteSensor library
+Description: This library provides an easy class for Arduino, to send and receive signals used by some common weather stations using -remote 433MHz sensors.
+Link: https://github.com/mattwire/arduino-dev/tree/master/libraries/RemoteSensor
 
----------------------------------------------
-Instructions / Description:
----------------------------------------------
-This driver library can be used for many libraries that use a simple RF ASK module,
-with the advantages of the cc1101 module.It offers many direct setting options as in 
-SmartRF Studio and calculates settings such as MHz directly.
-
-The most important functions at a glance:
-
-ELECHOUSE_cc1101.Init();		//Initialize the cc1101. Must be set first!
-
-ELECHOUSE_cc1101.setPA(PA);		//Set transmission power.
-
-ELECHOUSE_cc1101.setMHZ(MHZ);		//Set the basic frequency.
-
-ELECHOUSE_cc1101.SetTx();		//Set transmit on. 
-
-ELECHOUSE_cc1101.SetTx(MHZ);		//Sets transmit on and changes the frequency.
-
-ELECHOUSE_cc1101.SetRX();		//Set receive on.
-
-ELECHOUSE_cc1101.SetRx(MHZ);		//Sets receive on and changes the frequency.
-
-ELECHOUSE_cc1101.setRxBW(RXBW);		//Set Receive filter bandwidth		
-
-ELECHOUSE_cc1101.setGDO(GDO0, GDO2); 	//Set Gdo0 (tx) and Gdo2 (rx) for serial transmission function.
+## ESPiLight
+Description: This Arduino library is a port of the pilight 433.92MHz protocols to the Arduino platform. It was tested with a ESP8266. The aim is to transmit, receive and parse many 433.92MHz protocols, by providing a simple Arduino friendly API. This should help to implement IoT bridges between the 434MHz-RF band and internet protocols.
+Link: https://github.com/puuu/ESPiLight
 
 
-ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your own Spi Pins.Or to switch between multiple cc1101. Must be set before init and before changing the cc1101.
+# Instructions
+This driver library can be used for many libraries that use a simple RF ASK module, with the advantages of the cc1101 module.It offers many direct setting options as in SmartRF Studio and calculates settings such as MHz directly.
 
-ELECHOUSE_cc1101.setChannel(chnl); 	//Set Channel from 0 to 255. default = 0(basic frequency).
+## The most important functions/settings
+ELECHOUSE_cc1101.setSpiPin(16, 17, 18, 19); // Set custom SPI pins: SCK, MISO, MOSI, CSN. Or to switch between multiple CC1101. Must be set before init and before changing the CC1101!
 
-ELECHOUSE_cc1101.setClb(fband, cal1, cal2); //Optionally enter Offset Callibration. Requirements: Sketch Calibrate_frequency.ino below [CC1101-Debug-Service-Tool](https://github.com/LSatan/CC1101-Debug-Service-Tool/tree/master/Calibrate_frequency).A SDR receiver and SDR software.
+ELECHOUSE_cc1101.setGDO(20, 21); 	// Set custom pins: GDO0, GDO2. Gdo0 (tx) and Gdo2 (rx) are used for serial transmission function. 
 
-New in V2.5.7
+ELECHOUSE_cc1101.Init();		// Initialize the cc1101. Must be set first (except: setSpiPin and SetGDO must be set before Init().
 
-ELECHOUSE_cc1101.setGDO0(GDO0);         //Sets Gdo0 for internal transfer function.
+ELECHOUSE_cc1101.setPA(10);		// Optional: Set TxPower. Settings available depending on the frequency band: -30, -20, -15, -10, -6, 0, 5, 7, 10, 11, 12. Default: Max.
 
-ELECHOUSE_cc1101.addGDO0(GDO0, Modul);	//Adds Gdo0 for internal transfer function (multiple cc1101).
+ELECHOUSE_cc1101.setMHZ(433.92);		// Set basic frequency. Default: 433.92. The lib calculates the frequency automatically. CC1101 can: 300-348 MHZ, 387-464MHZ and 779-928MHZ. Read More info from datasheet.
 
-ELECHOUSE_cc1101.addGDO(GDO0, GDO2, Modul);  //Adds Gdo0 (tx) and Gdo2 (rx) for serial transmission function (multiple cc1101).
+ELECHOUSE_cc1101.SetTx();		// Set transmit on. 
 
-ELECHOUSE_cc1101.addSpiPin(SCK, MISO, MOSI, CSN, Modul);  //Adds Spi Pins for multiple cc1101.
+ELECHOUSE_cc1101.SetTx(433.8);		// Set transmit on and changes the frequency.
 
-ELECHOUSE_cc1101.setModul(Modul);  //Switches between modules. from 0 to 5. So a maximum of 6.
+ELECHOUSE_cc1101.SetRX();		// Set receive on.
+
+ELECHOUSE_cc1101.SetRx(433.7);		// Set receive on and changes the frequency.
+
+ELECHOUSE_cc1101.setRxBW(RXBW);		// Optional: Set Receive filter bandwidth		
+
+ELECHOUSE_cc1101.setChannel(0); 	// Optional: Set Channel from 0 to 255. Default: 0 (basic frequency).
+
+ELECHOUSE_cc1101.setClb(fband, cal1, cal2); // Optional: Set Offset Callibration. Requirements: Sketch Calibrate_frequency.ino below [CC1101-Debug-Service-Tool](https://github.com/LSatan/CC1101-Debug-Service-Tool/tree/master/Calibrate_frequency). A SDR receiver and SDR software.
 
 
-The new features are not final and can be changed at any time.
+# Wiring
+Note: A logic level converter is recommended for Arduino. It also works well without. Use at your own risk.
 
-All can also be used in a loop and are applied directly.
-
----------------------------------------------
-Wiring:
----------------------------------------------
-
-Notes: A logic level converter is recommended for arduino. It also works well without. Use at your own risk.
+Note: On **NodeMCU ESP32**: Default SPI pins gives MD5 hash error so use diiferent SPI and GDO pins. The easiest is to use **pins 16-33** because other pins have special functions and can/will produce errors. 
 
 <img src="https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Nano_CC1101.png"/>
 
@@ -139,20 +111,12 @@ Notes: A logic level converter is recommended for arduino. It also works well wi
 
 <img src="https://github.com/LSatan/SmartRC-CC1101-Driver-Lib/blob/master/img/Wiring_CC1101.png"/>
 
----------------------------------------------
-Donation
----------------------------------------------
 
-If you like the library, I would be happy about a star.
 
-you can support me with a donation.
-
-https://www.paypal.me/LittleSatan666
-
-Thank You!
+# Changelog
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.7
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.7
 ---------------------------------------------
 13.07.2021
 
@@ -161,21 +125,21 @@ Driver Library		:Fixed a bug when initalizing multiple cc1101
 Driver Library		:new commandos for easy handling of multiple cc1101
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.6
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.6
 ---------------------------------------------
 06.04.2021
 
 Driver Library		:Add NUM_PREAMBLE. Sets the minimum number of preamble bytes to be transmitted.
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.5
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.5
 ---------------------------------------------
 23.01.2021
 
 Driver Library		:Error correction for CheckRxFifo and CheckReceiveFlag (reception internal CC1101 function).
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.4
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.4
 ---------------------------------------------
 23.01.2021
 
@@ -184,7 +148,7 @@ Driver Library		:No big frequency jumps over SetRx(freq); Possible. Fixed! Big t
 Driver Library		:double-initaliesing option from V2.5.3 has been removed. Necessary for SetRx(freq); to use.
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.3
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.3
 ---------------------------------------------
 22.01.2021
 
@@ -201,7 +165,7 @@ Driver Library		:new command added: ELECHOUSE_cc1101.getCC1101(); //Test Spi con
 Examples		:RcSwitch Repeater_cc1101.ino has been shortened.
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.2
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.2
 ---------------------------------------------
 01.10.2020
 
@@ -216,14 +180,14 @@ Driver Library		:Added new sending method. Allows sending without a gdo0 pin.
 notes			:The new internal send and receive methods now work completely without an additional gdo pin.
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.1
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.1
 ---------------------------------------------
 18.08.2020
 
 Driver Library		:When changing from receiving to sending, the program freezes (internal send functions). fixed!
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.5.0
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.5.0
 ---------------------------------------------
 16.08.2020
 
@@ -238,7 +202,7 @@ Driver Library		:Simplification to send char added for internal transfer example
 Driver Library		:A lot of new settings added for internal transmission examples. Everything can be set as in SmartRF Studio and is calculated automatically. An overview: setDeviation, setChsp, setRxBW, setDRate, setSyncMode, setSyncWord, setAdrChk, setAddr, setWhiteData, setPktFormat, setLengthConfig, setPacketLength, setCrc, setCRC_AF, setDcFilterOff, setManchester, setFEC, setPQT, setAppendStatus. description in the examples!
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.4.0
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.4.0
 ---------------------------------------------
 07.05.2020
 
@@ -249,21 +213,21 @@ Driver Library		:Added frequency calibration option.
 Driver Library		:Certain frequencies could not be set. Fixed! Big thanks to gusgorman402!
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.3.5
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.3.5
 ---------------------------------------------
 14.04.2020
 
 Driver Library		:setChsp has been removed to save space. This function is available in the Service / Debug Tool as an extended function.
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.3.4
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.3.4
 ---------------------------------------------
 01.04.2020
 
 Driver Library		:set AGCCTRL2 from 0x07 to 0xC7. Reception is significantly improved!
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.3.3
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.3.3
 ---------------------------------------------
 01.04.2020
 
@@ -274,7 +238,7 @@ Driver Library		:set SpiWriteReg to public. Make it fit for debug tool!
 Driver Library		:set SpiStrobe to public. Make it fit for debug tool!
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.3.2
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.3.2
 ---------------------------------------------
 24.03.2020
 
@@ -283,7 +247,7 @@ Driver Library		:Set gdo2 from input to output. Errors in libraries that use the
 examples		:Set gdo2 from setting 2 to 0 in default examples. Gdo2 is not required for these examples.
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.3.1
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.3.1
 ---------------------------------------------
 18.03.2020
 
@@ -296,7 +260,7 @@ examples		:internal cc1101 examples have been adapted for esp8266/32.
 examples		:ESPiLight examples added.
 
 ---------------------------------------------
-Changelog: SmartRC-CC1101-Driver-Lib_V2.3
+## Changelog: SmartRC-CC1101-Driver-Lib_V2.3
 ---------------------------------------------
 18.03.2020
 
@@ -331,7 +295,7 @@ examples		:New examples added "Elechouse CC1101 default examples"
 examples		:Remote Fusion has been removed and given an extra library.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V2.2.1
+## Changelog: RCSwitch-CC1101-Driver-Lib_V2.2.1
 ---------------------------------------------
 [Download Release V2.2.1](https://drive.google.com/file/d/1YHFpp2GQC96-GKcg67Tym9wt1E4CBdFc/view?usp=sharing)
 
@@ -342,7 +306,7 @@ Driver Library		:Spi options have been removed. (Problems with ESP32) FIXED!
 notes			:everything was checked again. D-SUN module on esp8266 / 32 and so on.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V2.2
+## Changelog: RCSwitch-CC1101-Driver-Lib_V2.2
 ---------------------------------------------
 17.01.2019
 
@@ -363,14 +327,14 @@ Add Examples		:Frequency_Scanner_cc1101.ino (Scans Transmitting frequency of you
 Add Examples		:ProtocolAnalyzeDemo_cc1101.ino (for scan unknown protokolls. Requires: link is in sketch!) 
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V2.1
+## Changelog: RCSwitch-CC1101-Driver-Lib_V2.1
 ---------------------------------------------
 3.1.2019
 
 Driver Library		:Spi corrections for esp32. Spi Pin changes did not work on esp32. FIXED!
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V2.0
+## Changelog: RCSwitch-CC1101-Driver-Lib_V2.0
 ---------------------------------------------
 18.12.2018
 
@@ -379,7 +343,7 @@ Driver Library		:Own Spi pin settings possible. Allows the use of other microcon
 Add TXT			:driver lib commands and examples.txt
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.9.3
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.9.3
 ---------------------------------------------
 27.11.2018
 
@@ -399,7 +363,7 @@ LICENSE			:LICENSE.txt Update.
 notes			:setGDO is not compatible with RC_Switch / NewRemotSwitch.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.9.2
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.9.2
 ---------------------------------------------
 16.11.2018
 
@@ -410,14 +374,14 @@ NewRemoteSwitch		:LearnCode_cc1101.ino (corrections).
 Added			:Keywords.txt added.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.9.1
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.9.1
 ---------------------------------------------
 07.11.2018
 
 New Sketch		:Clear_EEPROM.ino (if there are problems with the access point password or if you want to use your ESP for other projects).
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.9
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.9
 ---------------------------------------------
 18.10.2018
 
@@ -433,7 +397,7 @@ notes			:RemotesFusion is an application with which Rc-Switch and NewRemoteSwitc
 			 A universal remote control APP with many possibilities. Only for Esp 8266/32 modules! For more information, watch the docs.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.8
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.8
 ---------------------------------------------
 [Download Release V1.8](https://drive.google.com/file/d/1ADKOmW0SrUoomeoDskFrm0J2SdwCLB_O/view?usp=sharing)
 
@@ -450,7 +414,7 @@ Add Wiring TXT		:Add Wiring TXT esp32.
 Add Wiring JPG		:Add Wiring JPG esp32 for Receive_Send_Decimal_Demo_Simple.ino.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.7.2
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.7.2
 ---------------------------------------------
 [Download Release V1.7.2](https://drive.google.com/file/d/1sfMvQw2JaGARTaYXZevOjB20BFOMS0tw/view?usp=sharing)
 
@@ -461,7 +425,7 @@ Examples		:All NewRemoteSwitch examples are compatible with ESP. Exception Retra
 Driver Library		:Frequency calculator calibrated. Difference -0.01 MHz. (Fixed!) Frequency is now accurate.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.7.1
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.7.1
 ---------------------------------------------
 [Download Release V1.7.1](https://drive.google.com/file/d/1PXa1k0AIDY8bTMxFyyQMbOljijhIn1ke/view?usp=sharing)
 
@@ -470,7 +434,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.7.1
 Driver Library		:Now you can Switch the frequency in loop. Examples: ELECHOUSE_cc1101.SetTx(433.92); and ELECHOUSE_cc1101.SetRx(433.92);.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.7
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.7
 ---------------------------------------------
 [Download Release V1.7](https://drive.google.com/file/d/1uxACfe1ZUrkL4S3_NPVN0DmUfzbxt6oQ/view?usp=sharing)
 
@@ -485,7 +449,7 @@ Driver Library		:Removed unnecessary entries. the library shrank from 32,8kb(.cp
 New Example		:(NewRemoteSwitch Library) NewRemoteRepeater.ino. Repeat the Received signal 1to1. Best thanks to Roman for write it. 
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.6.1
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.6.1
 ---------------------------------------------
 [Download Release V1.6.1](https://drive.google.com/file/d/1q8FV5kDnhAj1SMZf6DS0wDcm5xo4E-5-/view?usp=sharing)
 
@@ -494,7 +458,7 @@ Changelog: RCSwitch-CC1101-Driver-Lib_V1.6.1
 Examples Fix (rc-switch):Fix auto receive pulse. Received pulse don´t transmit. Fixed!(Repeater.ino and Receive_Send_Decimal_Demo_Simple.ino).
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.6
 ---------------------------------------------
 [Download Release V1.6](https://drive.google.com/file/d/1p_iAxh7ZWlNWhFoqMM_tlLTLdyGK07-a/view?usp=sharing)
 
@@ -511,7 +475,7 @@ Examples		:All examples have been adjusted.
 Examples		:Esp and Arduino are set automatically. 
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.5
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.5
 ---------------------------------------------
 [Download Release V1.5](https://drive.google.com/file/d/1XcGPbvI5v2PcpnVBbjtOFwtuJtx3jMK4/view?usp=sharing)
 
@@ -537,7 +501,7 @@ Notes			:Rc-switch example Repeater_cc1101.ino only Arduino!!!
 Notes			:Rc-switch example Receive_Send_Decimal_Demo_Simple.ino only Arduino!!!
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.4
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.4
 ---------------------------------------------
 [Download Release V1.4](https://drive.google.com/file/d/1nAPGeQSutfskirJsng44adB4sXU1YU6A/view?usp=sharing)
 
@@ -564,7 +528,7 @@ Notes			:esp8266 pin D4 don´t work with receive, Transmit and receive is set to
 Notes 			:esp8266 don´t work with Receive_Send_Decimal_Demo_Simple.ino (freezes when reset cc1101).
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.3.1
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.3.1
 ---------------------------------------------
 [Download Release V1.3.1](https://drive.google.com/file/d/1iKmagldd14O1Boa9Z_PDpXbHRECYUPdt/view?usp=sharing)
 
@@ -579,7 +543,7 @@ Examples		:Command Tx Power cleared.
 Examples Fix		:set Receive filter bandwidth (command incomplete) Fixed.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.3
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.3
 ---------------------------------------------
 [Download Release V1.3](https://drive.google.com/file/d/1q56Qewk8-Aquv1epss1gd7Gc05q4GrbO/view?usp=sharing)
 
@@ -598,7 +562,7 @@ Driver Library		:Channel spacing can be set.
 Examples		:Add set new commands
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.2 
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.2 
 ---------------------------------------------
 [Download Release V1.2](https://drive.google.com/file/d/1KLJt8ygszj9rqcttiEMt5zCnJKHc_qe3/view?usp=sharing)
 
@@ -611,7 +575,7 @@ Driver Library 		:Add Channel command for finetune (80khz steps) from 420mhz - 4
 Examples		:Add set channel command in examples.
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.1 
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.1 
 ---------------------------------------------
 [Download Release V1.1](https://drive.google.com/file/d/1uZzcY4uoduiUjFZzXdxA-ucLoA_TtC1f/view?usp=sharing)
 
@@ -630,7 +594,7 @@ Add Wiring JPG		:Wiring for Nano / Uno
 
 
 ---------------------------------------------
-Changelog: RCSwitch-CC1101-Driver-Lib_V1.0 
+## Changelog: RCSwitch-CC1101-Driver-Lib_V1.0 
 ---------------------------------------------
 [Download Release V1.0](https://drive.google.com/file/d/14538RtiEakZ_8yioXJT32XneheSjDqxi/view?usp=sharing)
 
