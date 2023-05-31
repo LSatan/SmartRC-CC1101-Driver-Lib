@@ -139,15 +139,15 @@ void ELECHOUSE_CC1101::GDO0_Set (void)
 ****************************************************************/
 void ELECHOUSE_CC1101::Reset (void)
 {
-	digitalWrite(SS_PIN, LOW);
-	delay(1);
-	digitalWrite(SS_PIN, HIGH);
-	delay(1);
-	digitalWrite(SS_PIN, LOW);
-	while(digitalRead(MISO_PIN));
+  digitalWrite(SS_PIN, LOW);
+  delay(1);
+  digitalWrite(SS_PIN, HIGH);
+  delay(1);
+  digitalWrite(SS_PIN, LOW);
+  while(digitalRead(MISO_PIN));
   SPI.transfer(CC1101_SRES);
   while(digitalRead(MISO_PIN));
-	digitalWrite(SS_PIN, HIGH);
+  digitalWrite(SS_PIN, HIGH);
 }
 /****************************************************************
 *FUNCTION NAME:Init
@@ -442,7 +442,7 @@ setPA(pa);
 ****************************************************************/
 void ELECHOUSE_CC1101::setPA(int p)
 {
-int a;
+int a = 0;
 pa = p;
 
 if (MHz >= 300 && MHz <= 348){
@@ -980,7 +980,6 @@ int calc = SpiReadStatus(19);
 m1FEC = 0;
 m1PRE = 0;
 m1CHSP = 0;
-int s2 = 0;
 for (bool i = 0; i==0;){
 if (calc >= 128){calc-=128; m1FEC+=128;}
 else if (calc >= 16){calc-=16; m1PRE+=16;}
