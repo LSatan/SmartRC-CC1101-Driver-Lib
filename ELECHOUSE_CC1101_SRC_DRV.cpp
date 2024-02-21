@@ -24,6 +24,10 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #define BYTES_IN_RXFIFO   0x7F            //byte number in RXfifo
 #define max_modul 6
 
+#define TRX_STATE_IDLE    0             //idle
+#define TRX_STATE_RX      1             //receive
+#define TRX_STATE_TX      2             //transmit
+
 byte modulation = 2;
 byte frend0;
 byte chan = 0;
@@ -62,7 +66,7 @@ byte pc0WDATA;
 byte pc0PktForm;
 byte pc0CRC_EN;
 byte pc0LenConf;
-byte trxstate = 0;
+byte trxstate = TRX_STATE_IDLE;
 byte clb1[2] = {24, 28};
 byte clb2[2] = {31, 38};
 byte clb3[2] = {65, 76};
@@ -366,8 +370,8 @@ void ELECHOUSE_CC1101::setSpi(void)
   }
 }
 /****************************************************************
- *FUNCTION NAME:COSTUM SPI
- *FUNCTION     :set costum spi pins.
+ *FUNCTION NAME:CUSTOM SPI
+ *FUNCTION     :set custom spi pins.
  *INPUT        :none
  *OUTPUT       :none
  ****************************************************************/
@@ -380,8 +384,8 @@ void ELECHOUSE_CC1101::setSpiPin(byte sck, byte miso, byte mosi, byte ss)
   SS_PIN = ss;
 }
 /****************************************************************
- *FUNCTION NAME:COSTUM SPI
- *FUNCTION     :set costum spi pins.
+ *FUNCTION NAME:CUSTOM SPI
+ *FUNCTION     :set custom spi pins.
  *INPUT        :none
  *OUTPUT       :none
  ****************************************************************/
@@ -887,7 +891,7 @@ void ELECHOUSE_CC1101::setClb(byte b, byte s, byte e)
 bool ELECHOUSE_CC1101::getCC1101(void)
 {
   setSpi();
-  if (SpiReadStatus(0x31) > 0)
+  if (SpiReadStatus(CC1101_VERSION) > 0)
   {
     return 1;
   }
@@ -1332,7 +1336,7 @@ void ELECHOUSE_CC1101::setDeviation(float d)
  ****************************************************************/
 void ELECHOUSE_CC1101::Split_PKTCTRL1(void)
 {
-  int calc = SpiReadStatus(7);
+  int calc = SpiReadStatus(CC1101_PKTCTRL1);
   pc1PQT = 0;
   pc1CRC_AF = 0;
   pc1APP_ST = 0;
@@ -1369,7 +1373,7 @@ void ELECHOUSE_CC1101::Split_PKTCTRL1(void)
  ****************************************************************/
 void ELECHOUSE_CC1101::Split_PKTCTRL0(void)
 {
-  int calc = SpiReadStatus(8);
+  int calc = SpiReadStatus(CC1101_PKTCTRL0);
   pc0WDATA = 0;
   pc0PktForm = 0;
   pc0CRC_EN = 0;
@@ -1406,7 +1410,7 @@ void ELECHOUSE_CC1101::Split_PKTCTRL0(void)
  ****************************************************************/
 void ELECHOUSE_CC1101::Split_MDMCFG1(void)
 {
-  int calc = SpiReadStatus(19);
+  int calc = SpiReadStatus(CC1101_MDMCFG1);
   m1FEC = 0;
   m1PRE = 0;
   m1CHSP = 0;
@@ -1438,7 +1442,7 @@ void ELECHOUSE_CC1101::Split_MDMCFG1(void)
  ****************************************************************/
 void ELECHOUSE_CC1101::Split_MDMCFG2(void)
 {
-  int calc = SpiReadStatus(18);
+  int calc = SpiReadStatus(CC1101_MDMCFG2);
   m2DCOFF = 0;
   m2MODFM = 0;
   m2MANCH = 0;
@@ -1475,7 +1479,7 @@ void ELECHOUSE_CC1101::Split_MDMCFG2(void)
  ****************************************************************/
 void ELECHOUSE_CC1101::Split_MDMCFG4(void)
 {
-  int calc = SpiReadStatus(16);
+  int calc = SpiReadStatus(CC1101_MDMCFG4);
   m4RxBw = 0;
   m4DaRa = 0;
   for (bool i = 0; i == 0;)
@@ -1543,7 +1547,7 @@ void ELECHOUSE_CC1101::SetTx(void)
 {
   SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_STX); // start send
-  trxstate = 1;
+  trxstate = TRX_STATE_TX;
 }
 /****************************************************************
  *FUNCTION NAME:SetRx
@@ -1555,7 +1559,7 @@ void ELECHOUSE_CC1101::SetRx(void)
 {
   SpiStrobe(CC1101_SIDLE);
   SpiStrobe(CC1101_SRX); // start receive
-  trxstate = 2;
+  trxstate = TRX_STATE_RX;
 }
 /****************************************************************
  *FUNCTION NAME:SetTx
@@ -1568,7 +1572,7 @@ void ELECHOUSE_CC1101::SetTx(float mhz)
   SpiStrobe(CC1101_SIDLE);
   setMHZ(mhz);
   SpiStrobe(CC1101_STX); // start send
-  trxstate = 1;
+  trxstate = TRX_STATE_TX;
 }
 /****************************************************************
  *FUNCTION NAME:SetRx
@@ -1581,7 +1585,7 @@ void ELECHOUSE_CC1101::SetRx(float mhz)
   SpiStrobe(CC1101_SIDLE);
   setMHZ(mhz);
   SpiStrobe(CC1101_SRX); // start receive
-  trxstate = 2;
+  trxstate = TRX_STATE_RX;
 }
 /****************************************************************
  *FUNCTION NAME:RSSI Level
@@ -1624,7 +1628,7 @@ byte ELECHOUSE_CC1101::getLqi(void)
 void ELECHOUSE_CC1101::setSres(void)
 {
   SpiStrobe(CC1101_SRES);
-  trxstate = 0;
+  trxstate = TRX_STATE_IDLE;
 }
 /****************************************************************
  *FUNCTION NAME:setSidle
@@ -1635,7 +1639,7 @@ void ELECHOUSE_CC1101::setSres(void)
 void ELECHOUSE_CC1101::setSidle(void)
 {
   SpiStrobe(CC1101_SIDLE);
-  trxstate = 0;
+  trxstate = TRX_STATE_IDLE;
 }
 /****************************************************************
  *FUNCTION NAME:goSleep
@@ -1645,9 +1649,9 @@ void ELECHOUSE_CC1101::setSidle(void)
  ****************************************************************/
 void ELECHOUSE_CC1101::goSleep(void)
 {
-  trxstate = 0;
-  SpiStrobe(0x36); // Exit RX / TX, turn off frequency synthesizer and exit
-  SpiStrobe(0x39); // Enter power down mode when CSn goes high.
+  trxstate = TRX_STATE_IDLE;
+  SpiStrobe(CC1101_SIDLE); // Exit RX / TX, turn off frequency synthesizer and exit
+  SpiStrobe(CC1101_SPWD); // Enter power down mode when CSn goes high.
 }
 /****************************************************************
  *FUNCTION NAME:Char direct SendData
@@ -1682,7 +1686,7 @@ void ELECHOUSE_CC1101::SendData(byte *txBuffer, byte size)
   while (digitalRead(GDO0))
     ;                     // Wait for GDO0 to be cleared -> end of packet
   SpiStrobe(CC1101_SFTX); // flush TXfifo
-  trxstate = 1;
+  trxstate = TRX_STATE_TX;
 }
 /****************************************************************
  *FUNCTION NAME:Char direct SendData
@@ -1714,7 +1718,7 @@ void ELECHOUSE_CC1101::SendData(byte *txBuffer, byte size, int t)
   SpiStrobe(CC1101_STX); // start send
   delay(t);
   SpiStrobe(CC1101_SFTX); // flush TXfifo
-  trxstate = 1;
+  trxstate = TRX_STATE_TX;
 }
 /****************************************************************
  *FUNCTION NAME:Check CRC
@@ -1745,7 +1749,7 @@ bool ELECHOUSE_CC1101::CheckCRC(void)
  ****************************************************************/
 bool ELECHOUSE_CC1101::CheckRxFifo(int t)
 {
-  if (trxstate != 2)
+  if (trxstate != TRX_STATE_RX)
   {
     SetRx();
   }
