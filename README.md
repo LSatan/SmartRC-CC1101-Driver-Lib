@@ -79,6 +79,7 @@ SmartRF Studio and calculates settings such as MHz directly.
 
 The most important functions at a glance:
 
+``` cpp
 ELECHOUSE_cc1101.Init();		//Initialize the cc1101. Must be set first!
 
 ELECHOUSE_cc1101.setPA(PA);		//Set transmission power.
@@ -97,15 +98,15 @@ ELECHOUSE_cc1101.setRxBW(RXBW);		//Set Receive filter bandwidth
 
 ELECHOUSE_cc1101.setGDO(GDO0, GDO2); 	//Set Gdo0 (tx) and Gdo2 (rx) for serial transmission function.
 
-
 ELECHOUSE_cc1101.setSpiPin(SCK, MISO, MOSI, CSN); //custom SPI pins. Set your own Spi Pins.Or to switch between multiple cc1101. Must be set before init and before changing the cc1101.
 
 ELECHOUSE_cc1101.setChannel(chnl); 	//Set Channel from 0 to 255. default = 0(basic frequency).
 
 ELECHOUSE_cc1101.setClb(fband, cal1, cal2); //Optionally enter Offset Callibration. Requirements: Sketch Calibrate_frequency.ino below [CC1101-Debug-Service-Tool](https://github.com/LSatan/CC1101-Debug-Service-Tool/tree/master/Calibrate_frequency).A SDR receiver and SDR software.
-
+```
 New in V2.5.7
 
+``` cpp
 ELECHOUSE_cc1101.setGDO0(GDO0);         //Sets Gdo0 for internal transfer function.
 
 ELECHOUSE_cc1101.addGDO0(GDO0, Modul);	//Adds Gdo0 for internal transfer function (multiple cc1101).
@@ -115,7 +116,7 @@ ELECHOUSE_cc1101.addGDO(GDO0, GDO2, Modul);  //Adds Gdo0 (tx) and Gdo2 (rx) for 
 ELECHOUSE_cc1101.addSpiPin(SCK, MISO, MOSI, CSN, Modul);  //Adds Spi Pins for multiple cc1101.
 
 ELECHOUSE_cc1101.setModul(Modul);  //Switches between modules. from 0 to 5. So a maximum of 6.
-
+```
 
 The new features are not final and can be changed at any time.
 
