@@ -163,8 +163,8 @@ void ELECHOUSE_CC1101::Init(void)
   digitalWrite(SCK_PIN, HIGH);
   digitalWrite(MOSI_PIN, LOW);
   Reset();                    //CC1101 reset
-  RegConfigSettings();            //CC1101 register config
   SpiEnd();
+  RegConfigSettings();            //CC1101 register config
 }
 /****************************************************************
 *FUNCTION NAME:SpiWriteReg
