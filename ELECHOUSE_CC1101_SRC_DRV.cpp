@@ -185,6 +185,9 @@ void ELECHOUSE_CC1101::GDO0_Set (void)
 ****************************************************************/
 bool ELECHOUSE_CC1101::checkMISO (void)
 {
+  // This function does not with IDF>=5, it delays the communication and makes the CC1101 not responding.
+  // So avoid using it in this situation
+  #if (ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0))
   unsigned long timer = millis();
   while(digitalRead(MISO_PIN)){
     if(millis()-timer>1000) {
@@ -193,6 +196,7 @@ bool ELECHOUSE_CC1101::checkMISO (void)
       return false;
     }
   }
+  #endif
   return true;
 }
 /****************************************************************
