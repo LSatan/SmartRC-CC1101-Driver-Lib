@@ -5,8 +5,8 @@
     Version: November 12, 2010
 
   This library is designed to use CC1101/CC1100 module on Arduino platform.
-  CC1101/CC1100 module is an useful wireless module.Using the functions of the 
-  library, you can easily send and receive data by the CC1101/CC1100 module. 
+  CC1101/CC1100 module is an useful wireless module.Using the functions of the
+  library, you can easily send and receive data by the CC1101/CC1100 module.
   Just have fun!
   For the details, please refer to the datasheet of CC1100/CC1101.
 ----------------------------------------------------------------------------------------------------------------
@@ -16,7 +16,22 @@ cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and 
 #ifndef ELECHOUSE_CC1101_SRC_DRV_h
 #define ELECHOUSE_CC1101_SRC_DRV_h
 
+//********************* DEBUG Macros  ********************/
+
+// Uncomment line below to have Serial messagens about the transactions
+//#define CC1101_LIB_DEBUG
+#if defined(CC1101_LIB_DEBUG)
+  #define DEBUG_CC1101(var) Serial.println(var);
+  #define DEBUG_CC11012(var) Serial.print(var);
+#else
+  #define DEBUG_CC1101(var) yield();
+  #define DEBUG_CC11012(var) yield();
+#endif
+
+//********************* DEBUG Macros  ********************/
+
 #include <Arduino.h>
+#include <SPI.h>
 
 //***************************************CC1101 define**************************************************//
 // CC1101 CONFIG REGSITER
@@ -118,7 +133,8 @@ private:
   void SpiEnd(void);
   void GDO_Set (void);
   void GDO0_Set (void);
-  void Reset (void);
+  bool Reset (void);
+  bool checkMISO(void);
   void setSpi(void);
   void RegConfigSettings(void);
   void Calibrate(void);
@@ -127,9 +143,16 @@ private:
   void Split_MDMCFG1(void);
   void Split_MDMCFG2(void);
   void Split_MDMCFG4(void);
+  SPIClass _cc_spi;
+  SPIClass* cc_spi=nullptr;
+  bool _begin_end_logic=false;
 public:
-  void Init(void);
+  bool Init(void);
   byte SpiReadStatus(byte addr);
+  void setBeginEndLogic(bool state);
+  bool getBeginEndLogic();
+  void setSPIinstance(SPIClass* sspi);
+  SPIClass* getSPIinstance();
   void setSpiPin(byte sck, byte miso, byte mosi, byte ss);
   void addSpiPin(byte sck, byte miso, byte mosi, byte ss, byte modul);
   void setGDO(byte gdo0, byte gdo2);
@@ -162,11 +185,11 @@ public:
   byte CheckReceiveFlag(void);
   byte ReceiveData(byte *rxBuffer);
   bool CheckCRC(void);
-  void SpiStrobe(byte strobe);
-  void SpiWriteReg(byte addr, byte value);
-  void SpiWriteBurstReg(byte addr, byte *buffer, byte num);
+  bool SpiStrobe(byte strobe);
+  bool SpiWriteReg(byte addr, byte value);
+  bool SpiWriteBurstReg(byte addr, byte *buffer, byte num);
   byte SpiReadReg(byte addr);
-  void SpiReadBurstReg(byte addr, byte *buffer, byte num);
+  bool SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setClb(byte b, byte s, byte e);
   bool getCC1101(void);
   byte getMode(void);
