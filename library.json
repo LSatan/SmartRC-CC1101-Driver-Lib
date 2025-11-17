@@ -15,5 +15,11 @@
   "frameworks": [
         "arduino"
   ],
-  "platforms": "*"
+  "platforms": "*",
+  "dependencies":
+  [
+      {
+          "name": "SPI"
+      }
+  ]
 }

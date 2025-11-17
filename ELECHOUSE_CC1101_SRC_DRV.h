@@ -118,7 +118,7 @@ private:
   void SpiEnd(void);
   void GDO_Set (void);
   void GDO0_Set (void);
-  void Reset (void);
+  bool Reset (void);
   void setSpi(void);
   void RegConfigSettings(void);
   void Calibrate(void);
@@ -128,7 +128,7 @@ private:
   void Split_MDMCFG2(void);
   void Split_MDMCFG4(void);
 public:
-  void Init(void);
+  bool Init(void);
   byte SpiReadStatus(byte addr);
   void setSpiPin(byte sck, byte miso, byte mosi, byte ss);
   void addSpiPin(byte sck, byte miso, byte mosi, byte ss, byte modul);
@@ -162,9 +162,10 @@ public:
   byte CheckReceiveFlag(void);
   byte ReceiveData(byte *rxBuffer);
   bool CheckCRC(void);
-  void SpiStrobe(byte strobe);
+  byte SpiStrobe(byte strobe);
   void SpiWriteReg(byte addr, byte value);
-  void SpiWriteBurstReg(byte addr, byte *buffer, byte num);
+  byte SpiWriteBurstReg(byte addr, byte *buffer, byte num);
+  byte SpiWriteBurstMaxReg(byte addr, byte *buffer, byte maxNum, byte *written);
   byte SpiReadReg(byte addr);
   void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setClb(byte b, byte s, byte e);
