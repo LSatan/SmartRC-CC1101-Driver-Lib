@@ -82,6 +82,7 @@ uint8_t PA_TABLE_915[10] {0x03,0x0E,0x1E,0x27,0x38,0x8E,0x84,0xCC,0xC3,0xC0,};  
 *FUNCTION     :spi communication start
 *INPUT        :none
 *OUTPUT       :none
+*HISTORY      : PLN 11/2025 - Moved SPI pin setup before SPI begin
 ****************************************************************/
 void ELECHOUSE_CC1101::SpiStart(void)
 {
@@ -91,6 +92,11 @@ void ELECHOUSE_CC1101::SpiStart(void)
   pinMode(MISO_PIN, INPUT);
   pinMode(SS_PIN, OUTPUT);
 
+  // Generate SIDLE strobe on CSN leading edge
+  digitalWrite(SS_PIN, HIGH);
+  digitalWrite(SCK_PIN, HIGH);
+  digitalWrite(MOSI_PIN, LOW);
+ 
   // enable SPI
   #ifdef ESP32
   SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
@@ -154,17 +160,15 @@ void ELECHOUSE_CC1101::Reset (void)
 *FUNCTION     :CC1101 initialization
 *INPUT        :none
 *OUTPUT       :none
+*HISTORY      : PLN 11/2025 - SpiEnd moved before RegCongigSettings
 ****************************************************************/
 void ELECHOUSE_CC1101::Init(void)
 {
   setSpi();
   SpiStart();                   //spi initialization
-  digitalWrite(SS_PIN, HIGH);
-  digitalWrite(SCK_PIN, HIGH);
-  digitalWrite(MOSI_PIN, LOW);
-  Reset();                    //CC1101 reset
-  RegConfigSettings();            //CC1101 register config
-  SpiEnd();
+  Reset();                      //CC1101 reset
+  SpiEnd();                     //spi disable
+  RegConfigSettings();          //CC1101 register config
 }
 /****************************************************************
 *FUNCTION NAME:SpiWriteReg
@@ -613,14 +617,16 @@ clb4[1]=e;
 *FUNCTION     :Test Spi connection and return 1 when true.
 *INPUT        :none
 *OUTPUT       :none
+*HISTORY     : PLN 11/2025 - Changed to read status register
 ****************************************************************/
-bool ELECHOUSE_CC1101::getCC1101(void){
-setSpi();
-if (SpiReadStatus(0x31)>0){
-return 1;
-}else{
-return 0;
-}
+byte ELECHOUSE_CC1101::getCC1101(void){
+  setSpi();
+  byte status = SpiReadStatus(0x31);
+  if (status > 0){
+    return status;
+  }else{
+    return 0;
+  }
 }
 /****************************************************************
 *FUNCTION NAME:getMode

@@ -168,7 +168,7 @@ public:
   byte SpiReadReg(byte addr);
   void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setClb(byte b, byte s, byte e);
-  bool getCC1101(void);
+  byte getCC1101(void);
   byte getMode(void);
   void setSyncWord(byte sh, byte sl);
   void setAddr(byte v);
