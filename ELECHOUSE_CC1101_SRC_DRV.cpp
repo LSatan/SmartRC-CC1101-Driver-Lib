@@ -85,18 +85,25 @@ uint8_t PA_TABLE_915[10] {0x03,0x0E,0x1E,0x27,0x38,0x8E,0x84,0xCC,0xC3,0xC0,};  
 ****************************************************************/
 void ELECHOUSE_CC1101::SpiStart(void)
 {
-  // initialize the SPI pins
-  pinMode(SCK_PIN, OUTPUT);
-  pinMode(MOSI_PIN, OUTPUT);
-  pinMode(MISO_PIN, INPUT);
-  pinMode(SS_PIN, OUTPUT);
+  // Only initialize SPI once. On ESP32-C3 with Arduino 3.x (IDF 5.x),
+  // calling SPI.begin() when the bus is already initialized triggers a
+  // detach/reattach cycle that disrupts GPIO pin assignments.
+  static bool spiInitialized = false;
+  if (!spiInitialized) {
+    // initialize the SPI pins
+    pinMode(SCK_PIN, OUTPUT);
+    pinMode(MOSI_PIN, OUTPUT);
+    pinMode(MISO_PIN, INPUT);
+    pinMode(SS_PIN, OUTPUT);
 
-  // enable SPI
-  #ifdef ESP32
-  SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
-  #else
-  SPI.begin();
-  #endif
+    // enable SPI
+    #ifdef ESP32
+    SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
+    #else
+    SPI.begin();
+    #endif
+    spiInitialized = true;
+  }
 }
 /****************************************************************
 *FUNCTION NAME:SpiEnd
@@ -106,9 +113,12 @@ void ELECHOUSE_CC1101::SpiStart(void)
 ****************************************************************/
 void ELECHOUSE_CC1101::SpiEnd(void)
 {
-  // disable SPI
+  // Only end the SPI transaction, not the bus itself.
+  // On ESP32-C3 with Arduino 3.x (IDF 5.x), SPI.end() fully detaches
+  // the SPI bus and releases GPIO pins, which breaks subsequent SPI
+  // operations. Since SpiStart()/SpiEnd() are called around every
+  // transaction, keeping the bus alive is both safe and required.
   SPI.endTransaction();
-  SPI.end();
 }
 /****************************************************************
 *FUNCTION NAME: GDO_Set()
