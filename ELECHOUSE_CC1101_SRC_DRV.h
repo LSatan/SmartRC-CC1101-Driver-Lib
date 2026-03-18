@@ -12,10 +12,6 @@
 ----------------------------------------------------------------------------------------------------------------
 cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and publish Wilson Shen (ELECHOUSE).
 ----------------------------------------------------------------------------------------------------------------
-Modified by adalborgo@gmail.com
-Date: 18/03/2026
-These changes fix crashes experienced with ESP32-S3 during the Init() function and improve overall stability on ESP32 platforms.
-----------------------------------------------------------------------------------------------------------------
 */
 #ifndef ELECHOUSE_CC1101_SRC_DRV_h
 #define ELECHOUSE_CC1101_SRC_DRV_h
@@ -118,13 +114,11 @@ These changes fix crashes experienced with ESP32-S3 during the Init() function a
 class ELECHOUSE_CC1101
 {
 private:
-  bool waitMisoLow(uint32_t timeout_us = 1000);
-  bool waitMisoLowRetry();
   void SpiStart(void);
   void SpiEnd(void);
   void GDO_Set (void);
   void GDO0_Set (void);
-  bool Reset (void);
+  void Reset (void);
   void setSpi(void);
   void RegConfigSettings(void);
   void Calibrate(void);
@@ -134,7 +128,7 @@ private:
   void Split_MDMCFG2(void);
   void Split_MDMCFG4(void);
 public:
-  bool Init(void);
+  void Init(void);
   byte SpiReadStatus(byte addr);
   void setSpiPin(byte sck, byte miso, byte mosi, byte ss);
   void addSpiPin(byte sck, byte miso, byte mosi, byte ss, byte modul);
@@ -168,11 +162,11 @@ public:
   byte CheckReceiveFlag(void);
   byte ReceiveData(byte *rxBuffer);
   bool CheckCRC(void);
-  bool SpiStrobe(byte strobe);
-  bool SpiWriteReg(byte addr, byte value);
-  bool SpiWriteBurstReg(byte addr, byte *buffer, byte num);
+  void SpiStrobe(byte strobe);
+  void SpiWriteReg(byte addr, byte value);
+  void SpiWriteBurstReg(byte addr, byte *buffer, byte num);
   byte SpiReadReg(byte addr);
-  bool SpiReadBurstReg(byte addr, byte *buffer, byte num);
+  void SpiReadBurstReg(byte addr, byte *buffer, byte num);
   void setClb(byte b, byte s, byte e);
   bool getCC1101(void);
   byte getMode(void);
