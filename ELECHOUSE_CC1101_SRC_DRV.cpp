@@ -12,30 +12,20 @@
 ----------------------------------------------------------------------------------------------------------------
 cc1101 Driver for RC Switch. Mod by Little Satan. With permission to modify and publish Wilson Shen (ELECHOUSE).
 ----------------------------------------------------------------------------------------------------------------
-Modified by adalborgo@gmail.com
-Date: 18/03/2026
-These changes fix crashes experienced with ESP32-S3 during the Init() function and improve overall stability on ESP32 platforms.
+Modified version for compatibility with ESP32-S3 (adalborgo@gmail.com)
+Date: 16/03/2026
 ----------------------------------------------------------------------------------------------------------------
 */
-#include <Arduino.h>
 #include <SPI.h>
 #include "ELECHOUSE_CC1101_SRC_DRV.h"
+#include <Arduino.h>
 
 /****************************************************************/
-#define WRITE_BURST       0x40            //write burst
-#define READ_SINGLE       0x80            //read single
-#define READ_BURST        0xC0            //read burst
-#define BYTES_IN_RXFIFO   0x7F            //byte number in RXfifo
-#define max_modul 6
-
-#define CC1101_TIMEOUT_US 1000
-#define CC1101_RETRY_COUNT 3
-
-#ifndef CC1101_SPI_CLOCK
-#define CC1101_SPI_CLOCK 4000000
-#endif
-
-static bool _cc1101_spi_initialized = false;
+#define   WRITE_BURST       0x40            //write burst
+#define   READ_SINGLE       0x80            //read single
+#define   READ_BURST        0xC0            //read burst
+#define   BYTES_IN_RXFIFO   0x7F            //byte number in RXfifo
+#define   max_modul 6
 
 byte modulation = 2;
 byte frend0;
@@ -81,6 +71,11 @@ byte clb2[2]= {31,38};
 byte clb3[2]= {65,76};
 byte clb4[2]= {77,79};
 
+#ifdef ESP32
+static bool _cc1101_spi_initialized = false;
+#define CC1101_SPI_CLOCK 4000000
+#endif
+
 /****************************************************************/
 uint8_t PA_TABLE[8]     {0x00,0xC0,0x00,0x00,0x00,0x00,0x00,0x00};
 //                       -30  -20  -15  -10   0    5    7    10
@@ -90,56 +85,32 @@ uint8_t PA_TABLE_433[8] {0x12,0x0E,0x1D,0x34,0x60,0x84,0xC8,0xC0,};             
 uint8_t PA_TABLE_868[10] {0x03,0x17,0x1D,0x26,0x37,0x50,0x86,0xCD,0xC5,0xC0,};  //779 - 899.99
 //                        -30  -20  -15  -10  -6    0    5    7    10   11
 uint8_t PA_TABLE_915[10] {0x03,0x0E,0x1E,0x27,0x38,0x8E,0x84,0xCC,0xC3,0xC0,};  //900 - 928
-
-/****************************************************************
-*FUNCTION NAME:waitMisoLow
-*FUNCTION     :wait for MISO to go low
-*INPUT        :timeout_us
-*OUTPUT       :timeout
-****************************************************************/
-bool ELECHOUSE_CC1101::waitMisoLow(uint32_t timeout_us) {
-  uint32_t start = micros();
-  while (digitalRead(MISO_PIN)) {
-    if ((micros() - start) > timeout_us) {
-#ifdef CC1101_DEBUG
-      Serial.println("CC1101 MISO timeout");
-#endif
-      return false;
-    }
-  }
-  return true;
-}
-/****************************************************************
-*FUNCTION NAME:waitMisoLowRetry
-*FUNCTION     :if false, too many attempts for MISO to go low
-*INPUT        :none
-*OUTPUT       :timeout
-****************************************************************/
-bool ELECHOUSE_CC1101::waitMisoLowRetry() {
-  for (int i = 0; i < CC1101_RETRY_COUNT; i++) {
-    if (waitMisoLow(CC1101_TIMEOUT_US)) return true;
-    delayMicroseconds(100);
-  }
-  return false;
-}
-
 /****************************************************************
 *FUNCTION NAME:SpiStart
 *FUNCTION     :spi communication start
 *INPUT        :none
 *OUTPUT       :none
 ****************************************************************/
-void ELECHOUSE_CC1101::SpiStart(void) {
-#ifdef ESP32
+void ELECHOUSE_CC1101::SpiStart(void)
+{
+  #ifdef ESP32
+  // ESP32-S3: Repeated SPI.end() calls will corrupt the bus; use beginTransaction/endTransaction
   if (!_cc1101_spi_initialized) {
+    pinMode(SCK_PIN, OUTPUT);
+    pinMode(MOSI_PIN, OUTPUT);
+    pinMode(MISO_PIN, INPUT);
+    pinMode(SS_PIN, OUTPUT);
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
     _cc1101_spi_initialized = true;
   }
   SPI.beginTransaction(SPISettings(CC1101_SPI_CLOCK, MSBFIRST, SPI_MODE0));
-#else
+  #else
+  pinMode(SCK_PIN, OUTPUT);
+  pinMode(MOSI_PIN, OUTPUT);
+  pinMode(MISO_PIN, INPUT);
+  pinMode(SS_PIN, OUTPUT);
   SPI.begin();
-  SPI.beginTransaction(SPISettings(CC1101_SPI_CLOCK, MSBFIRST, SPI_MODE0));
-#endif
+  #endif
 }
 /****************************************************************
 *FUNCTION NAME:SpiEnd
@@ -147,13 +118,14 @@ void ELECHOUSE_CC1101::SpiStart(void) {
 *INPUT        :none
 *OUTPUT       :none
 ****************************************************************/
-void ELECHOUSE_CC1101::SpiEnd(void) {
-#ifdef ESP32
+void ELECHOUSE_CC1101::SpiEnd(void)
+{
+  #ifdef ESP32
   SPI.endTransaction();
-#else
+  #else
   SPI.endTransaction();
   SPI.end();
-#endif
+  #endif
 }
 /****************************************************************
 *FUNCTION NAME: GDO_Set()
@@ -182,26 +154,17 @@ void ELECHOUSE_CC1101::GDO0_Set (void)
 *INPUT        :none
 *OUTPUT       :none
 ****************************************************************/
-bool ELECHOUSE_CC1101::Reset(void) {
-  digitalWrite(SS_PIN, HIGH);
-  delay(1);
-  digitalWrite(SS_PIN, LOW);
-  delay(1);
-  digitalWrite(SS_PIN, HIGH);
-  delay(1);
-
-  SpiStart();
-  digitalWrite(SS_PIN, LOW);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return false; }
-
+void ELECHOUSE_CC1101::Reset (void)
+{
+	digitalWrite(SS_PIN, LOW);
+	delay(1);
+	digitalWrite(SS_PIN, HIGH);
+	delay(1);
+	digitalWrite(SS_PIN, LOW);
+	while(digitalRead(MISO_PIN));
   SPI.transfer(CC1101_SRES);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return false; }
-
-  digitalWrite(SS_PIN, HIGH);
-  SpiEnd();
-  return true;
+  while(digitalRead(MISO_PIN));
+	digitalWrite(SS_PIN, HIGH);
 }
 /****************************************************************
 *FUNCTION NAME:Init
@@ -209,76 +172,79 @@ bool ELECHOUSE_CC1101::Reset(void) {
 *INPUT        :none
 *OUTPUT       :none
 ****************************************************************/
-bool ELECHOUSE_CC1101::Init(void) {
-#ifdef ESP32
+void ELECHOUSE_CC1101::Init(void)
+{
+  setSpi();
+  SpiStart(); //spi initialization
+  pinMode(SS_PIN, OUTPUT); // Added: for ESP32-S3 must be repeated!
+  digitalWrite(SS_PIN, HIGH);
+  digitalWrite(SCK_PIN, HIGH); // SCK
+  digitalWrite(MOSI_PIN, LOW); // MOSI
+  Reset(); //CC1101 reset
+
+  // On ESP32/ESP32-S3 closes transaction opened by SpiStart() before RegConfigSettings
+  #ifdef ESP32
   SpiEnd();
-#endif
+  #endif
 
-  pinMode(SS_PIN, OUTPUT);
-  pinMode(MISO_PIN, INPUT);
+  RegConfigSettings(); // CC1101 register config
 
-  if (!Reset()) return false;
-
-  RegConfigSettings();
-  return true;
+  // On ESP32/ESP32-S3 SPI remains active to avoid bus corruption
+  #ifndef ESP32
+  SpiEnd();
+  #endif
 }
 /****************************************************************
 *FUNCTION NAME:SpiWriteReg
 *FUNCTION     :CC1101 write data to register
 *INPUT        :addr: register address; value: register value
-*OUTPUT       :bool
+*OUTPUT       :none
 ****************************************************************/
-bool ELECHOUSE_CC1101::SpiWriteReg(byte addr, byte value) {
+void ELECHOUSE_CC1101::SpiWriteReg(byte addr, byte value)
+{
   SpiStart();
   digitalWrite(SS_PIN, LOW);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return false; }
-
+  while(digitalRead(MISO_PIN));
   SPI.transfer(addr);
-  SPI.transfer(value);
-
+  SPI.transfer(value); 
   digitalWrite(SS_PIN, HIGH);
   SpiEnd();
-  return true;
 }
 /****************************************************************
 *FUNCTION NAME:SpiWriteBurstReg
 *FUNCTION     :CC1101 write burst data to register
 *INPUT        :addr: register address; buffer:register value array; num:number to write
-*OUTPUT       :bool
+*OUTPUT       :none
 ****************************************************************/
-bool ELECHOUSE_CC1101::SpiWriteBurstReg(byte addr, byte *buffer, byte num) {
+void ELECHOUSE_CC1101::SpiWriteBurstReg(byte addr, byte *buffer, byte num)
+{
+  byte i, temp;
   SpiStart();
+  temp = addr | WRITE_BURST;
   digitalWrite(SS_PIN, LOW);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return false; }
-
-  SPI.transfer(addr | WRITE_BURST);
-  for (byte i = 0; i < num; i++) {
-    SPI.transfer(buffer[i]);
+  while(digitalRead(MISO_PIN));
+  SPI.transfer(temp);
+  for (i = 0; i < num; i++)
+  {
+  SPI.transfer(buffer[i]);
   }
-
   digitalWrite(SS_PIN, HIGH);
   SpiEnd();
-  return true;
 }
 /****************************************************************
 *FUNCTION NAME:SpiStrobe
 *FUNCTION     :CC1101 Strobe
-*INPUT        :strobe: command;
-*OUTPUT       :bool
+*INPUT        :strobe: command; //refer define in CC1101.h//
+*OUTPUT       :none
 ****************************************************************/
-bool ELECHOUSE_CC1101::SpiStrobe(byte strobe) {
+void ELECHOUSE_CC1101::SpiStrobe(byte strobe)
+{
   SpiStart();
   digitalWrite(SS_PIN, LOW);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return false; }
-
+  while(digitalRead(MISO_PIN));
   SPI.transfer(strobe);
-
   digitalWrite(SS_PIN, HIGH);
   SpiEnd();
-  return true;
 }
 /****************************************************************
 *FUNCTION NAME:SpiReadReg
@@ -286,60 +252,60 @@ bool ELECHOUSE_CC1101::SpiStrobe(byte strobe) {
 *INPUT        :addr: register address
 *OUTPUT       :register value
 ****************************************************************/
-byte ELECHOUSE_CC1101::SpiReadReg(byte addr) {
-  byte val = 0;
+byte ELECHOUSE_CC1101::SpiReadReg(byte addr) 
+{
+  byte temp, value;
   SpiStart();
+  temp = addr| READ_SINGLE;
   digitalWrite(SS_PIN, LOW);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return 0; }
-
-  SPI.transfer(addr | READ_SINGLE);
-  val = SPI.transfer(0);
-
+  while(digitalRead(MISO_PIN));
+  SPI.transfer(temp);
+  value=SPI.transfer(0);
   digitalWrite(SS_PIN, HIGH);
   SpiEnd();
-  return val;
+  return value;
 }
+
 /****************************************************************
 *FUNCTION NAME:SpiReadBurstReg
 *FUNCTION     :CC1101 read burst data from register
 *INPUT        :addr: register address; buffer:array to store register value; num: number to read
-*OUTPUT       :bool
+*OUTPUT       :none
 ****************************************************************/
-bool ELECHOUSE_CC1101::SpiReadBurstReg(byte addr, byte *buffer, byte num) {
+void ELECHOUSE_CC1101::SpiReadBurstReg(byte addr, byte *buffer, byte num)
+{
+  byte i,temp;
   SpiStart();
+  temp = addr | READ_BURST;
   digitalWrite(SS_PIN, LOW);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return false; }
-
-  SPI.transfer(addr | READ_BURST);
-  for (byte i = 0; i < num; i++) {
-    buffer[i] = SPI.transfer(0);
+  while(digitalRead(MISO_PIN));
+  SPI.transfer(temp);
+  for(i=0;i<num;i++)
+  {
+  buffer[i]=SPI.transfer(0);
   }
-
   digitalWrite(SS_PIN, HIGH);
   SpiEnd();
-  return true;
 }
+
 /****************************************************************
 *FUNCTION NAME:SpiReadStatus
 *FUNCTION     :CC1101 read status register
 *INPUT        :addr: register address
 *OUTPUT       :status value
 ****************************************************************/
-byte ELECHOUSE_CC1101::SpiReadStatus(byte addr) {
-  byte val = 0;
+byte ELECHOUSE_CC1101::SpiReadStatus(byte addr) 
+{
+  byte value,temp;
   SpiStart();
+  temp = addr | READ_BURST;
   digitalWrite(SS_PIN, LOW);
-
-  if (!waitMisoLowRetry()) { digitalWrite(SS_PIN, HIGH); SpiEnd(); return 0; }
-
-  SPI.transfer(addr | READ_BURST);
-  val = SPI.transfer(0);
-
+  while(digitalRead(MISO_PIN));
+  SPI.transfer(temp);
+  value=SPI.transfer(0);
   digitalWrite(SS_PIN, HIGH);
   SpiEnd();
-  return val;
+  return value;
 }
 /****************************************************************
 *FUNCTION NAME:SPI pin Settings
