@@ -85,9 +85,7 @@ void loop() {
 
 A common issue with inexpensive CC1101 modules is a severe deviation of the integrated 26 MHz crystal oscillator (often ±20 ppm to ±30 ppm). This causes the module to transmit slightly off-center (e.g., at 433.911 MHz instead of 433.920 MHz), leading to massive range loss with narrow-band receivers.
 
-Check the `examples/` folder for our new **Calibration Tools**. With the help of an SDR (Software Defined Radio) and the Serial Monitor, you can completely eliminate this hardware flaw:
-
-* **Frequency Calibration Tool:** Fine-tune your module live via the Serial Monitor to find the exact frequency compensation offset for a specific target frequency.
+Check the `examples/` folder for our new **Calibration Tool**. With the help of an SDR (Software Defined Radio) and the Serial Monitor, you can completely eliminate this hardware flaw:
 
 * **Band Calibration Tool:** A guided script to measure the upper and lower limits of an entire frequency band (e.g., the 433 MHz band). It calculates the perfect `FSCTRL0` register offsets and outputs ready-to-use C++ code (`myRadio.setClb(...)`) to permanently tune your specific hardware module!
 
