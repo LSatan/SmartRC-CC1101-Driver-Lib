@@ -14,13 +14,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const message = `Thank you for your feedback!\n\nAs of April 2026, this library has been completely refactored (V3.0.0). Because the core architecture has fundamentally changed to a new object-oriented model, we are closing all legacy issues to start fresh.\n\nPlease test your setup with the new version. If the issue persists, feel free to open a new report regarding V3.0.0.\n\nThanks for your understanding and years of support!`;
-
             const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open'
             });
+
+            const message = `Thank you for your feedback!\n\nAs of April 2026, this library has been completely refactored (V3.0.0). Because the core architecture has fundamentally changed to a new object-oriented model, we are closing all legacy issues to start fresh.\n\nPlease test your setup with the new version. If the issue persists, feel free to open a new report regarding V3.0.0.\n\nThanks for your understanding and years of support!`;
 
             if (!issues || issues.length === 0) {
               console.log('Keine offenen Issues gefunden.');
@@ -29,21 +29,17 @@ jobs:
 
             for (const issue of issues) {
               if (issue.pull_request) continue;
-
-              console.log(`Schließe Issue #${issue.number}`);
-
+              console.log('Closing issue #' + issue.number);
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issue.number,
                 body: message
               });
-
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issue.number,
-                state: 'closed',
-                state_reason: 'not_planned'
+                state: 'closed'
               });
             }
