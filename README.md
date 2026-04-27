@@ -1,4 +1,4 @@
-﻿# SmartRC CC1101 Driver Library (V3.0.0)
+﻿# SmartRC CC1101 Driver Library (V3.0.1)
 
 ![Version](https://img.shields.io/badge/Version-3.0.0-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Arduino%20%7C%20ESP8266%20%7C%20ESP32-green.svg)
