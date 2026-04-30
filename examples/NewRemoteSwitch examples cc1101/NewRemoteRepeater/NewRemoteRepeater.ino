@@ -6,6 +6,21 @@
  * When run, this sketch waits for a valid code from a new-style the receiver,
  * decodes it, and retransmits it after 1 seconds.
  *
+ * Works on any Arduino AVR, ESP8266 or ESP32. NewRemoteSwitch library commit:  
+ * c3ca4cb (Sep 19, 2021) or later, required to work properly on ESP8266 and ESP32.
+ * 
+ * To prevent kernel panic for interrupt wdt timeout on ESP8266 and ESP32, 
+ * the retransmission of the received code is done in loop() function.
+ * 
+ * Set-up: connect CC1101 SPI:
+ *                          SCK  MISO MOSI  SS
+ * Arduino UNO/Nano  (pin)   13   12   11   10
+ * Arduino Mega2560  (pin)   52   50   51   53
+ * Espressif ESP8266 (GPIO)  14   12   13   15  (digital pins depends board)
+ * Espressif ESP32   (GPIO)  18   19   23    5  (digital pins depends board)
+ * 
+ * Set-up: connect CC1101 GDO2 pin to an attachable interruption pin. See below.
+ * Set-up: connect CC1101 GDO0 pin to a digital pin to transmit. See below.
  *  
  *  https://github.com/1technophile/NewRemoteSwitch
  *  https://github.com/LSatan/SmartRC-CC1101-Driver-Lib
@@ -19,24 +34,34 @@
 #include <NewRemoteReceiver.h>
 #include <NewRemoteTransmitter.h>
 
-int pinTx;        // int for Receive pin.
-int pinRx;        // int for Receive pin.
-int Interr = 2;   // Interrupt Numer
+int pinTx;        // int for Transmit digital pin.
+int pinRx;        // int for for Receive interrupt or GPIO number.
+int Repeats = 2;  // int for number of times the same code must be received in a row before the callback is calles.
 int Anz = 3;      // number of retransmissions
-int Tw = 0;       // Wait Miliseconds before sending
+int Tw = 1000;    // Wait Miliseconds before sending
 
 int debug = 1; // Debugmode ein (1)/aus(0)
 
-void setup() {
-Serial.begin(115200);
+// Global vars to store received code parameters for retransmitt it
+unsigned int period;
+unsigned long address;
+unsigned long groupBit; 
+unsigned long unit;
+unsigned long switch_Type;
+boolean dimLevelPresent;
+byte dimLevel;
+boolean codeLearned = false;  // Flag to set a valid learned code has been received
 
-#ifdef ESP32
-pinRx = 4; pinTx = 2;  // for esp32! Receiver on GPIO pin 4. Transmit on GPIO pin 2.
-#elif ESP8266
-pinRx = 4; pinTx = 5;  // for esp8266! Receiver on pin 4 = D2. Transmit on pin 5 = D1.
-#else
-pinRx = 0; pinTx = 6;  // for Arduino! Receiver on interrupt 0 => that is pin #2. Transmit on pin 6.
-#endif   
+void setup() {
+  Serial.begin(115200);
+
+  #ifdef ESP32
+  pinRx = 4; pinTx = 14;  // for esp32! Receiver on GPIO 4 and Transmit on GPIO 14 (digital pins depends board).
+  #elif ESP8266
+  pinRx = 4; pinTx = 5;  // for esp8266! Receiver on GPIO 4 and Transmit on GPIO 5 (digital pins depends board).
+  #else
+  pinRx = 0; pinTx = 6;  // for Arduino! Receiver on interrupt 0 => that is pin #2. Transmit on digital pin 6.
+  #endif   
 
   if (ELECHOUSE_cc1101.getCC1101()){       // Check the CC1101 Spi connection.
   Serial.println("Connection OK");
@@ -54,62 +79,84 @@ pinRx = 0; pinTx = 6;  // for Arduino! Receiver on interrupt 0 => that is pin #2
     
   ELECHOUSE_cc1101.SetRx();     // set Receive on
   // See example ShowReceivedCode for info on this
-  NewRemoteReceiver::init(pinRx, Interr, ReTrans);
-  if (debug == 1) {Serial.println("Receiver initialized... ");}}
-
-void loop() {
+  NewRemoteReceiver::init(pinRx, Repeats, ReTrans);
+  if (debug == 1) {Serial.println("Receiver initialized... ");}
 }
 
- void ReTrans(unsigned int period, unsigned long address, unsigned long groupBit, unsigned long unit, unsigned long switchType){  // Disable the receiver; otherwise it might pick up the retransmit as well.
-  
-   if (debug == 1) {
-    // Print the received code.
-    Serial.print("Receiver: ");
-    Serial.print("Code: ");
-    Serial.print(address);
-    Serial.print(" unit: ");
-    Serial.print(unit);
-    Serial.print(" switchType: ");
-    Serial.print(switchType);
-    Serial.print(" Period: ");
-    Serial.print(period);
-    Serial.print(" groupBit: ");
-    Serial.println(groupBit);
-   }
+void loop() {
 
+  if (codeLearned) {
 
+    // Clear flag
+    codeLearned = false;
 
-   if (debug == 1) {Serial.print("Send: Receiver disable... ");}
-    NewRemoteReceiver::disable();
+    if (debug == 1) {
+      // Print the received code.
+      Serial.print("Receiver: ");
+      Serial.print("Code: ");
+      Serial.print(address);
+      Serial.print(" unit: ");
+      Serial.print(unit);
+      Serial.print(" switchType: ");
+      Serial.print(switch_Type);
+      Serial.print(" Period: ");
+      Serial.print(period);
+      Serial.print(" groupBit: ");
+      Serial.println(groupBit);
+      if (dimLevelPresent){
+        Serial.print(" dimLevel: ");
+        Serial.println(dimLevel);    
+      }
+    }
 
-   // Need interrupts for delay()
-    interrupts();
-  
-   if (debug == 1) {Serial.print("Wait... ");}
-   
-   // Wait 1 seconds before sending.
-      delay(Tw);
+    if (debug == 1) {Serial.print("Wait... ");}
+    
+    // Wait 1 seconds before sending.
+    delay(Tw);
 
+    ELECHOUSE_cc1101.SetTx();  // set Transmit on (Receive off)
 
-  
-    ELECHOUSE_cc1101.SetTx();  // set Transmit on
     // Create a new transmitter with the received address and period, use digital pin as output pin
     NewRemoteTransmitter transmitter(address, pinTx, period, Anz);
-    if (debug == 1) {Serial.print("Send: Addr " + String(address) + " unit " +  String(unit)+" "+ String(switchType)+", period: "+String(period)+" " );}
+    if (debug == 1) {Serial.print("Send: Addr " + String(address) + " unit " +  String(unit)+" "+ String(switch_Type)+", period: "+String(period)+" " );}
   
-      // On/Off signal received
-      bool isOn = switchType == NewRemoteCode::on;
-      
-       if (groupBit) {
-        // Send to the group
-        transmitter.sendGroup(isOn);
-      }
-      else {
-        // Send to a single unit
-        transmitter.sendUnit(unit, isOn);
-      }
-  
+    // On/Off signal received
+    bool isOn = switch_Type == NewRemoteCode::on;
+
+    if (groupBit) {
+      // Send to the group
+      transmitter.sendGroup(isOn);
+    }
+    else {
+      // Send to a single unit
+      transmitter.sendUnit(unit, isOn);
+    }
+
+    ELECHOUSE_cc1101.setSidle();  // set Idle (Transmit off and Receive off)
+
     if (debug == 1) {Serial.println("Receiver enable!");}
-    ELECHOUSE_cc1101.SetRx();  // set Receive on
     NewRemoteReceiver::enable();
+
+    ELECHOUSE_cc1101.SetRx();  // set Receive on
+
+  }
+}
+
+void ReTrans(unsigned int _period, unsigned long _address, unsigned long _groupBit, unsigned long _unit, unsigned long _switchType, boolean _dimLevelPresent, byte _dimLevel){  // Disable the receiver; otherwise it might pick up the retransmit as well.
+
+  if (debug == 1) {Serial.print("Send: Receiver disable... ");}
+  NewRemoteReceiver::disable();
+
+  // Store received code parameters for retramitt it in loop()
+  period = _period;
+  address = _address;
+  groupBit = _groupBit; 
+  unit = _unit;
+  switch_Type = _switchType;
+  dimLevelPresent = _dimLevelPresent;
+  dimLevel = _dimLevel;
+
+  // Set valid learned code has been received
+  codeLearned = true;
+  
 }

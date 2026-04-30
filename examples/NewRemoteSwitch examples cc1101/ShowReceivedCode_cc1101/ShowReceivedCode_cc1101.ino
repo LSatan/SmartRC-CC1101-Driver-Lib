@@ -3,7 +3,7 @@
 * For details, see RemoteReceiver.h!
 *
 * This sketch shows the received signals on the serial port.
-* Connect the receiver to digital pin 2 on arduino and digital pin 1 on ESP8266.
+* Connect the receiver to an attachable interruption pin. See below.
 * 
 * 
 *Detected codes example:
@@ -11,6 +11,18 @@
  unit: 1
  groupBit: 0
  switchType: 0
+
+* Works on any Arduino AVR, ESP8266 or ESP32. NewRemoteSwitch library commit:  
+* c3ca4cb (Sep 19, 2021) or later, required to work properly on ESP8266 and ESP32.
+*
+* Set-up: connect CC1101 SPI:
+*                          SCK  MISO MOSI  SS
+* Arduino UNO/Nano  (pin)   13   12   11   10
+* Arduino Mega2560  (pin)   52   50   51   53
+* Espressif ESP8266 (GPIO)  14   12   13   15  (digital pins depends board)
+* Espressif ESP32   (GPIO)  18   19   23    5  (digital pins depends board)
+* 
+* Set-up: connect CC1101 GDO2 pin to an attachable interruption pin. See below.
 * 
 *  https://github.com/1technophile/NewRemoteSwitch
 *  https://github.com/LSatan/SmartRC-CC1101-Driver-Lib
@@ -22,15 +34,21 @@
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
 #include <NewRemoteReceiver.h>
 
-int pin; // int for Receive pin.
+int pin; // int for Receive interrupt or GPIO number.
 
 void setup() {
   Serial.begin(115200);
 
+// Initialize receiver on interrupt 0 (= digital pin 2) for Arduino Uno. 
+// On ESP8266 and ESP32 use on GPIO 4 = digital pin depends board. 
+// Review file "pins_arduino.h" of your variant:
+//   https://github.com/esp8266/Arduino/tree/master/variants
+//   https://github.com/espressif/arduino-esp32/tree/master/variants
+//
 #ifdef ESP32
-pin = 4;  // for esp32! Receiver on GPIO pin 4. 
+pin = 4;  // for esp32! Receiver on GPIO 4 (digital pin depends board).
 #elif ESP8266
-pin = 4;  // for esp8266! Receiver on pin 4 = D2.
+pin = 4;  // for esp8266! Receiver on GPIO 4 (digital pin depends board).
 #else
 pin = 0;  // for Arduino! Receiver on interrupt 0 => that is pin #2
 #endif  
@@ -58,7 +76,7 @@ void loop() {
 }
 
 // Callback function is called only when a valid code is received.
-void showCode(unsigned int period, unsigned long address, unsigned long groupBit, unsigned long unit, unsigned long switchType) {
+void showCode(unsigned int period, unsigned long address, unsigned long groupBit, unsigned long unit, unsigned long switchType, boolean dimLevelPresent, byte dimLevel) {
 
   // Print the received code.
   Serial.print("Code: ");
@@ -71,5 +89,10 @@ void showCode(unsigned int period, unsigned long address, unsigned long groupBit
   Serial.println(groupBit);
   Serial.print(" switchType: ");
   Serial.println(switchType);
+
+  if (dimLevelPresent){
+    Serial.print(" dimLevel: ");
+    Serial.println(dimLevel);    
+  }
 
 }
