@@ -52,9 +52,9 @@ void setup() {
 void loop() {
   // Blink led until a code has been learned
   if (!codeLearned) {
-    digitalWrite(13, HIGH);
+    digitalWrite(led, HIGH);
     delay(500);
-    digitalWrite(13, LOW);
+    digitalWrite(led, LOW);
     delay(500);
   }
 }
@@ -76,9 +76,9 @@ void processCode(NewRemoteCode receivedCode) {
       // Switch the LED off if the received code was "off".
       // Anything else (on, dim, on_with_dim) will switch the LED on.
       if (receivedCode.switchType == NewRemoteCode::off) {
-        digitalWrite(13, LOW);
+        digitalWrite(led, LOW);
       } else {
-        digitalWrite(13, HIGH);
+        digitalWrite(led, HIGH);
       }
     }
   }
