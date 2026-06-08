@@ -114,6 +114,7 @@ private:
   bool custom_spi_pins = false;
   bool ccmode = false;
   float MHz = 433.92;
+  SPISettings spi_settings = SPISettings(4000000, MSBFIRST, SPI_MODE0);
   byte trxstate = 0;
   byte clb1[2] = {24, 28};
   byte clb2[2] = {31, 38};
@@ -132,6 +133,7 @@ private:
   void setSpiPinMode(void);
 public:
   void Init(void);
+  void setClock(uint32_t clock);
   byte SpiReadStatus(byte addr);
   void setSpiPin(byte sck, byte miso, byte mosi, byte ss);
   void setGDO(byte gdo0, byte gdo2);
