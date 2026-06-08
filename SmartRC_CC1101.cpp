@@ -12,8 +12,6 @@
 // CENTRAL QUARTZ DEFINITION (Can be changed by the user for 27MHz crystals)
 #define F_OSC           26000000.0f 
 
-#define CC1101_SPI_SETTINGS SPISettings(4000000, MSBFIRST, SPI_MODE0)
-
 const uint8_t PA_TABLE_315[8]  = {0x12,0x0D,0x1C,0x34,0x51,0x85,0xCB,0xC2};
 const uint8_t PA_TABLE_433[8]  = {0x12,0x0E,0x1D,0x34,0x60,0x84,0xC8,0xC0};
 const uint8_t PA_TABLE_868[10] = {0x03,0x17,0x1D,0x26,0x37,0x50,0x86,0xCD,0xC5,0xC0};
@@ -46,7 +44,7 @@ bool SmartRC_CC1101::WaitMiso(uint16_t timeout_ms) {
 }
 
 void SmartRC_CC1101::SpiStart(void) {
-    SPI.beginTransaction(CC1101_SPI_SETTINGS);
+    SPI.beginTransaction(spi_settings);
     digitalWrite(SS_PIN, LOW);
 }
 
@@ -184,6 +182,10 @@ void SmartRC_CC1101::Init(void) {
     
     Reset();
     RegConfigSettings();
+}
+
+void SmartRC_CC1101::setClock(uint32_t clock) {
+    spi_settings = spi_settings = SPISettings(clock, MSBFIRST, SPI_MODE0);
 }
 
 void SmartRC_CC1101::setSpiPinMode(void) {
